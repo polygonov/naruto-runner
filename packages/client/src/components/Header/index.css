@@ -1,0 +1,16 @@
+.header-component {
+  padding: 35px 0;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1996px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navigation-list {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
