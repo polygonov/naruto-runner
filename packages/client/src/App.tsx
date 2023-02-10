@@ -1,25 +1,23 @@
 // import { useEffect } from 'react';
 // import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import { MainLayout } from './components/MainLayout';
-import { Main } from './pages/Main';
+import { Route, Routes } from 'react-router-dom'
+import { MainLayout } from './components/MainLayout'
+import { Main } from './pages/Main'
 
-import './App.css';
-import { Leaderboard } from './components/Leaderboard/Leaderboard';
+import './App.css'
 
 function App() {
   return (
-    // <MainLayout>
-    //   <Routes>
-    //     <Route path='/' element={<Main />} />
-    //     <Route path='/login' element={'<Login />'} />
-    //     <Route path='/registration' element={'<Registration />'} />
-    //     <Route path='/profile' element={'<Profile />'} />
-    //     <Route path='/leaderboard' element={'<Leaderboard />'} />
-    //     <Route path="*" element={'<NotFound />'} />
-    //   </Routes>
-    // </MainLayout>
-    <Leaderboard />
+    <MainLayout>
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/login" element={'<Login />'} />
+        <Route path="/registration" element={'<Registration />'} />
+        <Route path="/profile" element={'<Profile />'} />
+        <Route path="/leaderboard" element={'<Leaderboard />'} />
+        <Route path="*" element={'<NotFound />'} />
+      </Routes>
+    </MainLayout>
   )
 }
 
@@ -38,5 +36,3 @@ function App() {
 // }
 
 export default App
-
-
