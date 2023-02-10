@@ -1,35 +1,35 @@
-@import "assets/fonts/fonts.css";
+@import 'assets/fonts/fonts.css';
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    z-index: 2;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  z-index: 2;
 }
 
 :root {
-    --color-background: #1E1F1E;
-    --color-text-primary: #F5F3F2;
-    --color-text-secondary: #D6D7D9;
-    --color-text-hint: #7A7B7C;
-    --color-text-inverted: #222;
-    --color-ui-primary: #F09F1E;
-    --color-ui-primary-50: rgba(240, 159, 30, 0.5);
-    --color-danger: #B83333;
-
-    --font-primary: Montserrat, Tahoma, Geneva, Verdana, sans-serif;
-    --font-secondary: BebasNeue, Tahoma, Geneva, Verdana, sans-serif;
-    --font-naruto: NinjaNaruto, Tahoma, Geneva, Verdana, sans-serif;
+  --color-background: #1e1f1e;
+  --color-text-primary: #f5f3f2;
+  --color-text-secondary: #d6d7d9;
+  --color-text-hint: #7a7b7c;
+  --color-text-inverted: #222;
+  --color-ui-primary: #f09f1e;
+  --color-ui-primary-50: rgba(240, 159, 30, 0.5);
+  --color-danger: #b83333;
+  --font-safe: Tahoma, Geneva, Verdana, sans-serif;
+  --font-primary: Montserrat, var(--font-safe);
+  --font-secondary: BebasNeue, var(--font-safe);
+  --font-naruto: NinjaNaruto, var(--font-safe);
 }
 
 body {
-    color: var(--color-background);
-    font-family: var(--font-primary);
+  color: var(--color-background);
+  font-family: var(--font-primary);
 }
 
 #root {
-    position: relative;
-    height: 100vh;
+  position: relative;
+  height: 100vh;
 }
 
 input[type='text'],
@@ -37,16 +37,16 @@ input[type='email'],
 input[type='password'],
 input[type='tel'],
 input[type='search'] {
-    outline: none;
+  outline: none;
 }
 
 input[type='search']::-webkit-search-decoration,
 input[type='search']::-webkit-search-cancel-button,
 input[type='search']::-webkit-search-results-button,
 input[type='search']::-webkit-search-results-decoration {
-    appearance: none;
+  appearance: none;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }

@@ -12,4 +12,6 @@ const InitApp = (
   </React.StrictMode>
 )
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(InitApp)
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  InitApp
+)

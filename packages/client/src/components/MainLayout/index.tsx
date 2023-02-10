@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import './index.css';
+import React, { ReactNode } from 'react'
+import './index.css'
 
 type MainLayoutProps = {
   children: ReactNode
