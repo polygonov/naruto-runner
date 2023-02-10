@@ -1,14 +1,19 @@
 import App from './App'
+import { BrowserRouter } from 'react-router-dom'
 import { render, screen } from '@testing-library/react'
 
-const appContent = 'Вот тут будет жить ваше приложение :)'
+const appContent = 'Главная'
 
 // @ts-ignore
 global.fetch = jest.fn(() =>
   Promise.resolve({ json: () => Promise.resolve('hey') })
 )
 
-test('Example test', async () => {
-  render(<App />)
+test('Init application', async () => {
+  render(
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  )
   expect(screen.getByText(appContent)).toBeDefined()
 })

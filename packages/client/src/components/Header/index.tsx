@@ -20,6 +20,7 @@ export default function HeaderComponent() {
         <ul className="navigation-list">
           {linkList.map(data => (
             <NavLink
+              key={data.title}
               link={data.link}
               title={data.title}
               isActive={data.isActive}
