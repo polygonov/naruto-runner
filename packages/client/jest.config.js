@@ -7,7 +7,7 @@ export default {
   testEnvironment: 'jsdom',
   testMatch: ['<rootDir>/src/**/*.test.{ts,tsx}'],
   moduleNameMapper: {
-    '\\.css$': '<rootDir>/jest/__mocks__/styleMock.js',
+    '\\.(css)$': '<rootDir>/jest/__mocks__/styleMock.ts',
   },
   globals: {
     __SERVER_PORT__: process.env.SERVER_PORT,
