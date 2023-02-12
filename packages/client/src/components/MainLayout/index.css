@@ -1,7 +1,18 @@
 .layout {
-  padding: 0 122px;
+  padding: 32px 120px;
   height: 100%;
   background-color: black;
   background-repeat: no-repeat;
   background-size: cover;
+}
+.main-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.content-wrapper {
+  height: 100%;
+  width: fit-content;
 }

@@ -2,7 +2,6 @@ import NavLink from './NavLink'
 import './index.css'
 
 export default function HeaderComponent() {
-  const isAuthUser = false
   const linkList = [
     { link: '/', title: 'Главная' },
     { link: '/forum', title: 'Форум' },
@@ -20,7 +19,7 @@ export default function HeaderComponent() {
       <nav className="navigation-wrapper">
         <ul className="navigation-list">
           {linkList.map(data => (
-            <NavLink link={data.link} title={data.title} />
+            <NavLink link={data.link} title={data.title} key={data.link} />
           ))}
         </ul>
       </nav>

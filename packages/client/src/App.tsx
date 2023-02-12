@@ -1,6 +1,4 @@
-// import { useEffect } from 'react';
-// import React from 'react';
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import { MainLayout } from './components/MainLayout'
 import { Main } from './pages/Main'
 import { Login } from './pages/Login'
@@ -13,8 +11,9 @@ import { Forum } from './pages/Forum'
 import './App.css'
 
 function App() {
+  const pathname = useLocation().pathname
   return (
-    <MainLayout>
+    <MainLayout background={`${pathname}`}>
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
