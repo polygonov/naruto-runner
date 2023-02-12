@@ -1,5 +1,9 @@
 import { Fragment } from 'react'
-
-export function Main() {
-  return <Fragment>Main</Fragment>
+import { Main } from './parts/Main'
+export function MainPage() {
+  return (
+    <Fragment>
+      <Main />
+    </Fragment>
+  )
 }

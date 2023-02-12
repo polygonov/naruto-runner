@@ -1,4 +1,4 @@
-import React, { Component, ReactNode } from 'react'
+import { Component, ReactNode } from 'react'
 import HeaderComponent from '../Header'
 import './index.css'
 
@@ -8,29 +8,15 @@ type MainLayoutProps = {
 }
 
 export class MainLayout extends Component<MainLayoutProps> {
-  getImageName(): string {
-    let imgName = 'Main'
-    switch (this.props.background) {
-      case '/':
-        imgName = 'Main'
-        break
-      case '/forum':
-        imgName = 'Main'
-        break
-      case '/login':
-        imgName = 'Login'
-        break
-      case '/leaderboard':
-        imgName = 'Leaderboard'
-        break
-      case '/profile':
-        imgName = 'Profile'
-        break
-    }
-    return imgName
+  imageNames: { [key: string]: string } = {
+    '/': 'Main',
+    '/forum': 'Main',
+    '/login': 'Login',
+    '/leaderboard': 'Leaderboard',
+    '/profile': 'Profile',
   }
   getBackgroundImgPath() {
-    return `src/assets/images/background/${this.getImageName()}.png`
+    return `src/assets/images/background/${this.imageNames[this.props.background]}.png`
   }
   render() {
     return (
