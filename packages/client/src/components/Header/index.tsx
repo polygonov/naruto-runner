@@ -1,17 +1,17 @@
-import NavLink from './NavLink'
+import { NavLink } from './NavLink'
 import './index.css'
 
 export default function HeaderComponent() {
   const linkList = [
-    { link: '/', title: 'Главная' },
-    { link: '/forum', title: 'Форум' },
+    { href: '/', text: 'Главная' },
+    { href: '/forum', text: 'Форум' },
     {
-      link: '/leaderboard',
-      title: 'Лидерборд',
+      href: '/leaderboard',
+      text: 'Лидерборд',
     },
     {
-      link: '/profile',
-      title: 'Профиль',
+      href: '/profile',
+      text: 'Профиль',
     },
   ]
   return (
@@ -19,7 +19,9 @@ export default function HeaderComponent() {
       <nav className="navigation-wrapper">
         <ul className="navigation-list">
           {linkList.map(data => (
-            <NavLink link={data.link} title={data.title} key={data.link} />
+            <li key={data.text}>
+              <NavLink {...data} />
+            </li>
           ))}
         </ul>
       </nav>

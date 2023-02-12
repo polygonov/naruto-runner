@@ -1,9 +1,9 @@
 pre-commit:
-  piped: true
+  parallel: true
   commands:
     format:
-      glob: '*.{ts,tsx,css}'
+      glob: '*.{css}'
       run: yarn prettier --ignore-unknown --write {staged_files} && git add {staged_files}
     lint:
       glob: '*.{ts,tsx}'
-      run: yarn eslint --fix {staged_files} && git add {staged_files}
+      run: yarn eslint --fix {staged_files} && yarn prettier --ignore-unknown --write {staged_files} && git add {staged_files}
