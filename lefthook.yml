@@ -2,7 +2,7 @@ pre-commit:
   parallel: true
   commands:
     format:
-      glob: '*.{ts,tsx,css}'
+      glob: '*.{css}'
       run: yarn prettier --ignore-unknown --write {staged_files} && git add {staged_files}
     lint:
       glob: '*.{ts,tsx}'
