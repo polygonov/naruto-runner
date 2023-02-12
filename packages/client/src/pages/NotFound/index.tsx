@@ -1,9 +1,9 @@
 import React from 'react'
 
-export function Profile() {
+export function NotFound() {
   return (
     <React.Fragment>
-      Profile
+      <div> NotFound</div>
     </React.Fragment>
   )
 }

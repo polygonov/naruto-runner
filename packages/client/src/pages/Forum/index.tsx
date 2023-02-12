@@ -1,9 +1,9 @@
 import React from 'react'
 
-export function Profile() {
+export function Forum() {
   return (
     <React.Fragment>
-      Profile
+      <div> Forum</div>
     </React.Fragment>
   )
 }

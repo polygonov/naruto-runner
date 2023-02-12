@@ -1,23 +1,19 @@
+import { Link, useLocation } from 'react-router-dom'
 import './index.css'
 
-export default function NavLink(props: {
-  link: string
-  title: string
-  isActive: boolean
-  isInvisible: boolean
-}) {
+export default function NavLink(props: { link: string; title: string }) {
+  const pathname = useLocation().pathname
   const classList = (): string => {
     const baseClass = 'navigation-item'
     let fullClass = baseClass
-    if (props.isActive) fullClass += ' active'
-    if (props.isInvisible) fullClass += ' invisible'
+    if (pathname == props.link) fullClass += ' active'
     return fullClass
   }
   return (
     <li className={classList()}>
-      <a href={props.link} className="navigation-link">
+      <Link to={props.link} className="navigation-link">
         {props.title}
-      </a>
+      </Link>
     </li>
   )
 }
