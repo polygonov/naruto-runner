@@ -8,17 +8,27 @@ const linkBaseProps: NavLinkProps = {
   href: '/home',
 }
 
-const renderLink = (props?: NavLinkProps) =>
+const renderLink = (props: NavLinkProps) =>
   render(
     <BrowserRouter>
-      <NavLink {...linkBaseProps} {...props} />
+      <NavLink {...props} />
     </BrowserRouter>
   )
 
 describe('NavLink component', () => {
   it('Correctly renders in the DOM', () => {
-    renderLink()
+    renderLink(linkBaseProps)
     expect(screen.getByRole('link')).toBeDefined()
     expect(screen.getByText(linkBaseProps.text)).toBeDefined()
+  })
+
+  it('Uses active class on active route', () => {
+    renderLink({ ...linkBaseProps, href: '/' })
+    expect(screen.getByRole('link')).toHaveClass('navigation-link_active')
+  })
+
+  it('Uses hidden class if isInvisible prop is true', () => {
+    renderLink({ ...linkBaseProps, isInvisible: true })
+    expect(screen.getByRole('link')).toHaveClass('navigation-link_hidden')
   })
 })
