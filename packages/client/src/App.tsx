@@ -11,9 +11,9 @@ import { Forum } from './pages/Forum'
 import './App.css'
 
 function App() {
-  const pathname = useLocation().pathname
+  const { pathname } = useLocation()
   return (
-    <MainLayout background={`${pathname}`}>
+    <MainLayout background={pathname}>
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
