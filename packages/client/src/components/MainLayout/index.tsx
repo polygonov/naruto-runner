@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { Component, ReactNode } from 'react'
 import HeaderComponent from '../Header'
 import './index.css'
 
@@ -7,7 +7,7 @@ type MainLayoutProps = {
   background: string
 }
 
-export class MainLayout extends React.Component<MainLayoutProps> {
+export class MainLayout extends Component<MainLayoutProps> {
   getImageName(): string {
     let imgName = 'Main'
     switch (this.props.background) {
