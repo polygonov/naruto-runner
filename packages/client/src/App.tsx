@@ -13,7 +13,7 @@ import './App.css'
 function App() {
   const pathname = useLocation().pathname
   return (
-    <MainLayout background={`${pathname}`}>
+    <MainLayout background={pathname}>
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
