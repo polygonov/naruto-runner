@@ -1,9 +1,9 @@
-import React from 'react'
+import { Fragment } from 'react'
 
 export function Forum() {
   return (
-    <React.Fragment>
+    <Fragment>
       <div> Forum</div>
-    </React.Fragment>
+    </Fragment>
   )
 }

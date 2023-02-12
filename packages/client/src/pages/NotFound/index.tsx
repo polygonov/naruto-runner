@@ -1,9 +1,9 @@
-import React from 'react'
+import { Fragment } from 'react'
 
 export function NotFound() {
   return (
-    <React.Fragment>
+    <Fragment>
       <div> NotFound</div>
-    </React.Fragment>
+    </Fragment>
   )
 }

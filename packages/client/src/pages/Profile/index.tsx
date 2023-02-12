@@ -1,9 +1,9 @@
-import React from 'react'
+import { Fragment } from 'react'
 
 export function Profile() {
   return (
-    <React.Fragment>
+    <Fragment>
       Profile
-    </React.Fragment>
+    </Fragment>
   )
 }

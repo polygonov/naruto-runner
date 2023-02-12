@@ -1,9 +1,9 @@
-import React from 'react'
+import { Fragment } from 'react'
 
 export function Leaderboard() {
   return (
-    <React.Fragment>
+    <Fragment>
       Leaderboard
-    </React.Fragment>
+    </Fragment>
   )
 }

@@ -1,9 +1,9 @@
-import React from 'react'
+import { Fragment } from 'react'
 
 export function Login() {
   return (
-    <React.Fragment>
+    <Fragment>
       Login
-    </React.Fragment>
+    </Fragment>
   )
 }
