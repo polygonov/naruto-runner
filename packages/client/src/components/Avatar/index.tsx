@@ -11,6 +11,12 @@ export type AvatarProps = {
   className?: string
 } & ImgHTMLAttributes<HTMLImageElement>
 
+/**
+ * Базовый мемоизированный компонент аватара.
+ * В качестве props также принимает все стандартные HTML-атрибуты для `<img>`.
+ * По умолчанию имеет изображение-заглушку.
+ * */
+
 export const Avatar: FC<AvatarProps> = memo(
   ({ src, alt, size = 'default', className, ...props }) => {
     return (
