@@ -7,7 +7,7 @@ export type ButtonProps = {
   text: string
   view?: 'primary' | 'secondary' | 'ghost'
   className?: string
-  onClick: () => void
+  onClick?: () => void
 } & ButtonHTMLAttributes<HTMLButtonElement>
 
 /**
