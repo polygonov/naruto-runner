@@ -3,7 +3,7 @@
   flex-direction: column;
 }
 .logo-text {
-  font-family: NinjaNaruto;
+  font-family: var(--font-naruto);
   font-style: normal;
   font-weight: 400;
   font-size: 96px;
