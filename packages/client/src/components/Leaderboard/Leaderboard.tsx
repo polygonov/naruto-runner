@@ -1,8 +1,8 @@
 import './Leaderboard.css'
 import avatar from '../../assets/images/image-18.png'
-import { Profile } from './Profile'
 import HeaderComponent from '../Header'
 import { Button } from '../Button'
+import { Profile } from './Profile/Profile'
 export function Leaderboard() {
   return (
     <div className="page">
