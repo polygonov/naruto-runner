@@ -5,8 +5,6 @@ import defaultImage from './images/avatar-default.jpg'
 import './index.css'
 
 export type AvatarProps = {
-  src?: string
-  alt?: string
   size?: 'default' | 'small'
   className?: string
 } & ImgHTMLAttributes<HTMLImageElement>
