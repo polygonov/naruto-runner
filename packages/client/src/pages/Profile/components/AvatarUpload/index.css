@@ -1,29 +1,16 @@
-:root {
-  --avatar-width: 100px;
-}
-
-.avatar {
+.avatar-upload {
   position: relative;
   width: fit-content;
   font-family: var(--font-primary);
 }
 
-.avatar__container {
+.avatar-upload__container {
   position: relative;
-  width: var(--avatar-width);
-  height: var(--avatar-width);
   border-radius: 50%;
   overflow: hidden;
 }
 
-.avatar__image {
-  display: block;
-  width: var(--avatar-width);
-  height: var(--avatar-width);
-  object-fit: cover;
-}
-
-.avatar__overlay {
+.avatar-upload__overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -38,11 +25,11 @@
   transition: opacity 0.2s ease-in;
 }
 
-.avatar__container:hover .avatar__overlay {
+.avatar-upload__container:hover .avatar-upload__overlay {
   opacity: 1;
 }
 
-.avatar__upload-text {
+.avatar-upload__text {
   font-weight: 500;
   font-size: 16px;
   line-height: 1.5;
@@ -50,7 +37,7 @@
   text-align: center;
 }
 
-.avatar__input-upload {
+.avatar-upload__input {
   position: absolute;
   top: 0;
   left: 0;
@@ -61,10 +48,10 @@
   clip: rect(0 0 0 0);
 }
 
-.avatar__error {
+.avatar-upload__error {
   position: absolute;
   top: 50%;
-  left: calc(var(--avatar-width) + 16px);
+  left: calc(100% + 16px);
   width: 200px;
   padding: 8px;
   font-weight: 600;
@@ -73,11 +60,12 @@
   color: var(--color-text-primary);
   background-color: var(--color-danger);
   border-radius: 8px;
+  cursor: pointer;
   transform: translateY(-50%);
   transition: opacity 0.2s ease-in;
 }
 
-.avatar__error::before {
+.avatar-upload__error::before {
   content: '';
   position: absolute;
   top: 50%;

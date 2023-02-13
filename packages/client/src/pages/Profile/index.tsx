@@ -1,9 +1,9 @@
-import { Fragment } from 'react'
+import { AvatarUpload } from './components/AvatarUpload'
 
 export function Profile() {
   return (
-    <Fragment>
-      Profile
-    </Fragment>
+    <>
+      <AvatarUpload onUpload={console.log} />
+    </>
   )
 }
