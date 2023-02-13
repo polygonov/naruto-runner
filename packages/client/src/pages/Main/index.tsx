@@ -1,9 +1,5 @@
-import HeaderComponent from '../../components/Header'
+import { Fragment } from 'react'
 
 export function Main() {
-  return (
-    <>
-      <HeaderComponent />
-    </>
-  )
+  return <Fragment>Main</Fragment>
 }

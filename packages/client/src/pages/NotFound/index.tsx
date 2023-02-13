@@ -1,9 +1,9 @@
 import { Fragment } from 'react'
 
-export function Login() {
+export function NotFound() {
   return (
     <Fragment>
-      Login
+      <div> NotFound</div>
     </Fragment>
   )
 }
