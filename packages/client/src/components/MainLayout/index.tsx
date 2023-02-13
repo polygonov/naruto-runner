@@ -1,5 +1,6 @@
-import React, { Component, ReactNode } from 'react'
+import { Component, ReactNode } from 'react'
 import HeaderComponent from '../Header'
+import { RoutesNameList, getImagePath } from '../../constant'
 import './index.css'
 
 type MainLayoutProps = {
@@ -9,14 +10,14 @@ type MainLayoutProps = {
 
 export class MainLayout extends Component<MainLayoutProps> {
   imageNames: { [key: string]: string } = {
-    '/': 'Main',
-    '/forum': 'Main',
-    '/login': 'Login',
-    '/leaderboard': 'Leaderboard',
-    '/profile': 'Profile',
+    [RoutesNameList.Main]: 'Main',
+    [RoutesNameList.Forum]: 'Main',
+    [RoutesNameList.Login]: 'Login',
+    [RoutesNameList.Leaderboard]: 'Leaderboard',
+    [RoutesNameList.Profile]: 'Profile',
   }
-  getBackgroundImgPath() {
-    return `src/assets/images/background/${this.imageNames[this.props.background]}.png`
+  getBackgroundImgPath(): string {
+    return getImagePath(`${this.imageNames[this.props.background]}.png`)
   }
   render() {
     return (

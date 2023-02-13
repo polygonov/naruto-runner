@@ -1,16 +1,21 @@
 import { NavLink } from './NavLink'
+import { RoutesNameList } from '../../constant'
 import './index.css'
 
+interface ILinkList {
+  href: string
+  text: string
+}
 export default function HeaderComponent() {
-  const linkList = [
-    { href: '/', text: 'Главная' },
-    { href: '/forum', text: 'Форум' },
+  const linkList: ILinkList[] = [
+    { href: RoutesNameList.Main, text: 'Главная' },
+    { href: RoutesNameList.Forum, text: 'Форум' },
     {
-      href: '/leaderboard',
+      href: RoutesNameList.Leaderboard,
       text: 'Лидерборд',
     },
     {
-      href: '/profile',
+      href: RoutesNameList.Profile,
       text: 'Профиль',
     },
   ]
@@ -19,7 +24,7 @@ export default function HeaderComponent() {
       <nav className="navigation-wrapper">
         <ul className="navigation-list">
           {linkList.map(data => (
-            <li key={data.text}>
+            <li key={data.href}>
               <NavLink {...data} />
             </li>
           ))}
