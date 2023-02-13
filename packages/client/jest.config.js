@@ -9,6 +9,7 @@ export default {
   moduleNameMapper: {
     '\\.(css)$': '<rootDir>/jest/__mocks__/styleMock.ts',
   },
+  setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
   globals: {
     __SERVER_PORT__: process.env.SERVER_PORT,
   },
