@@ -1,9 +1,9 @@
-import { Fragment } from 'react'
+import { LoginForm } from '../../components/forms/Login'
 
 export function Login() {
   return (
-    <Fragment>
-      Login
-    </Fragment>
+    <>
+      <LoginForm />
+    </>
   )
 }
