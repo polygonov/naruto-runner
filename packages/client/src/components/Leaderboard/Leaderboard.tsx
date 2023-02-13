@@ -1,10 +1,14 @@
 import './Leaderboard.css'
 import avatar from '../../assets/images/image-18.png'
 import { Profile } from './Profile'
+import HeaderComponent from '../Header'
+import { Button } from '../Button'
 export function Leaderboard() {
   return (
     <div className="page">
-      <div className="header"></div>
+      <div className="header">
+        <HeaderComponent />
+      </div>
       <div className="content">
         <div className="board">
           <div className="title">ЛИДЕРБОРД</div>
@@ -13,7 +17,9 @@ export function Leaderboard() {
             <div>Игрок</div>
             <div>Результат</div>
           </div>
-          <Profile order={8} avatar={avatar} username={'Вы'} score={278} />
+          <div className="user">
+            <Profile order={8} avatar={avatar} username={'Вы'} score={278} />
+          </div>
           <div className="list">
             <Profile
               order={1}
@@ -34,7 +40,7 @@ export function Leaderboard() {
               score={315}
             />
           </div>
-          <button className="button">Начать игру</button>
+          <Button className="button" text={'Начать игру'} />
         </div>
       </div>
     </div>
