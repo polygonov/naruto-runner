@@ -33,6 +33,10 @@ body {
   min-height: 100vh;
 }
 
+li {
+  list-style-type: none;
+}
+
 #root {
   position: relative;
   height: 100vh;

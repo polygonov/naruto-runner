@@ -7,20 +7,21 @@ import { Profile } from './pages/Profile'
 import { Leaderboard } from './pages/Leaderboard'
 import { NotFound } from './pages/NotFound'
 import { Forum } from './pages/Forum'
+import { RoutesNameList } from './constant'
 
 import './App.css'
 
 function App() {
-  const pathname = useLocation().pathname
+  const { pathname } = useLocation()
   return (
-    <MainLayout background={`${pathname}`}>
+    <MainLayout background={pathname}>
       <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/registration" element={<Registration />} />
-        <Route path="/forum" element={<Forum />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path={RoutesNameList.Main} element={<MainPage />} />
+        <Route path={RoutesNameList.Login} element={<Login />} />
+        <Route path={RoutesNameList.Registration} element={<Registration />} />
+        <Route path={RoutesNameList.Forum} element={<Forum />} />
+        <Route path={RoutesNameList.Profile} element={<Profile />} />
+        <Route path={RoutesNameList.Leaderboard} element={<Leaderboard />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </MainLayout>

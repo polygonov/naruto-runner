@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom'
 
 export function Main() {
   const isAuth = false
-  const text = isAuth ? 'Начать игру' : 'Войти'
   const navigate = useNavigate()
 
   const moveToLoginPage = () => {
@@ -14,10 +13,16 @@ export function Main() {
   const startGame = () => {
     console.log('start the Game')
   }
+  const button = !isAuth ? (
+    <Button text="Войти" onClick={moveToLoginPage} view="secondary" />
+  ) : undefined
   return (
     <div className="main-page-wrapper">
       <Logo />
-      <Button text={text} onClick={isAuth ? startGame : moveToLoginPage} />
+      <div className="button-wrapper">
+        <Button text="Начать игру" onClick={startGame} />
+        {button}
+      </div>
     </div>
   )
 }
