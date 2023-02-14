@@ -10,12 +10,12 @@ interface ProfileProps {
 export function Profile(props: ProfileProps) {
   return (
     <div className="player">
-      <div className="number">{props.order}</div>
-      <div className="profile">
-        <img className="image" src={props.avatar} />
-        <div className="name">{props.username}</div>
+      <div className="player__number">{props.order}</div>
+      <div className="player__profile">
+        <img className="player__profile_image" src={props.avatar} />
+        <div className="player__profile_name">{props.username}</div>
       </div>
-      <div className="score">{props.score}</div>
+      <div className="player__score">{props.score}</div>
     </div>
   )
 }
