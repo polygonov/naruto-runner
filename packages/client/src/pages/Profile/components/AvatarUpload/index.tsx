@@ -51,7 +51,7 @@ export const AvatarUpload: FC<AvatarUploadProps> = memo(
     }, [errorMessage])
 
     if (disabled) {
-      return <Avatar src={src} />
+      return <Avatar src={src} className={className} />
     }
 
     return (
