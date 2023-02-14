@@ -3,14 +3,16 @@ import { Button } from '../../components/Button'
 import './index.css'
 import { useNavigate } from 'react-router-dom'
 import { RoutesNameList } from '../../constant'
+import { useCallback } from 'react'
 
 export function MainPage() {
   const isAuth = false
   const navigate = useNavigate()
 
-  const moveToLoginPage = () => {
+  const moveToLoginPage = useCallback(() => {
     navigate(RoutesNameList.Login)
-  }
+  }, [RoutesNameList.Login])
+  
   const startGame = () => {
     console.log('start the Game')
   }
@@ -19,7 +21,9 @@ export function MainPage() {
       <Logo />
       <div className="button-wrapper">
         <Button text="Начать игру" onClick={startGame} />
-        {!isAuth && <Button text="Войти" onClick={moveToLoginPage} view="secondary" />}
+        {!isAuth && (
+          <Button text="Войти" onClick={moveToLoginPage} view="secondary" />
+        )}
       </div>
     </div>
   )
