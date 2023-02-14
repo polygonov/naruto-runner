@@ -7,22 +7,12 @@ import './index.css'
 export type NavLinkProps = {
   href: string
   text: string
-  isInvisible?: boolean
   className?: string
 } & AnchorHTMLAttributes<HTMLAnchorElement>
 
-/**
- * Мемоизированный компонент навигационной ссылки.
- * В качестве props также принимает все стандартные HTML-атрибуты для `<a>`.
- */
-
 export const NavLink: FC<NavLinkProps> = memo(
-  ({ href, text, isInvisible = false, className = '', ...props }) => {
-    const classes = classNames(
-      'navigation-link',
-      { 'navigation-link_hidden': isInvisible },
-      className
-    )
+  ({ href, text, className = '', ...props }) => {
+    const classes = classNames('navigation-link', className)
 
     return (
       <RouterLink

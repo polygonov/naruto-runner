@@ -1,9 +1,9 @@
 import { Fragment } from 'react'
 
-export function Registration() {
+export function Forum() {
   return (
     <Fragment>
-      <div> Registration</div>
+      <div> Forum</div>
     </Fragment>
   )
 }

@@ -26,9 +26,4 @@ describe('NavLink component', () => {
     renderLink({ ...linkBaseProps, href: '/' })
     expect(screen.getByRole('link')).toHaveClass('navigation-link_active')
   })
-
-  it('Uses hidden class if isInvisible prop is true', () => {
-    renderLink({ ...linkBaseProps, isInvisible: true })
-    expect(screen.getByRole('link')).toHaveClass('navigation-link_hidden')
-  })
 })
