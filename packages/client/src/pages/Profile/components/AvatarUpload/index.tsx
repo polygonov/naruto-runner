@@ -1,7 +1,7 @@
 import type { ChangeEvent, FC } from 'react'
 import { memo, useEffect, useState } from 'react'
 import classNames from 'classnames'
-import { regExps } from '../../../../constants'
+import { regExps } from '../../../../constant'
 import { Avatar } from '../../../../components/Avatar'
 import './index.css'
 
@@ -19,10 +19,6 @@ type AvatarUploadProps = {
 
 export const AvatarUpload: FC<AvatarUploadProps> = memo(
   ({ src, disabled, errorMessage, onUpload, className }) => {
-    if (disabled) {
-      return <Avatar src={src} />
-    }
-
     const [currentImage, setCurrentImage] = useState(src ?? '')
     const [error, setError] = useState<AvatarUploadError>(null)
 
@@ -53,6 +49,10 @@ export const AvatarUpload: FC<AvatarUploadProps> = memo(
         setError(errorMessage)
       }
     }, [errorMessage])
+
+    if (disabled) {
+      return <Avatar src={src} />
+    }
 
     return (
       <div className={classNames('avatar-upload', className)}>

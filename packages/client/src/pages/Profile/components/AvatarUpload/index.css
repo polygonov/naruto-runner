@@ -19,7 +19,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-background-70);
+  background-color: var(--color-overlay);
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.2s ease-in;
