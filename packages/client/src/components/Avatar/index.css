@@ -1,0 +1,14 @@
+.avatar {
+  display: block;
+  object-fit: cover;
+  border-radius: 50%;
+  aspect-ratio: 1;
+}
+
+.avatar_size_default {
+  width: 100px;
+}
+
+.avatar_size_small {
+  width: 70px;
+}
