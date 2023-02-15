@@ -18,6 +18,7 @@
 }
 
 .board {
+  margin-top: 32px;
   width: 348px;
   height: 614px;
 }

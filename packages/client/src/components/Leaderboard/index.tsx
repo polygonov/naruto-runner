@@ -15,7 +15,7 @@ export function LeaderboardTable() {
         <div>Результат</div>
       </div>
       <div className="board__user">
-        <LeaderView order={8} avatar={avatar} username={'Вы'} score={278} />
+        <LeaderView order={8} avatar={''} username={'Вы'} score={278} />
       </div>
       <div className="board__list">
         {leaderboardList.map(player => (
