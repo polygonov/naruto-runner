@@ -1,6 +1,10 @@
 import { Component, ReactNode } from 'react'
 import HeaderComponent from '../Header'
-import { RoutesNameList, getImagePath } from '../../constant'
+import { RoutesNameList } from '../../constant'
+import mainBack from "../../assets/images/background/Main.png"
+import profileBack from "../../assets/images/background/Profile.png"
+import loginBack from "../../assets/images/background/Login.png"
+import leaderboardBack from "../../assets/images/background/Leaderboard.png"
 import './index.css'
 
 type MainLayoutProps = {
@@ -10,14 +14,14 @@ type MainLayoutProps = {
 
 export class MainLayout extends Component<MainLayoutProps> {
   imageNames: { [key: string]: string } = {
-    [RoutesNameList.Main]: 'Main',
-    [RoutesNameList.Forum]: 'Main',
-    [RoutesNameList.Login]: 'Login',
-    [RoutesNameList.Leaderboard]: 'Leaderboard',
-    [RoutesNameList.Profile]: 'Profile',
+    [RoutesNameList.Main]: mainBack,
+    [RoutesNameList.Forum]: mainBack,
+    [RoutesNameList.Login]: loginBack,
+    [RoutesNameList.Leaderboard]: leaderboardBack,
+    [RoutesNameList.Profile]: profileBack,
   }
   getBackgroundImgPath(): string {
-    return getImagePath(`${this.imageNames[this.props.background]}.png`)
+    return this.imageNames[this.props.background]
   }
   render() {
     return (

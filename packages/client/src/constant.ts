@@ -6,6 +6,7 @@ export const RoutesNameList = {
   Profile: '/profile',
   Leaderboard: '/leaderboard',
 }
+
 export const getImagePath = (imageName: string) => {
   return `src/assets/images/background/${imageName}`
 }

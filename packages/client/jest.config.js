@@ -7,7 +7,8 @@ export default {
   testEnvironment: 'jsdom',
   testMatch: ['<rootDir>/src/**/*.test.{ts,tsx}'],
   moduleNameMapper: {
-    '\\.(css|jpg|png)$': '<rootDir>/jest/__mocks__/styleMock.ts',
+    "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/jest/__mocks__/fileMock.ts",
+    '\\.(css)$': '<rootDir>/jest/__mocks__/styleMock.ts',
   },
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
   globals: {

@@ -14,6 +14,7 @@
   border: none;
   cursor: pointer;
   transition: 0.3s ease-in;
+  text-align: center;
 }
 
 .button:hover {

@@ -1,6 +1,6 @@
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { MainLayout } from './components/MainLayout'
-import { Main } from './pages/Main'
+import { MainPage } from './pages/Main'
 import { Login } from './pages/Login'
 import { Registration } from './pages/Registration'
 import { Profile } from './pages/Profile'
@@ -16,7 +16,7 @@ function App() {
   return (
     <MainLayout background={pathname}>
       <Routes>
-        <Route path={RoutesNameList.Main} element={<Main />} />
+        <Route path={RoutesNameList.Main} element={<MainPage />} />
         <Route path={RoutesNameList.Login} element={<Login />} />
         <Route path={RoutesNameList.Registration} element={<Registration />} />
         <Route path={RoutesNameList.Forum} element={<Forum />} />
