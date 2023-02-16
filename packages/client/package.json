@@ -11,8 +11,6 @@
     "test": "jest ./"
   },
   "dependencies": {
-    "esbuild-windows-64": "^0.15.18",
-    "lefthook-windows-x64": "^1.2.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.1"
