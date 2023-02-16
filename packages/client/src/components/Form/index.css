@@ -1,9 +1,12 @@
 .form {
-  max-width: 380px;
+  max-width: 100%;
+  height: 100%;
+  display: flex;
 }
 
 .form__body {
   width: 100%;
+  margin: auto 0;
 }
 
 .form__title:not(:last-child) {
