@@ -28,7 +28,11 @@ const BUTTON_PROPS: ButtonProps = {
 const FORM_BOTTOM = <Button {...BUTTON_PROPS} />
 
 const renderForm = (props?: Omit<FormProps, 'formItems' | 'formActions'>) =>
-  render(<Form formItems={FORM_ITEMS} formActions={FORM_BOTTOM} {...props} />)
+  render(
+    <Form formActions={FORM_BOTTOM} {...props}>
+      {FORM_ITEMS}
+    </Form>
+  )
 
 describe('Form component', () => {
   it('Correctly renders in the DOM', () => {
