@@ -1,10 +1,10 @@
 import { Component, ReactNode } from 'react'
 import HeaderComponent from '../Header'
 import { RoutesNameList } from '../../constant'
-import mainBack from "../../assets/images/background/Main.png"
-import profileBack from "../../assets/images/background/Profile.png"
-import loginBack from "../../assets/images/background/Login.png"
-import leaderboardBack from "../../assets/images/background/Leaderboard.png"
+import mainBack from '../../assets/images/background/Main.png'
+import profileBack from '../../assets/images/background/Profile.png'
+import loginBack from '../../assets/images/background/Login.png'
+import leaderboardBack from '../../assets/images/background/Leaderboard.png'
 import './index.css'
 
 type MainLayoutProps = {
