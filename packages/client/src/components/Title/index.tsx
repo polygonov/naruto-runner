@@ -10,7 +10,7 @@ export type TitleProps = {
 } & BaseHTMLAttributes<HTMLHeadingElement>
 
 export const Title: FC<TitleProps> = memo(
-  ({ className, text, view = 'base', ...props }) => {
+  ({ className, text, view = 'base' }) => {
     return (
       <h2 className={classNames('title', `title_view_${view}`, className)}>
         {text}

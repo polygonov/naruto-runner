@@ -1,5 +1,4 @@
 import './index.css'
-import avatar from '../../assets/images/image-18.png'
 import { Button } from '../Button'
 import { LeaderView } from './LeaderView'
 import { Title } from '../Title'
