@@ -7,6 +7,7 @@ export class Hero extends VisualItem {
   }
 
   init(): void {
+    this.image.src = hero
     this.width = 250
     this.height = 250
   }
@@ -18,20 +19,16 @@ export class Hero extends VisualItem {
     if (movement > this.width * 6) {
       movement = (step % 6) * this.width
     }
-    const image = new Image()
-    image.src = hero
-    image.onload = () => {
-      this.context.drawImage(
-        image,
-        movement,
-        0,
-        this.width,
-        this.height,
-        offsetTop,
-        offsetLeft,
-        this.width,
-        this.width
-      )
-    }
+    this.context.drawImage(
+      this.image,
+      movement,
+      0,
+      this.width,
+      this.height,
+      offsetTop,
+      offsetLeft,
+      this.width,
+      this.width
+    )
   }
 }

@@ -7,6 +7,7 @@ export class Background extends VisualItem {
   }
 
   init(): void {
+    this.image.src = gameBackground
     this.width = 1440
     this.height = 400
   }
@@ -16,17 +17,13 @@ export class Background extends VisualItem {
     if (movement > this.width) {
       movement = movement % this.width
     }
-    const image = new Image()
-    image.src = gameBackground
-    image.onload = () => {
-      this.context.drawImage(image, -movement, 0, this.width, this.height)
-      this.context.drawImage(
-        image,
-        this.width - movement,
-        0,
-        this.width,
-        this.height
-      )
-    }
+    this.context.drawImage(this.image, -movement, 0, this.width, this.height)
+    this.context.drawImage(
+      this.image,
+      this.width - movement,
+      0,
+      this.width,
+      this.height
+    )
   }
 }
