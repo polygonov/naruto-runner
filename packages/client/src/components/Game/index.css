@@ -1,0 +1,13 @@
+.game {
+  position: absolute;
+  left: 0px;
+  top: 200px;
+  width: 100%;
+  background: gray;
+  height: 400px;
+  color: white;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

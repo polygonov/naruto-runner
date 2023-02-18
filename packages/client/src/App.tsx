@@ -1,5 +1,6 @@
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { MainLayout } from './components/MainLayout'
+import { Game } from './pages/Game'
 import { MainPage } from './pages/Main'
 import { Login } from './pages/Login'
 import { Registration } from './pages/Registration'
@@ -22,6 +23,7 @@ function App() {
         <Route path={RoutesNameList.Forum} element={<Forum />} />
         <Route path={RoutesNameList.Profile} element={<Profile />} />
         <Route path={RoutesNameList.Leaderboard} element={<Leaderboard />} />
+        <Route path={RoutesNameList.Game} element={<Game />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </MainLayout>

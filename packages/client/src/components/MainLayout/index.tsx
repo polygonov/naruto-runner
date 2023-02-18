@@ -5,6 +5,7 @@ import mainBack from '../../assets/images/background/Main.png'
 import profileBack from '../../assets/images/background/Profile.png'
 import loginBack from '../../assets/images/background/Login.png'
 import leaderboardBack from '../../assets/images/background/Leaderboard.png'
+import gameBack from '../../assets/images/background/Game.png'
 import './index.css'
 
 type MainLayoutProps = {
@@ -19,6 +20,7 @@ export class MainLayout extends Component<MainLayoutProps> {
     [RoutesNameList.Login]: loginBack,
     [RoutesNameList.Leaderboard]: leaderboardBack,
     [RoutesNameList.Profile]: profileBack,
+    [RoutesNameList.Game]: gameBack,
   }
   getBackgroundImgPath(): string {
     return this.imageNames[this.props.background]

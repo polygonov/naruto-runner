@@ -5,6 +5,7 @@ export const RoutesNameList = {
   Registration: '/registration',
   Profile: '/profile',
   Leaderboard: '/leaderboard',
+  Game: '/game',
 }
 
 export const getImagePath = (imageName: string) => {
