@@ -19,14 +19,8 @@ export function CanvasComponent() {
     const context = current.getContext('2d')
     const background = new Background(context)
     const hero = new Hero(context)
-    let step = 0
-    background.draw(step)
-    hero.draw(step)
-    setInterval(() => {
-      background.draw(step)
-      hero.draw(step)
-      step++
-    }, 50)
+    requestAnimationFrame(background.draw)
+    requestAnimationFrame(hero.draw)
   }, [])
 
   return <canvas className="context" ref={ref} width={width} height={height} />

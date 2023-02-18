@@ -10,10 +10,15 @@ export class Background extends VisualItem {
     this.image.src = gameBackground
     this.width = 1440
     this.height = 400
+    this.framerate = 10
+    this.startTime = performance.now()
   }
 
-  draw(step: number) {
-    let movement = step * 10
+  draw = () => {
+    const deltaX = 10
+    const time = performance.now()
+    const progress = time - this.startTime
+    let movement = this.step * deltaX
     if (movement > this.width) {
       movement = movement % this.width
     }
@@ -25,5 +30,10 @@ export class Background extends VisualItem {
       this.width,
       this.height
     )
+    requestAnimationFrame(this.draw)
+    if (progress >= this.framerate) {
+      this.startTime = performance.now()
+      this.step++
+    }
   }
 }
