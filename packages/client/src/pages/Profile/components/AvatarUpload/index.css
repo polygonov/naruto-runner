@@ -2,6 +2,7 @@
   position: relative;
   width: fit-content;
   font-family: var(--font-primary);
+  z-index: 10;
 }
 
 .avatar-upload__container {

@@ -1,5 +1,5 @@
-import { object, string, ref, ObjectSchema } from 'yup'
 import type { Schema } from 'yup'
+import { object, ObjectSchema, ref, string } from 'yup'
 
 const regExps = {
   hasNoSpecialCharsExHyphen: /^[а-яА-ЯёЁa-zA-Z-]+$/g,
@@ -107,7 +107,7 @@ export const validationSchema = createValidationSchema({
     .required(messages.required),
 })
 
-type fieldsTypes = keyof typeof validationSchema
+export type fieldsTypes = keyof typeof validationSchema
 
 export const getValidationSchema = <
   T extends Partial<Record<fieldsTypes, T[keyof T]>>

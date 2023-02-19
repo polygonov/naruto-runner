@@ -46,7 +46,7 @@
 .input_type_read-only .input__control {
   color: var(--color-text-primary);
   border-radius: 0;
-  border: none;
+  border: transparent;
   border-bottom: 1px solid var(--color-ui-primary);
   opacity: 1;
   cursor: default;
