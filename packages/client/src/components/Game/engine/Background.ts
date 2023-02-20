@@ -6,7 +6,7 @@ export class Background extends VisualItem {
     super(context)
   }
 
-  init(): void {
+  protected init(): void {
     this.image.src = gameBackground
     this.width = 1440
     this.height = 400

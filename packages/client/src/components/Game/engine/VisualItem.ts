@@ -10,7 +10,7 @@ export abstract class VisualItem {
     this.init()
   }
 
-  abstract init(): void
+  protected abstract init(): void
 
   abstract draw(): void
 }
