@@ -1,27 +1,30 @@
 import { render, screen } from '@testing-library/react'
-import { LoginForm } from './index'
 import userEvent from '@testing-library/user-event'
+import { RegistrationForm } from './index'
 import { BrowserRouter } from 'react-router-dom'
 
-const renderLoginForm = (props = {}) =>
+const renderRegistrationForm = (props = {}) =>
   render(
     <BrowserRouter>
-      <LoginForm {...props} />
+      <RegistrationForm {...props} />
     </BrowserRouter>
   )
 
 describe('Login Form component', () => {
   it('Correctly renders in the DOM', () => {
-    renderLoginForm()
+    renderRegistrationForm()
+
     expect(screen.getByRole('form')).toBeDefined()
     expect(screen.getAllByRole('textbox')).toBeDefined()
     expect(screen.getByRole('button')).toBeDefined()
   })
 
   it('Correctly validate fields', async () => {
-    renderLoginForm()
+    renderRegistrationForm()
 
-    const submitBtn = screen.getByRole('button', { name: /Авторизация/i })
+    const submitBtn = screen.getByRole('button', {
+      name: /Зарегистрироваться/i,
+    })
     await userEvent.click(submitBtn)
     expect(submitBtn).toBeDisabled()
   })

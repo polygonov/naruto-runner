@@ -3,9 +3,9 @@ import { Input } from '../../Input'
 import { Button } from '../../Button'
 import { useFormik } from 'formik'
 import { FC, FormEvent, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { RoutesNameList } from '../../../constant'
 import { getValidationSchema } from '../../../utils/validation'
+import { Link } from '../../Link'
 
 type LoginFields = {
   login: string
@@ -16,7 +16,6 @@ const LoginSchema = getValidationSchema<LoginFields>('login', 'password')
 
 export const LoginForm: FC = props => {
   const [shouldValidateOnChange, setShouldValidateOnChange] = useState(false)
-  const navigate = useNavigate()
   const initialValues: LoginFields = {
     login: '',
     password: '',
@@ -56,16 +55,17 @@ export const LoginForm: FC = props => {
             type="submit"
             onClick={submitHandler}
           />
-          <Button
+          <Link
             text="Нет аккаунта?"
             view="ghost"
-            onClick={() => navigate(RoutesNameList.Registration)}
+            href={RoutesNameList.Registration}
           />
         </>
       }
       {...props}>
       <Input
         name="login"
+        placeholder="ivaivan"
         label="Введите ваш логин"
         isValid={!formik.errors.login}
         error={formik.errors.login}
@@ -75,6 +75,7 @@ export const LoginForm: FC = props => {
       <Input
         name="password"
         label="Введите ваш пароль"
+        placeholder="password"
         type="password"
         isValid={!formik.errors.password}
         error={formik.errors.password}
