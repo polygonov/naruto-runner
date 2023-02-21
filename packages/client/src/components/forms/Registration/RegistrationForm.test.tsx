@@ -3,10 +3,12 @@ import userEvent from '@testing-library/user-event'
 import { RegistrationForm } from './index'
 import { BrowserRouter } from 'react-router-dom'
 
+const handleRegister = jest.fn()
+
 const renderRegistrationForm = (props = {}) =>
   render(
     <BrowserRouter>
-      <RegistrationForm {...props} />
+      <RegistrationForm handleRegister={handleRegister} />
     </BrowserRouter>
   )
 
