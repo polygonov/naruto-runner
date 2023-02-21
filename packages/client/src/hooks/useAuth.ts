@@ -1,8 +1,10 @@
+import { useCallback } from 'react'
 import type { RegisterPayload } from '../api/auth/types'
 import { useAppDispatch, useAppSelector } from '../store'
 import { selectIsAuth } from '../store/auth/selectors'
-import { getUser, signUp } from '../store/auth/thunk'
-import { useCallback } from 'react'
+import { signUp } from '../store/auth/thunk'
+import { setIsAuth } from '../store/auth/slice'
+import { getUser } from '../store/user/thunk'
 
 export const useAuth = () => {
   const dispatch = useAppDispatch()
@@ -12,6 +14,7 @@ export const useAuth = () => {
     async (data: RegisterPayload) => {
       await dispatch(signUp(data)).unwrap()
       await dispatch(getUser()).unwrap()
+      await dispatch(setIsAuth(true))
     },
     [dispatch]
   )

@@ -2,7 +2,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { authApi } from '../../api/auth'
 import type { RegisterPayload } from '../../api/auth/types'
 import type { ApiErrorResponse } from '../../api/types'
-import { setUser } from '../user/slice'
 
 export const signUp = createAsyncThunk(
   'auth/sign-up',
@@ -32,18 +31,6 @@ export const logout = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       // TODO сделать запрос
-    } catch (err) {
-      return rejectWithValue((err as ApiErrorResponse).reason)
-    }
-  }
-)
-
-export const getUser = createAsyncThunk(
-  'auth/get-user',
-  async (_, { rejectWithValue }) => {
-    try {
-      const user = await authApi.getUser()
-      setUser(user)
     } catch (err) {
       return rejectWithValue((err as ApiErrorResponse).reason)
     }

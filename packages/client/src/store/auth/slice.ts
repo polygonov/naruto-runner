@@ -5,7 +5,7 @@ import {
   isRejected,
   PayloadAction,
 } from '@reduxjs/toolkit'
-import { getUser, logout, signIn, signUp } from './thunk'
+import { logout, signIn, signUp } from './thunk'
 
 export type AuthState = {
   isAuth: boolean
@@ -37,19 +37,16 @@ export const authSlice = createSlice({
     builder.addCase(logout.fulfilled, state => {
       state.isAuth = false
     })
-    builder.addCase(getUser.fulfilled, state => {
-      state.isAuth = true
-    })
-    builder.addMatcher(isPending(signUp, signIn, logout, getUser), state => {
+    builder.addMatcher(isPending(signUp, signIn, logout), state => {
       state.loading = true
       state.error = null
     })
-    builder.addMatcher(isFulfilled(signUp, signIn, logout, getUser), state => {
+    builder.addMatcher(isFulfilled(signUp, signIn, logout), state => {
       state.loading = false
       state.error = null
     })
     builder.addMatcher(
-      isRejected(signUp, signIn, logout, getUser),
+      isRejected(signUp, signIn, logout),
       (state, { payload }) => {
         state.loading = false
         state.error = (payload as string) ?? 'Что-то пошло не так'
@@ -57,5 +54,7 @@ export const authSlice = createSlice({
     )
   },
 })
+
+export const { setIsAuth } = authSlice.actions
 
 export default authSlice.reducer
