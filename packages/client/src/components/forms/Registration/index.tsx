@@ -1,32 +1,41 @@
+import type { FC, FormEvent } from 'react'
+import { useState } from 'react'
+import { useFormik } from 'formik'
 import { Form } from '../../Form'
 import { Input } from '../../Input'
 import { Button } from '../../Button'
-import { useFormik } from 'formik'
-import { FC, FormEvent, useState } from 'react'
+import { Link } from '../../Link'
 import { RoutesNameList } from '../../../constant'
 import { getValidationSchema } from '../../../utils/validation'
-import { Link } from '../../Link'
+import type { RegisterPayload } from '../../../api/auth/types'
 
 type RegistrationFields = {
   login: string
   email: string
-  newPassword: string
+  password: string
   repeatPassword: string
 }
 
 const RegistrationSchema = getValidationSchema<RegistrationFields>(
   'login',
   'email',
-  'newPassword',
+  'password',
   'repeatPassword'
 )
 
-export const RegistrationForm: FC = props => {
+type RegistrationFormProps = {
+  handleRegister: (data: RegisterPayload) => Promise<void>
+}
+
+export const RegistrationForm: FC<RegistrationFormProps> = ({
+  handleRegister,
+}) => {
   const [shouldValidateOnChange, setShouldValidateOnChange] = useState(false)
+
   const initialValues: RegistrationFields = {
     login: '',
     email: '',
-    newPassword: '',
+    password: '',
     repeatPassword: '',
   }
 
@@ -35,11 +44,14 @@ export const RegistrationForm: FC = props => {
     validationSchema: RegistrationSchema,
     validateOnBlur: false,
     validateOnChange: shouldValidateOnChange,
-    onSubmit: (values, actions) => {
-      setTimeout(() => {
-        console.log(JSON.stringify(values))
+    onSubmit: async (values, actions) => {
+      try {
+        await handleRegister(values)
         actions.setSubmitting(false)
-      }, 1000)
+      } catch (err) {
+        // TODO показать тост
+        alert(err)
+      }
     },
   })
 
@@ -66,8 +78,7 @@ export const RegistrationForm: FC = props => {
           />
           <Link text="Войти" view="ghost" href={RoutesNameList.Login} />
         </>
-      }
-      {...props}>
+      }>
       <Input
         name="login"
         placeholder="ivaivan"
@@ -87,14 +98,14 @@ export const RegistrationForm: FC = props => {
         value={formik.values.email}
       />
       <Input
-        name="newPassword"
+        name="password"
         placeholder="password"
         label="Введите ваш пароль"
         type="password"
-        isValid={!formik.errors.newPassword}
-        error={formik.errors.newPassword}
+        isValid={!formik.errors.password}
+        error={formik.errors.password}
         onChange={formik.handleChange}
-        value={formik.values.newPassword}
+        value={formik.values.password}
       />
       <Input
         name="repeatPassword"

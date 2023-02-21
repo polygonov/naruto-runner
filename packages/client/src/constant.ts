@@ -1,3 +1,5 @@
+export const PRACTICUM_ORIGIN = 'https://ya-praktikum.tech/api/v2'
+
 export const RoutesNameList = {
   Main: '/',
   Forum: '/forum',
@@ -6,10 +8,6 @@ export const RoutesNameList = {
   Profile: '/profile',
   Leaderboard: '/leaderboard',
   Topic:`/forum/:id`
-}
-
-export const getImagePath = (imageName: string) => {
-  return `src/assets/images/background/${imageName}`
 }
 
 export const regExps = {

@@ -74,7 +74,7 @@ export const validationSchema = createValidationSchema({
     .max(40, messages.min('пароля', 40))
     .matches(regExps.hasUppercaseLatinChars, messages.hasUppercaseLatinChars)
     .matches(regExps.hasDigits, messages.hasDigits)
-    .oneOf([ref('newPassword'), ''], messages.confirmPassword)
+    .oneOf([ref('newPassword'), ref('password')], messages.confirmPassword)
     .required(messages.required),
   first_name: string()
     .trim()
