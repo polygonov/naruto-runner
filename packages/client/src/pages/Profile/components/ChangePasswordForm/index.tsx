@@ -26,6 +26,9 @@ export const ChangePasswordForm: FC<ChangePasswordFormProps> = memo(
       validationSchema: ChangePasswordFormSchema,
     })
 
+    const isAllValuesSet =
+      Object.keys(formik.values).length === Object.keys(formik.touched).length
+
     return (
       <Form
         title={texts.title}
@@ -36,7 +39,9 @@ export const ChangePasswordForm: FC<ChangePasswordFormProps> = memo(
             <Button
               text={texts.mainButton}
               type="submit"
-              disabled={!formik.isValid || formik.isSubmitting}
+              disabled={
+                (isAllValuesSet && !formik.isValid) || formik.isSubmitting
+              }
             />
             <Button
               text={texts.secondaryButton}
@@ -54,7 +59,7 @@ export const ChangePasswordForm: FC<ChangePasswordFormProps> = memo(
             label={texts[name].label}
             disabled={formik.isSubmitting}
             error={formik.errors[name]}
-            isValid={!formik.errors[name]}
+            isValid={!formik.touched[name] || !formik.errors[name]}
           />
         ))}
       </Form>
