@@ -15,7 +15,6 @@ type MainLayoutProps = {
 export class MainLayout extends Component<MainLayoutProps> {
   imageNames: { [key: string]: string } = {
     [RoutesNameList.Main]: mainBack,
-    [RoutesNameList.Forum]: mainBack,
     [RoutesNameList.Login]: loginBack,
     [RoutesNameList.Leaderboard]: leaderboardBack,
     [RoutesNameList.Profile]: profileBack,
@@ -25,11 +24,14 @@ export class MainLayout extends Component<MainLayoutProps> {
   }
   render() {
     return (
-      <div
-        className="layout"
-        style={{
-          backgroundImage: `url(${this.getBackgroundImgPath()})`,
-        }}>
+      <div className="layout">
+        {this.getBackgroundImgPath() && (
+          <div
+            className="layout__background-image"
+            style={{
+              backgroundImage: `url(${this.getBackgroundImgPath()})`,
+            }}></div>
+        )}
         <div className="main-wrapper">
           <HeaderComponent />
           <div className="content-wrapper">{this.props.children}</div>

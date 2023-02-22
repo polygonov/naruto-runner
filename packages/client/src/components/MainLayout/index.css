@@ -1,11 +1,22 @@
 .layout {
-  padding: 32px 120px;
+  padding: 32px 12%;
   height: 100%;
-  background-color: black;
-  background-repeat: no-repeat;
+  background-image: url(../../assets/images/background/Background.png);
   background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
-
+.layout__background-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: right;
+  height: 100%;
+  width: 100%;
+}
 .main-wrapper {
   height: 100%;
   width: 100%;
@@ -16,5 +27,6 @@
 
 .content-wrapper {
   height: 100%;
+  overflow: hidden;
   width: fit-content;
 }
