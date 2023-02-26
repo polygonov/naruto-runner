@@ -7,6 +7,7 @@ import {
 } from '@reduxjs/toolkit'
 import type { User } from '../../api/user/types'
 import { getUser } from './thunk'
+import { GENERAL_ERROR } from '../../constant'
 
 export type UserState = {
   user: User | null
@@ -48,7 +49,7 @@ export const userSlice = createSlice({
     })
     builder.addMatcher(isRejected(getUser), (state, { payload }) => {
       state.loading = false
-      state.error = (payload as string) ?? 'Что-то пошло не так'
+      state.error = (payload as string) ?? GENERAL_ERROR
     })
   },
 })

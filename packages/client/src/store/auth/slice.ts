@@ -6,6 +6,7 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit'
 import { logout, signIn, signUp } from './thunk'
+import { GENERAL_ERROR } from '../../constant'
 
 export type AuthState = {
   isAuth: boolean
@@ -45,13 +46,10 @@ export const authSlice = createSlice({
       state.loading = false
       state.error = null
     })
-    builder.addMatcher(
-      isRejected(signUp, signIn, logout),
-      (state, { payload }) => {
-        state.loading = false
-        state.error = (payload as string) ?? 'Что-то пошло не так'
-      }
-    )
+    builder.addMatcher(isRejected(signUp), (state, { payload }) => {
+      state.loading = false
+      state.error = (payload as string) ?? GENERAL_ERROR
+    })
   },
 })
 

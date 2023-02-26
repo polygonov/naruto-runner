@@ -13,3 +13,5 @@ export const RoutesNameList = {
 export const regExps = {
   image: /^.+\.(jpe?g|png|gif)$/,
 }
+
+export const GENERAL_ERROR = 'Что-то пошло не так'

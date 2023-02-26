@@ -1,15 +1,5 @@
-import { createAsyncThunk } from '@reduxjs/toolkit'
 import { authApi } from '../../api/auth'
-import type { ApiErrorResponse } from '../../api/types'
+import { createThunk } from '../utils/createThunk'
+import type { User } from '../../api/user/types'
 
-export const getUser = createAsyncThunk(
-  'user/get-user',
-  async (_, { rejectWithValue }) => {
-    try {
-      const user = await authApi.getUser()
-      return user
-    } catch (err) {
-      return rejectWithValue((err as ApiErrorResponse).reason)
-    }
-  }
-)
+export const getUser = createThunk<void, User>('user/get-user', authApi.getUser)

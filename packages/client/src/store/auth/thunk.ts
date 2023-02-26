@@ -1,38 +1,16 @@
-import { createAsyncThunk } from '@reduxjs/toolkit'
+import { createThunk } from '../utils/createThunk'
 import { authApi } from '../../api/auth'
-import type { RegisterPayload } from '../../api/auth/types'
-import type { ApiErrorResponse } from '../../api/types'
+import type { RegisterPayload, RegisterResponse } from '../../api/auth/types'
 
-export const signUp = createAsyncThunk(
+export const signUp = createThunk<RegisterPayload, RegisterResponse>(
   'auth/sign-up',
-  async (payload: RegisterPayload, { rejectWithValue }) => {
-    try {
-      const result = await authApi.signUp(payload)
-      return result
-    } catch (err) {
-      return rejectWithValue((err as ApiErrorResponse).reason)
-    }
-  }
+  (payload: RegisterPayload) => authApi.signUp(payload)
 )
 
-export const signIn = createAsyncThunk(
-  'auth/sign-in',
-  async (_, { rejectWithValue }) => {
-    try {
-      // TODO сделать запрос
-    } catch (err) {
-      return rejectWithValue((err as ApiErrorResponse).reason)
-    }
-  }
-)
+export const signIn = createThunk('auth/sign-in', async () => {
+  // TODO сделать запрос
+})
 
-export const logout = createAsyncThunk(
-  'auth/logout',
-  async (_, { rejectWithValue }) => {
-    try {
-      // TODO сделать запрос
-    } catch (err) {
-      return rejectWithValue((err as ApiErrorResponse).reason)
-    }
-  }
-)
+export const logout = createThunk('auth/logout', async () => {
+  // TODO сделать запрос
+})

@@ -1,5 +1,4 @@
 import { PRACTICUM_ORIGIN } from '../../constant'
-import type { ApiErrorResponse } from '../types'
 
 export abstract class BaseApi {
   protected baseUrl: string
@@ -11,7 +10,7 @@ export abstract class BaseApi {
   protected async handleServerResponse<T>(
     this: void,
     res: Response
-  ): Promise<T | ApiErrorResponse> {
+  ): Promise<T | never> {
     const response = await res.json()
     return res.ok ? response : Promise.reject(response)
   }
