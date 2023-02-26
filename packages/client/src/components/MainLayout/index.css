@@ -6,17 +6,32 @@
   background-repeat: no-repeat;
   background-position: center;
 }
+@media (min-resolution: 2dppx) {
+  .layout {
+    background-image: url(../../assets/images/background/Background@2x.png);
+  }
+}
+
 .layout__background-image {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
-  background-size: auto 100%;
-  background-repeat: no-repeat;
-  background-position: right;
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
+
+.layout__background-image img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: block;
+  width: auto;
+  height: 100%;
+}
+
 .main-wrapper {
   height: 100%;
   width: 100%;

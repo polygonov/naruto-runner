@@ -1,6 +1,6 @@
-import './index.css'
-import { Avatar } from '../../../../components/Avatar'
+import { Avatar } from '../../../components/Avatar'
 import { FC, memo } from 'react'
+import './index.css'
 
 export type MessageProps = {
   userName: string

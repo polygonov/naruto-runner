@@ -1,7 +1,7 @@
-import './index.css'
+import { useCallback, useState } from 'react'
 import { Button } from '../../../../components/Button'
 import { Input } from '../../../../components/Input'
-import { useState } from 'react'
+import './index.css'
 
 export function AddTopic() {
   const inputProps = {
@@ -9,18 +9,23 @@ export function AddTopic() {
     placeholder: 'Введите название темы...',
     className: 'big-box-size',
   }
-  const [isShowAddTopicForm, setIsShowAddTopicForm] = useState(false)
-  const toggleShowAddTopicForm = () => {
-    setIsShowAddTopicForm(!isShowAddTopicForm)
-  }
+  const [shouldShowAddTopicForm, setShouldShowAddTopicForm] = useState(false)
+
+  const toggleShowAddTopicForm = useCallback(() => {
+    setShouldShowAddTopicForm(!shouldShowAddTopicForm)
+  }, [shouldShowAddTopicForm])
 
   return (
     <div className="add-topic">
-      {!isShowAddTopicForm && (
-        <Button text="Создать новую тему" onClick={toggleShowAddTopicForm} className="add-topic__btn"/>
+      {!shouldShowAddTopicForm && (
+        <Button
+          text="Создать новую тему"
+          onClick={toggleShowAddTopicForm}
+          className="add-topic__btn"
+        />
       )}
-      {isShowAddTopicForm && (
-        <form action="#" method="post" className="add-topic__form">
+      {shouldShowAddTopicForm && (
+        <form method="post" className="add-topic__form">
           <Input {...inputProps} />
           <Button text="Создать тему" onClick={toggleShowAddTopicForm} />
         </form>

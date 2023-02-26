@@ -8,16 +8,16 @@
   border-radius: 8px;
 }
 
-.message-wrapper .user-wrapper {
+.user-wrapper {
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
-.message-wrapper .message {
+.message {
   padding-left: 90px;
 }
 
-.message-wrapper .send-time {
+.send-time {
   font-size: 10px;
 }
