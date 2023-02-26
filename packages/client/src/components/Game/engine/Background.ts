@@ -16,8 +16,6 @@ export class Background extends VisualItem {
 
   draw = () => {
     const deltaX = 10
-    const time = performance.now()
-    const progress = time - this.startTime
     let movement = this.step * deltaX
     if (movement > this.width) {
       movement = movement % this.width
@@ -30,10 +28,7 @@ export class Background extends VisualItem {
       this.width,
       this.height
     )
-    if (progress >= this.framerate) {
-      this.startTime = performance.now()
-      this.step++
-    }
+    this.step++
     requestAnimationFrame(this.draw)
   }
 }
