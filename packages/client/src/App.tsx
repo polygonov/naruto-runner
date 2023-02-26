@@ -1,5 +1,4 @@
 import { Route, Routes, useLocation } from 'react-router-dom'
-import { withAuth } from './hocs/withAuth'
 import { MainLayout } from './components/MainLayout'
 import { Authorization } from './router/Authorization'
 import { MainPage } from './pages/Main'
@@ -55,4 +54,4 @@ function App() {
 //   return <div className="App">Вот тут будет жить ваше приложение :)</div>
 // }
 
-export default withAuth(App)
+export default App
