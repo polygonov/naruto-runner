@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useLayoutEffect, useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
 
 export const withAuth = (Component: () => ReactElement) => () => {
@@ -6,7 +6,7 @@ export const withAuth = (Component: () => ReactElement) => () => {
 
   const { checkAuth } = useAuth()
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     checkAuth().finally(() => setIsCheckingAuth(false))
   }, [])
 
