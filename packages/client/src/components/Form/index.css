@@ -10,7 +10,7 @@
 }
 
 .form__title:not(:last-child) {
-  margin-bottom: 8px;
+  margin-bottom: 24px;
 }
 
 .form__items {

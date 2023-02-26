@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import { ProfileForm } from './components/ProfileForm'
-import { Button } from '../../components/Button'
+import { ChangePasswordForm } from './components/ChangePasswordForm'
 
 enum FormType {
   Profile = 'Profile',
@@ -21,13 +21,7 @@ export function Profile() {
 
   switch (formType) {
     case FormType.ChangePassword:
-      return (
-        <Button
-          text="Тут будет форма смены пароля, а пока вернемся назад..."
-          view="secondary"
-          onClick={changeToProfileForm}
-        />
-      )
+      return <ChangePasswordForm onCancel={changeToProfileForm} />
 
     default:
       return <ProfileForm onSecondaryButtonClick={changeToPasswordForm} />
