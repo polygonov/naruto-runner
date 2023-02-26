@@ -62,11 +62,11 @@ export class Hero extends VisualItem {
       this.width,
       this.width
     )
-    requestAnimationFrame(this.draw)
     if (progress >= this.framerate) {
       this.startTime = performance.now()
       this.step++
     }
+    requestAnimationFrame(this.draw)
   }
 
   private jump() {

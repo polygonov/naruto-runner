@@ -30,10 +30,10 @@ export class Background extends VisualItem {
       this.width,
       this.height
     )
-    requestAnimationFrame(this.draw)
     if (progress >= this.framerate) {
       this.startTime = performance.now()
       this.step++
     }
+    requestAnimationFrame(this.draw)
   }
 }
