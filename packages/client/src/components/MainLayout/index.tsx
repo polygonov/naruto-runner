@@ -18,6 +18,7 @@ export class MainLayout extends Component<MainLayoutProps> {
     [RoutesNameList.Main]: mainBack,
     [RoutesNameList.Forum]: mainBack,
     [RoutesNameList.Login]: loginBack,
+    [RoutesNameList.Registration]: loginBack,
     [RoutesNameList.Leaderboard]: leaderboardBack,
     [RoutesNameList.Profile]: profileBack,
     [RoutesNameList.Game]: gameBack,

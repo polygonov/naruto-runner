@@ -1,9 +1,5 @@
-import { Fragment } from 'react'
+import { RegistrationForm } from '../../components/forms/Registration'
 
 export function Registration() {
-  return (
-    <Fragment>
-      <div> Registration</div>
-    </Fragment>
-  )
+  return <RegistrationForm />
 }

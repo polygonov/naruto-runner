@@ -5,6 +5,7 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
 .main-wrapper {
   height: 100%;
   width: 100%;
@@ -12,6 +13,7 @@
   flex-direction: column;
   gap: 32px;
 }
+
 .content-wrapper {
   height: 100%;
   width: fit-content;

@@ -10,16 +10,15 @@ const AVATAR_MAX_SIZE = 800 * 1024
 type AvatarUploadError = string | null
 
 type AvatarUploadProps = {
-  src?: string
+  src: string | File
   disabled?: boolean
-  errorMessage?: string
   className?: string
   onUpload: (file: File) => void
 }
 
 export const AvatarUpload: FC<AvatarUploadProps> = memo(
-  ({ src, disabled, errorMessage, onUpload, className }) => {
-    const [currentImage, setCurrentImage] = useState(src ?? '')
+  ({ src, disabled, onUpload, className }) => {
+    const [currentImage, setCurrentImage] = useState('')
     const [error, setError] = useState<AvatarUploadError>(null)
 
     const clearError = () => setError(null)
@@ -39,19 +38,16 @@ export const AvatarUpload: FC<AvatarUploadProps> = memo(
         )
         return
       }
-
-      setCurrentImage(URL.createObjectURL(file))
       onUpload(file)
     }
 
     useEffect(() => {
-      if (errorMessage) {
-        setError(errorMessage)
-      }
-    }, [errorMessage])
+      const source = src instanceof File ? URL.createObjectURL(src) : src
+      setCurrentImage(source)
+    }, [src])
 
     if (disabled) {
-      return <Avatar src={src} className={className} />
+      return <Avatar src={currentImage} className={className} />
     }
 
     return (
