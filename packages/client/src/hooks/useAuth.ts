@@ -10,11 +10,15 @@ export const useAuth = () => {
   const dispatch = useAppDispatch()
   const isAuth = useAppSelector(selectIsAuth)
 
+  const checkAuth = useCallback(async () => {
+    await dispatch(getUser()).unwrap()
+    await dispatch(setIsAuth(true))
+  }, [dispatch])
+
   const handleRegister = useCallback(
     async (data: RegisterPayload) => {
       await dispatch(signUp(data)).unwrap()
-      await dispatch(getUser()).unwrap()
-      await dispatch(setIsAuth(true))
+      await checkAuth()
     },
     [dispatch]
   )
@@ -22,5 +26,6 @@ export const useAuth = () => {
   return {
     isAuth,
     handleRegister,
+    checkAuth,
   }
 }
