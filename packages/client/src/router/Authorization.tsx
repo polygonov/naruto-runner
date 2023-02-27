@@ -1,21 +1,17 @@
 import type { FC } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-import { RoutesNameList } from '../constant'
 import { useAppSelector } from '../store'
 import { selectIsAuth } from '../store/auth/selectors'
+import { RoutesNameList } from '../constant'
 
 type AuthorizationProps = {
   requireAuth?: boolean
-  requireUnAuth?: boolean
 }
 
-export const Authorization: FC<AuthorizationProps> = ({
-  requireAuth,
-  requireUnAuth,
-}) => {
+export const Authorization: FC<AuthorizationProps> = ({ requireAuth }) => {
   const isAuth = useAppSelector(selectIsAuth)
 
-  if (requireUnAuth && isAuth) {
+  if (!requireAuth && isAuth) {
     return <Navigate to={RoutesNameList.Profile} />
   }
 
