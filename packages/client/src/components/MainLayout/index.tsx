@@ -18,7 +18,7 @@ type MainLayoutProps = {
 
 export class MainLayout extends Component<
   MainLayoutProps,
-  { backGroundImage: string; backGroundImage2x: string; pageName: string }
+  { backgroundImage: string; backgroundImage2x: string; pageName: string }
 > {
   imageNames: { [key: string]: string } = {
     [RoutesNameList.Main]: mainBack,
@@ -35,16 +35,16 @@ export class MainLayout extends Component<
   constructor(props: MainLayoutProps) {
     super(props)
     this.state = {
-      backGroundImage: '',
-      backGroundImage2x: '',
+      backgroundImage: '',
+      backgroundImage2x: '',
       pageName: this.props.background,
     }
   }
 
   getBackgroundImgPath(image: string) {
     this.setState({
-      backGroundImage: this.imageNames[image],
-      backGroundImage2x: this.imageNames2x[image],
+      backgroundImage: this.imageNames[image],
+      backgroundImage2x: this.imageNames2x[image],
     })
   }
 
@@ -59,11 +59,11 @@ export class MainLayout extends Component<
   render() {
     return (
       <div className="layout">
-        {this.state.backGroundImage && (
+        {this.state.backgroundImage && (
           <div className="layout__background-image">
             <img
-              src={this.state.backGroundImage}
-              srcSet={`${this.state.backGroundImage2x} 2x`}
+              src={this.state.backgroundImage}
+              srcSet={`${this.state.backgroundImage2x} 2x`}
             />
           </div>
         )}
