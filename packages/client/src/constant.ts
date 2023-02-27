@@ -5,7 +5,8 @@ export const RoutesNameList = {
   Registration: '/registration',
   Profile: '/profile',
   Leaderboard: '/leaderboard',
-  Topic:`/forum/:id`
+  Game: '/game',
+  Topic: `/forum/:id`,
 }
 
 export const getImagePath = (imageName: string) => {
