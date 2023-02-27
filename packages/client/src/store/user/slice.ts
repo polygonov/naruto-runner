@@ -1,13 +1,5 @@
-import {
-  createSlice,
-  isFulfilled,
-  isPending,
-  isRejected,
-  PayloadAction,
-} from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { User } from '../../api/user/types'
-import { getUser } from './thunk'
-import { GENERAL_ERROR } from '../../constant'
 
 export type UserState = {
   user: User | null
@@ -31,26 +23,9 @@ export const userSlice = createSlice({
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload
     },
-    setError: (state, action: PayloadAction<string>) => {
+    setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload
     },
-  },
-  extraReducers: builder => {
-    builder.addCase(getUser.fulfilled, (state, { payload }) => {
-      state.user = payload
-    })
-    builder.addMatcher(isPending(getUser), state => {
-      state.loading = true
-      state.error = null
-    })
-    builder.addMatcher(isFulfilled(getUser), state => {
-      state.loading = false
-      state.error = null
-    })
-    builder.addMatcher(isRejected(getUser), (state, { payload }) => {
-      state.loading = false
-      state.error = (payload as string) ?? GENERAL_ERROR
-    })
   },
 })
 

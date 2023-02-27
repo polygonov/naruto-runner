@@ -2,7 +2,9 @@ import { RegistrationForm } from '../../components/forms/Registration'
 import { useAuth } from '../../hooks/useAuth'
 
 export function Registration() {
-  const { handleRegister } = useAuth()
+  const { authError, handleRegister } = useAuth()
 
-  return <RegistrationForm handleRegister={handleRegister} />
+  return (
+    <RegistrationForm serverError={authError} handleRegister={handleRegister} />
+  )
 }

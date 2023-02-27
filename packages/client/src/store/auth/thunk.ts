@@ -1,16 +1,29 @@
-import { createThunk } from '../utils/createThunk'
+import { createAsyncThunk } from '@reduxjs/toolkit'
 import { authApi } from '../../api/auth'
-import type { RegisterPayload, RegisterResponse } from '../../api/auth/types'
+import type { RegisterPayload } from '../../api/auth/types'
+import { setUser } from '../user/slice'
 
-export const signUp = createThunk<RegisterPayload, RegisterResponse>(
-  'auth/sign-up',
-  (payload: RegisterPayload) => authApi.signUp(payload)
+export const checkAuth = createAsyncThunk(
+  'auth/check-auth',
+  async (_, { dispatch }) => {
+    const user = await authApi.getUser()
+    dispatch(setUser(user))
+  }
 )
 
-export const signIn = createThunk('auth/sign-in', async () => {
+export const signUp = createAsyncThunk(
+  'auth/sign-up',
+  async (payload: RegisterPayload, { dispatch }) => {
+    await authApi.signUp(payload)
+    const user = await authApi.getUser()
+    dispatch(setUser(user))
+  }
+)
+
+export const signIn = createAsyncThunk('auth/sign-in', async () => {
   // TODO сделать запрос
 })
 
-export const logout = createThunk('auth/logout', async () => {
+export const logout = createAsyncThunk('auth/logout', async () => {
   // TODO сделать запрос
 })

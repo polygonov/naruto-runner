@@ -1,31 +1,35 @@
 import { useCallback } from 'react'
 import type { RegisterPayload } from '../api/auth/types'
 import { useAppDispatch, useAppSelector } from '../store'
-import { selectIsAuth } from '../store/auth/selectors'
-import { signUp } from '../store/auth/thunk'
-import { setIsAuth } from '../store/auth/slice'
-import { getUser } from '../store/user/thunk'
+import {
+  selectAuthError,
+  selectIsAuth,
+  selectIsCheckingAuth,
+} from '../store/auth/selectors'
+import { checkAuth, signUp } from '../store/auth/thunk'
 
 export const useAuth = () => {
   const dispatch = useAppDispatch()
   const isAuth = useAppSelector(selectIsAuth)
+  const isCheckingAuth = useAppSelector(selectIsCheckingAuth)
+  const authError = useAppSelector(selectAuthError)
 
-  const checkAuth = useCallback(async () => {
-    await dispatch(getUser()).unwrap()
-    await dispatch(setIsAuth(true))
+  const checkAuthorization = useCallback(async () => {
+    dispatch(checkAuth())
   }, [dispatch])
 
   const handleRegister = useCallback(
-    async (data: RegisterPayload) => {
-      await dispatch(signUp(data)).unwrap()
-      await checkAuth()
+    (data: RegisterPayload) => {
+      dispatch(signUp(data))
     },
     [dispatch]
   )
 
   return {
     isAuth,
+    isCheckingAuth,
+    authError,
     handleRegister,
-    checkAuth,
+    checkAuthorization,
   }
 }

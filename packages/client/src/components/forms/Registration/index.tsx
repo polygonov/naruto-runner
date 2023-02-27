@@ -1,5 +1,5 @@
 import type { FC, FormEvent } from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import { Form } from '../../Form'
 import { Input } from '../../Input'
@@ -24,11 +24,13 @@ const RegistrationSchema = getValidationSchema<RegistrationFields>(
 )
 
 type RegistrationFormProps = {
-  handleRegister: (data: RegisterPayload) => Promise<void>
+  handleRegister: (data: RegisterPayload) => void
+  serverError?: string | null
 }
 
 export const RegistrationForm: FC<RegistrationFormProps> = ({
   handleRegister,
+  serverError,
 }) => {
   const [shouldValidateOnChange, setShouldValidateOnChange] = useState(false)
 
@@ -44,15 +46,7 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({
     validationSchema: RegistrationSchema,
     validateOnBlur: false,
     validateOnChange: shouldValidateOnChange,
-    onSubmit: async (values, actions) => {
-      try {
-        await handleRegister(values)
-        actions.setSubmitting(false)
-      } catch (err) {
-        // TODO показать тост
-        alert(err)
-      }
-    },
+    onSubmit: handleRegister,
   })
 
   const submitHandler = (e: FormEvent) => {
@@ -62,6 +56,14 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({
     }
     return formik.handleSubmit()
   }
+
+  useEffect(() => {
+    if (serverError) {
+      formik.setSubmitting(false)
+      // TODO показать тост
+      alert(serverError)
+    }
+  }, [serverError, formik.setSubmitting])
 
   return (
     <Form
