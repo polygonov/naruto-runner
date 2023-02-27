@@ -1,4 +1,5 @@
 import gameBackground from '../../../assets/images/game/game-background.png'
+import { EngineSettings } from './EngineSettings'
 import { VisualItem } from './VisualItem'
 
 export class Background extends VisualItem {
@@ -8,8 +9,8 @@ export class Background extends VisualItem {
 
   protected init(): void {
     this.image.src = gameBackground
-    this.width = 1440
-    this.height = 400
+    this.width = EngineSettings.canvasWidth
+    this.height = EngineSettings.canvasHeight
     this.framerate = 10
     this.startTime = performance.now()
   }
