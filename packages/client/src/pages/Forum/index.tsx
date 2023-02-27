@@ -1,9 +1,11 @@
-import { Fragment } from 'react'
+import { TopicsList } from './parts/TopicsList'
+import { ForumHeader } from './parts/ForumHeader'
 
 export function Forum() {
   return (
-    <Fragment>
-      <div> Forum</div>
-    </Fragment>
+    <div className="topics-wrapper">
+      <ForumHeader />
+      <TopicsList />
+    </div>
   )
 }
