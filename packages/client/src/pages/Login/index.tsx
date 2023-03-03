@@ -1,5 +1,10 @@
 import { LoginForm } from '../../components/forms/Login'
+import { useAuth } from '../../hooks/useAuth'
 
 export function Login() {
-  return <LoginForm />
+  const { authError, handleAuth } = useAuth()
+
+  return (
+    <LoginForm serverError={authError} handleAuth={handleAuth} />
+  )
 }
