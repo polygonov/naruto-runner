@@ -1,6 +1,13 @@
 import type { FC } from 'react'
-import { memo } from 'react'
+import { memo, useCallback, useEffect } from 'react'
 import { useFormik } from 'formik'
+import { useAppDispatch, useAppSelector } from '../../../../store'
+import { changeUserPassword } from '../../../../store/user/thunk'
+import {
+  selectIsSuccess,
+  selectUserError,
+} from '../../../../store/user/selectors'
+import { resetErrorsAndStatuses } from '../../../../store/user/slice'
 import { Form } from '../../../../components/Form'
 import { Button } from '../../../../components/Button'
 import { Input } from '../../../../components/Input'
@@ -17,17 +24,37 @@ type ChangePasswordFormProps = {
 
 export const ChangePasswordForm: FC<ChangePasswordFormProps> = memo(
   ({ onCancel }) => {
+    const dispatch = useAppDispatch()
+    const isSuccess = useAppSelector(selectIsSuccess)
+    const error = useAppSelector(selectUserError)
+
     const formik = useFormik<ChangePasswordFormFields>({
       initialValues: { oldPassword: '', newPassword: '', repeatPassword: '' },
-      onSubmit: (values, actions) => {
-        actions.setSubmitting(false)
-        onCancel()
-      },
+      onSubmit: ({ oldPassword, newPassword }) =>
+        dispatch(changeUserPassword({ oldPassword, newPassword })),
       validationSchema: ChangePasswordFormSchema,
     })
 
     const isAllValuesSet =
       Object.keys(formik.values).length === Object.keys(formik.touched).length
+
+    const cancel = useCallback(() => {
+      dispatch(resetErrorsAndStatuses())
+      onCancel()
+    }, [onCancel, dispatch])
+
+    useEffect(() => {
+      formik.setSubmitting(false)
+
+      if (isSuccess && !error) {
+        cancel()
+      }
+
+      if (error) {
+        // TODO показать тостъ
+        alert(error)
+      }
+    }, [isSuccess, error, formik.setSubmitting, cancel])
 
     return (
       <Form
@@ -46,7 +73,7 @@ export const ChangePasswordForm: FC<ChangePasswordFormProps> = memo(
             <Button
               text={texts.secondaryButton}
               view="secondary"
-              onClick={onCancel}
+              onClick={cancel}
               disabled={formik.isSubmitting}
             />
           </>

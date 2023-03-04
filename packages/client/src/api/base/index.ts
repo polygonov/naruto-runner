@@ -1,5 +1,5 @@
 import { PRACTICUM_ORIGIN } from '../../constant'
-import { ApiErrorResponse } from '../types'
+import type { ApiErrorResponse, RequestOptions } from '../types'
 
 export abstract class BaseApi {
   protected baseUrl: string
@@ -10,9 +10,10 @@ export abstract class BaseApi {
 
   protected async handleServerResponse<T>(
     this: void,
-    res: Response
+    res: Response,
+    options?: RequestOptions
   ): Promise<T | never> {
-    const response = await res.json()
+    const response = res.ok && options?.isVoidResponse ? '' : await res.json()
     return res.ok
       ? response
       : Promise.reject(new Error((response as ApiErrorResponse)?.reason))
@@ -20,9 +21,10 @@ export abstract class BaseApi {
 
   protected async createRequest<T>(
     url: RequestInfo | URL,
-    options?: RequestInit
+    options: RequestInit & RequestOptions = {}
   ) {
-    const response = await fetch(url, options)
-    return this.handleServerResponse<T>(response)
+    const { isVoidResponse, ...fetchOptions } = options
+    const response = await fetch(url, fetchOptions)
+    return this.handleServerResponse<T>(response, { isVoidResponse })
   }
 }
