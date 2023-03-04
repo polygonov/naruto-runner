@@ -7,7 +7,8 @@ export const RoutesNameList = {
   Registration: '/registration',
   Profile: '/profile',
   Leaderboard: '/leaderboard',
-  Topic:`/forum/:id`
+  Topic: `/forum/:id`,
+  Game: '/game',
 }
 
 export const regExps = {

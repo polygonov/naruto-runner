@@ -9,7 +9,7 @@ export function MainPage() {
     <div className="main-page-wrapper">
       <Logo />
       <div className="button-wrapper">
-        <Link href="#" text="Начать игру" view="primary" />
+        <Link href={RoutesNameList.Game} text="Начать игру" view="primary" />
         {!isAuth && (
           <Link href={RoutesNameList.Login} text="Войти" view="secondary" />
         )}
