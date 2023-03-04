@@ -12,7 +12,7 @@ export function MainPage() {
       <Logo />
       <div className="button-wrapper">
         <Link
-          href="#"
+          href={RoutesNameList.Game}
           text="Начать игру"
           view="primary"
           onClick={randomClickSound}
