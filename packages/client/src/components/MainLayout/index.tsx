@@ -59,7 +59,7 @@ export class MainLayout extends Component<
 
   render() {
     return (
-      <div className={this.props.background == RoutesNameList.Main ? 'layout layout_main' : 'layout'}>
+      <div className={this.props.background === RoutesNameList.Main ? 'layout layout_main' : 'layout'}>
         {this.state.backgroundImage && (
           <div className="layout__background-image">
             <img
