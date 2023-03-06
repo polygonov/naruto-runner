@@ -9,6 +9,7 @@ export const RoutesNameList = {
   Profile: '/profile',
   Leaderboard: '/leaderboard',
   Topic: `/forum/:id`,
+  Game: '/game',
 }
 
 export const regExps = {
