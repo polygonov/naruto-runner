@@ -69,13 +69,13 @@ export const ProfileForm: FC<ProfileFormProps> = memo(
     }, [dispatch, formik.resetForm])
 
     useEffect(() => {
-      const isAllRequestsFulfilled =
+      const areAllRequestsFulfilled =
         ((isAvatarSuccess && !isUserLoading) ||
           (isUserSuccess && !isAvatarLoading)) &&
         !avatarError &&
         !userError
 
-      if (isAllRequestsFulfilled) {
+      if (areAllRequestsFulfilled) {
         formik.setSubmitting(false)
         resetForm()
       }
