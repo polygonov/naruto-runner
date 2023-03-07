@@ -1,6 +1,10 @@
 import type { FC } from 'react'
-import { memo, useCallback, useState } from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
 import { useFormik } from 'formik'
+import { useAppDispatch, useAppSelector } from '../../../../store'
+import { selectUserData } from '../../../../store/user/selectors'
+import { resetErrorsAndStatuses } from '../../../../store/user/slice'
+import { changeUserAvatar, changeUserData } from '../../../../store/user/thunk'
 import { Form } from '../../../../components/Form'
 import { Input } from '../../../../components/Input'
 import { Button } from '../../../../components/Button'
@@ -8,17 +12,12 @@ import { AvatarUpload } from '../AvatarUpload'
 import {
   formInputNames,
   FormMode,
+  initialFormValues,
   ProfileFormFields,
   ProfileFormSchema,
   texts,
 } from './constants'
 import './index.css'
-
-const user = {
-  login: 'ivaivan',
-  email: 'ivanovivan@gmail.com',
-  avatar: '',
-}
 
 type ProfileFormProps = {
   onSecondaryButtonClick: () => void
@@ -29,11 +28,27 @@ export const ProfileForm: FC<ProfileFormProps> = memo(
     const [formMode, setFormMode] = useState<FormMode>(FormMode.Read)
     const isReadMode = formMode === FormMode.Read
 
+    const dispatch = useAppDispatch()
+    const {
+      user,
+      isUserSuccess,
+      isUserLoading,
+      isAvatarSuccess,
+      isAvatarLoading,
+      avatarError,
+      userError,
+    } = useAppSelector(selectUserData)
+
     const formik = useFormik<ProfileFormFields>({
-      initialValues: user,
-      onSubmit: (values, actions) => {
-        actions.setSubmitting(false)
-        setFormMode(FormMode.Read)
+      initialValues: user ?? initialFormValues,
+      enableReinitialize: true,
+      onSubmit: values => {
+        const { avatar, email, login } = values
+        dispatch(changeUserData({ email, login }))
+
+        if (avatar && typeof avatar !== 'string') {
+          dispatch(changeUserAvatar({ avatar }))
+        }
       },
       validationSchema: ProfileFormSchema,
     })
@@ -49,8 +64,37 @@ export const ProfileForm: FC<ProfileFormProps> = memo(
 
     const resetForm = useCallback(() => {
       formik.resetForm()
+      dispatch(resetErrorsAndStatuses())
       setFormMode(FormMode.Read)
-    }, [formik.resetForm])
+    }, [dispatch, formik.resetForm])
+
+    useEffect(() => {
+      const areAllRequestsFulfilled =
+        ((isAvatarSuccess && !isUserLoading) ||
+          (isUserSuccess && !isAvatarLoading)) &&
+        !avatarError &&
+        !userError
+
+      if (areAllRequestsFulfilled) {
+        formik.setSubmitting(false)
+        resetForm()
+      }
+
+      if (avatarError || userError) {
+        formik.setSubmitting(false)
+        // TODO показать тостъ
+        alert(userError ?? avatarError)
+      }
+    }, [
+      isAvatarSuccess,
+      isAvatarLoading,
+      isUserSuccess,
+      isUserLoading,
+      avatarError,
+      userError,
+      resetForm,
+      formik.setSubmitting,
+    ])
 
     return (
       <Form
@@ -84,7 +128,9 @@ export const ProfileForm: FC<ProfileFormProps> = memo(
             disabled={isReadMode || formik.isSubmitting}
             src={formik.values.avatar}
           />
-          <h3 className="profile-form__username">{`@${user.login}`}</h3>
+          <h3 className="profile-form__username">{`@${
+            user?.login ?? 'login'
+          }`}</h3>
         </div>
 
         {formInputNames.map(name => (
