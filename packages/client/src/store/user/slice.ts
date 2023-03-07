@@ -12,21 +12,21 @@ import { updateResourcePath } from '../../utils/updateResourcePath'
 
 export type UserState = {
   user: User | null
-  loading: boolean
-  avatarLoading: boolean
-  success: boolean
-  avatarSuccess: boolean
-  error: string | null
+  isUserLoading: boolean
+  isAvatarLoading: boolean
+  isUserSuccess: boolean
+  isAvatarSuccess: boolean
+  userError: string | null
   avatarError: string | null
 }
 
 const initialState: UserState = {
   user: null,
-  loading: false,
-  avatarLoading: false,
-  success: false,
-  avatarSuccess: false,
-  error: null,
+  isUserLoading: false,
+  isAvatarLoading: false,
+  isUserSuccess: false,
+  isAvatarSuccess: false,
+  userError: null,
   avatarError: null,
 }
 
@@ -40,39 +40,36 @@ export const userSlice = createSlice({
         avatar: updateResourcePath(payload.avatar),
       }
     },
-    setLoading: (state, { payload }: PayloadAction<boolean>) => {
-      state.loading = payload
-    },
     resetErrorsAndStatuses: state => {
-      state.loading = false
-      state.avatarLoading = false
-      state.success = false
-      state.avatarSuccess = false
-      state.error = null
+      state.isUserLoading = false
+      state.isAvatarLoading = false
+      state.isUserSuccess = false
+      state.isAvatarSuccess = false
+      state.userError = null
       state.avatarError = null
     },
     resetUserState: () => initialState,
   },
   extraReducers: builder => {
     builder.addCase(changeUserAvatar.pending, state => {
-      state.avatarLoading = true
-      state.avatarSuccess = false
+      state.isAvatarLoading = true
+      state.isAvatarSuccess = false
       state.avatarError = null
     })
     builder.addCase(changeUserAvatar.fulfilled, state => {
-      state.avatarLoading = false
-      state.avatarSuccess = true
+      state.isAvatarLoading = false
+      state.isAvatarSuccess = true
       state.avatarError = null
     })
     builder.addCase(changeUserAvatar.rejected, (state, { error }) => {
-      state.avatarLoading = false
-      state.avatarSuccess = false
+      state.isAvatarLoading = false
+      state.isAvatarSuccess = false
       state.avatarError = error.message ?? GENERAL_ERROR
     })
     builder.addMatcher(isPending(changeUserData, changeUserPassword), state => {
-      state.loading = true
-      state.success = false
-      state.error = null
+      state.isUserLoading = true
+      state.isUserSuccess = false
+      state.userError = null
     })
     builder.addMatcher(
       isFulfilled(changeUserData, changeUserAvatar),
@@ -86,17 +83,17 @@ export const userSlice = createSlice({
     builder.addMatcher(
       isFulfilled(changeUserData, changeUserPassword),
       state => {
-        state.loading = false
-        state.success = true
-        state.error = null
+        state.isUserLoading = false
+        state.isUserSuccess = true
+        state.userError = null
       }
     )
     builder.addMatcher(
       isRejected(changeUserData, changeUserPassword),
       (state, { error }) => {
-        state.loading = false
-        state.success = false
-        state.error = error.message ?? GENERAL_ERROR
+        state.isUserLoading = false
+        state.isUserSuccess = false
+        state.userError = error.message ?? GENERAL_ERROR
       }
     )
   },

@@ -42,7 +42,14 @@ export const AvatarUpload: FC<AvatarUploadProps> = memo(
     }
 
     useEffect(() => {
-      const source = src instanceof File ? URL.createObjectURL(src) : src ?? ''
+      let source: AvatarUploadProps['src']
+
+      if (src instanceof File) {
+        source = URL.createObjectURL(src)
+      } else {
+        source = src ?? ''
+      }
+
       setCurrentImage(source)
     }, [src])
 

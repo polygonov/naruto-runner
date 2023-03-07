@@ -2,15 +2,7 @@ import type { FC } from 'react'
 import { memo, useCallback, useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import { useAppDispatch, useAppSelector } from '../../../../store'
-import {
-  selectAvatarError,
-  selectIsAvatarLoading,
-  selectIsAvatarSuccess,
-  selectIsLoading,
-  selectIsSuccess,
-  selectUser,
-  selectUserError,
-} from '../../../../store/user/selectors'
+import { selectUserData } from '../../../../store/user/selectors'
 import { resetErrorsAndStatuses } from '../../../../store/user/slice'
 import { changeUserAvatar, changeUserData } from '../../../../store/user/thunk'
 import { Form } from '../../../../components/Form'
@@ -37,13 +29,15 @@ export const ProfileForm: FC<ProfileFormProps> = memo(
     const isReadMode = formMode === FormMode.Read
 
     const dispatch = useAppDispatch()
-    const user = useAppSelector(selectUser)
-    const isUserLoading = useAppSelector(selectIsLoading)
-    const isAvatarLoading = useAppSelector(selectIsAvatarLoading)
-    const isUserSuccess = useAppSelector(selectIsSuccess)
-    const isAvatarSuccess = useAppSelector(selectIsAvatarSuccess)
-    const avatarError = useAppSelector(selectAvatarError)
-    const userError = useAppSelector(selectUserError)
+    const {
+      user,
+      isUserSuccess,
+      isUserLoading,
+      isAvatarSuccess,
+      isAvatarLoading,
+      avatarError,
+      userError,
+    } = useAppSelector(selectUserData)
 
     const formik = useFormik<ProfileFormFields>({
       initialValues: user ?? initialFormValues,
@@ -75,12 +69,13 @@ export const ProfileForm: FC<ProfileFormProps> = memo(
     }, [dispatch, formik.resetForm])
 
     useEffect(() => {
-      if (
+      const isAllRequestsFulfilled =
         ((isAvatarSuccess && !isUserLoading) ||
           (isUserSuccess && !isAvatarLoading)) &&
         !avatarError &&
         !userError
-      ) {
+
+      if (isAllRequestsFulfilled) {
         formik.setSubmitting(false)
         resetForm()
       }

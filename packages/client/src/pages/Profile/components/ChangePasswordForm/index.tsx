@@ -3,10 +3,7 @@ import { memo, useCallback, useEffect } from 'react'
 import { useFormik } from 'formik'
 import { useAppDispatch, useAppSelector } from '../../../../store'
 import { changeUserPassword } from '../../../../store/user/thunk'
-import {
-  selectIsSuccess,
-  selectUserError,
-} from '../../../../store/user/selectors'
+import { selectUserData } from '../../../../store/user/selectors'
 import { resetErrorsAndStatuses } from '../../../../store/user/slice'
 import { Form } from '../../../../components/Form'
 import { Button } from '../../../../components/Button'
@@ -25,8 +22,7 @@ type ChangePasswordFormProps = {
 export const ChangePasswordForm: FC<ChangePasswordFormProps> = memo(
   ({ onCancel }) => {
     const dispatch = useAppDispatch()
-    const isSuccess = useAppSelector(selectIsSuccess)
-    const error = useAppSelector(selectUserError)
+    const { isUserSuccess, userError } = useAppSelector(selectUserData)
 
     const formik = useFormik<ChangePasswordFormFields>({
       initialValues: { oldPassword: '', newPassword: '', repeatPassword: '' },
@@ -38,7 +34,7 @@ export const ChangePasswordForm: FC<ChangePasswordFormProps> = memo(
     const isAllValuesSet =
       Object.keys(formik.values).length === Object.keys(formik.touched).length
 
-    const cancel = useCallback(() => {
+    const resetForm = useCallback(() => {
       dispatch(resetErrorsAndStatuses())
       onCancel()
     }, [onCancel, dispatch])
@@ -46,15 +42,15 @@ export const ChangePasswordForm: FC<ChangePasswordFormProps> = memo(
     useEffect(() => {
       formik.setSubmitting(false)
 
-      if (isSuccess && !error) {
-        cancel()
+      if (isUserSuccess && !userError) {
+        resetForm()
       }
 
-      if (error) {
+      if (userError) {
         // TODO показать тостъ
-        alert(error)
+        alert(userError)
       }
-    }, [isSuccess, error, formik.setSubmitting, cancel])
+    }, [isUserSuccess, userError, formik.setSubmitting, resetForm])
 
     return (
       <Form
@@ -73,7 +69,7 @@ export const ChangePasswordForm: FC<ChangePasswordFormProps> = memo(
             <Button
               text={texts.secondaryButton}
               view="secondary"
-              onClick={cancel}
+              onClick={resetForm}
               disabled={formik.isSubmitting}
             />
           </>
