@@ -59,12 +59,12 @@ export abstract class BaseApi {
 
     if (!isGetMethod && data) {
       requestOptions.body = this.formatBody(contentType, data)
-    }
 
-    if (!isGetMethod && data && contentType === 'json') {
-      requestOptions.headers = {
-        ...options.headers,
-        'Content-Type': 'application/json',
+      if (contentType === 'json') {
+        requestOptions.headers = {
+          ...options.headers,
+          'Content-Type': 'application/json',
+        }
       }
     }
 
