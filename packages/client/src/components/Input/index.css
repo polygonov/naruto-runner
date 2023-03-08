@@ -48,6 +48,7 @@
   border-radius: 0;
   border: transparent;
   border-bottom: 1px solid var(--color-ui-primary);
+  background-color: transparent;
   opacity: 1;
   cursor: default;
 }

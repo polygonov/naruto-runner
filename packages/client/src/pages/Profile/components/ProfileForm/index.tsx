@@ -18,6 +18,7 @@ import {
   texts,
 } from './constants'
 import './index.css'
+import { useAuth } from '../../../../hooks/useAuth'
 
 type ProfileFormProps = {
   onSecondaryButtonClick: () => void
@@ -25,6 +26,7 @@ type ProfileFormProps = {
 
 export const ProfileForm: FC<ProfileFormProps> = memo(
   ({ onSecondaryButtonClick }) => {
+    const { handleLogout } = useAuth()
     const [formMode, setFormMode] = useState<FormMode>(FormMode.Read)
     const isReadMode = formMode === FormMode.Read
 
@@ -120,6 +122,13 @@ export const ProfileForm: FC<ProfileFormProps> = memo(
               onClick={isReadMode ? onSecondaryButtonClick : resetForm}
               disabled={formik.isSubmitting}
             />
+            {isReadMode && (
+              <Button
+                text={texts[formMode].logoutButton}
+                view="ghost"
+                onClick={handleLogout}
+              />
+            )}
           </>
         }>
         <div className="profile-form__header">
