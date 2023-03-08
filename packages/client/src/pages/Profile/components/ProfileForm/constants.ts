@@ -1,4 +1,5 @@
 import { fieldsTypes, getValidationSchema } from '../../../../utils/validation'
+import type { User } from '../../../../api/user/types'
 
 export enum FormMode {
   Edit = 'Edit',
@@ -22,10 +23,14 @@ export const texts = {
   },
 }
 
-export type ProfileFormFields = {
-  login: string
-  email: string
-  avatar: string | File
+export type ProfileFormFields = Pick<User, 'login' | 'email'> & {
+  avatar: string | File | null
+}
+
+export const initialFormValues: ProfileFormFields = {
+  login: '',
+  email: '',
+  avatar: null,
 }
 
 type FormInputNames = Extract<fieldsTypes, 'login' | 'email'>[]
