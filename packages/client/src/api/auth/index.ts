@@ -25,6 +25,7 @@ class AuthApi extends BaseApi {
   logout = async () =>
     this.createRequest(`${this.baseUrl}/logout`, {
       shouldParseResponse: false,
+      method: HttpMethod.POST,
     })
 
   getUser = async () =>
