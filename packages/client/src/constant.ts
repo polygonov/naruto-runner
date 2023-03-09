@@ -1,4 +1,5 @@
 export const PRACTICUM_ORIGIN = 'https://ya-praktikum.tech/api/v2'
+export const PRACTICUM_RESOURCES = `${PRACTICUM_ORIGIN}/resources`
 
 export const RoutesNameList = {
   Main: '/',
@@ -7,8 +8,8 @@ export const RoutesNameList = {
   Registration: '/registration',
   Profile: '/profile',
   Leaderboard: '/leaderboard',
-  Game: '/game',
   Topic: `/forum/:id`,
+  Game: '/game',
 }
 
 export const regExps = {

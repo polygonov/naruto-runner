@@ -10,7 +10,7 @@ const AVATAR_MAX_SIZE = 800 * 1024
 type AvatarUploadError = string | null
 
 type AvatarUploadProps = {
-  src: string | File
+  src: string | File | null
   disabled?: boolean
   className?: string
   onUpload: (file: File) => void
@@ -42,7 +42,14 @@ export const AvatarUpload: FC<AvatarUploadProps> = memo(
     }
 
     useEffect(() => {
-      const source = src instanceof File ? URL.createObjectURL(src) : src
+      let source: AvatarUploadProps['src']
+
+      if (src instanceof File) {
+        source = URL.createObjectURL(src)
+      } else {
+        source = src ?? ''
+      }
+
       setCurrentImage(source)
     }, [src])
 
