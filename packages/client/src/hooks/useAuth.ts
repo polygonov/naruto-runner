@@ -1,12 +1,12 @@
 import { useCallback } from 'react'
-import type { RegisterPayload } from '../api/auth/types'
+import type { AuthPayload, RegisterPayload } from '../api/auth/types'
 import { useAppDispatch, useAppSelector } from '../store'
 import {
   selectAuthError,
   selectIsAuth,
   selectIsCheckingAuth,
 } from '../store/auth/selectors'
-import { checkAuth, signUp } from '../store/auth/thunk'
+import { checkAuth, signUp, signIn } from '../store/auth/thunk'
 
 export const useAuth = () => {
   const dispatch = useAppDispatch()
@@ -25,11 +25,19 @@ export const useAuth = () => {
     [dispatch]
   )
 
+  const handleAuth = useCallback(
+    (data: AuthPayload) => {
+      dispatch(signIn(data))
+    },
+    [dispatch]
+  )
+
   return {
     isAuth,
     isCheckingAuth,
     authError,
     handleRegister,
+    handleAuth,
     checkAuthorization,
   }
 }

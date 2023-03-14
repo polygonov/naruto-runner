@@ -99,6 +99,7 @@ export const userSlice = createSlice({
   },
 })
 
-export const { setUser, resetErrorsAndStatuses } = userSlice.actions
+export const { setUser, resetErrorsAndStatuses, resetUserState } =
+  userSlice.actions
 
 export default userSlice.reducer
