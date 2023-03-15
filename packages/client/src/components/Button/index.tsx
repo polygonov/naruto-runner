@@ -1,6 +1,7 @@
 import type { ButtonHTMLAttributes, FC } from 'react'
 import { memo } from 'react'
 import classNames from 'classnames'
+import randomClickSound from '../../utils/randomClickSound'
 import './index.css'
 
 export type ButtonProps = {
@@ -21,6 +22,7 @@ export const Button: FC<ButtonProps> = memo(
       <button
         type={type}
         className={classNames('button', `button_view_${view}`, className)}
+        onMouseUp={randomClickSound}
         {...props}>
         {text}
       </button>

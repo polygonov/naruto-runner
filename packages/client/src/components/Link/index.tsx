@@ -2,6 +2,7 @@ import type { AnchorHTMLAttributes, FC } from 'react'
 import { memo } from 'react'
 import { NavLink as RouterLink } from 'react-router-dom'
 import classNames from 'classnames'
+import randomClickSound from '../../utils/randomClickSound'
 import '../Button/index.css'
 
 export type LinkProps = {
@@ -16,6 +17,7 @@ export const Link: FC<LinkProps> = memo(
       <RouterLink
         className={classNames('button', `button_view_${view}`)}
         to={href}
+        onMouseUp={randomClickSound}
         {...props}>
         {text}
       </RouterLink>
