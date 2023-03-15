@@ -1,6 +1,10 @@
 import type { FC } from 'react'
-import { memo } from 'react'
+import { memo, useCallback, useEffect } from 'react'
 import { useFormik } from 'formik'
+import { useAppDispatch, useAppSelector } from '../../../../store'
+import { changeUserPassword } from '../../../../store/user/thunk'
+import { selectUserData } from '../../../../store/user/selectors'
+import { resetErrorsAndStatuses } from '../../../../store/user/slice'
 import { Form } from '../../../../components/Form'
 import { Button } from '../../../../components/Button'
 import { Input } from '../../../../components/Input'
@@ -17,17 +21,36 @@ type ChangePasswordFormProps = {
 
 export const ChangePasswordForm: FC<ChangePasswordFormProps> = memo(
   ({ onCancel }) => {
+    const dispatch = useAppDispatch()
+    const { isUserSuccess, userError } = useAppSelector(selectUserData)
+
     const formik = useFormik<ChangePasswordFormFields>({
       initialValues: { oldPassword: '', newPassword: '', repeatPassword: '' },
-      onSubmit: (values, actions) => {
-        actions.setSubmitting(false)
-        onCancel()
-      },
+      onSubmit: ({ oldPassword, newPassword }) =>
+        dispatch(changeUserPassword({ oldPassword, newPassword })),
       validationSchema: ChangePasswordFormSchema,
     })
 
     const isAllValuesSet =
       Object.keys(formik.values).length === Object.keys(formik.touched).length
+
+    const resetForm = useCallback(() => {
+      dispatch(resetErrorsAndStatuses())
+      onCancel()
+    }, [onCancel, dispatch])
+
+    useEffect(() => {
+      formik.setSubmitting(false)
+
+      if (isUserSuccess && !userError) {
+        resetForm()
+      }
+
+      if (userError) {
+        // TODO показать тостъ
+        alert(userError)
+      }
+    }, [isUserSuccess, userError, formik.setSubmitting, resetForm])
 
     return (
       <Form
@@ -46,7 +69,7 @@ export const ChangePasswordForm: FC<ChangePasswordFormProps> = memo(
             <Button
               text={texts.secondaryButton}
               view="secondary"
-              onClick={onCancel}
+              onClick={resetForm}
               disabled={formik.isSubmitting}
             />
           </>
