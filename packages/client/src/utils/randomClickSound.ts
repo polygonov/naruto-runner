@@ -8,13 +8,16 @@ let prevSoundNum = 0
 
 export default function randomClickSound() {
   const soundsList = [ClickSound, StartGame, Yooo, NarutoKun, Jutsu]
-  const numberOfSound = generateNumOfSound(soundsList.length)
-  prevSoundNum = numberOfSound
-  const sound = soundsList[numberOfSound]
+  const sound = generateRandomSound(soundsList)
+  prevSoundNum = soundsList.indexOf(sound)
   new Audio(sound).play()
 }
 
-function generateNumOfSound(range: number): number {
+function generateRandomSound(arr: string[]): string {
+  const newSoundsArr = arr.filter(function (el: string) {
+    return el !== arr[prevSoundNum]
+  })
+  const range = newSoundsArr.length
   const randomNum = Math.floor(Math.random() * range)
-  return prevSoundNum === randomNum ? generateNumOfSound(range) : randomNum
+  return newSoundsArr[randomNum]
 }

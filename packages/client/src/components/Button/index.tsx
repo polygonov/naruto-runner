@@ -8,6 +8,7 @@ export type ButtonProps = {
   text: string
   view?: 'primary' | 'secondary' | 'ghost'
   className?: string
+  withSound?: boolean
 } & ButtonHTMLAttributes<HTMLButtonElement>
 
 /**
@@ -17,12 +18,24 @@ export type ButtonProps = {
  */
 
 export const Button: FC<ButtonProps> = memo(
-  ({ text, view = 'primary', type = 'button', className = '', ...props }) => {
+  ({
+    text,
+    view = 'primary',
+    type = 'button',
+    className = '',
+    withSound = false,
+    ...props
+  }) => {
+    function addSound() {
+      if (withSound) {
+        return randomClickSound
+      }
+    }
     return (
       <button
         type={type}
         className={classNames('button', `button_view_${view}`, className)}
-        onMouseUp={randomClickSound}
+        onMouseUp={addSound}
         {...props}>
         {text}
       </button>

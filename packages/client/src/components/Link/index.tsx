@@ -9,15 +9,21 @@ export type LinkProps = {
   href: string
   text: string
   view?: 'primary' | 'secondary' | 'ghost'
+  withSound?: boolean
 } & AnchorHTMLAttributes<HTMLAnchorElement>
 
 export const Link: FC<LinkProps> = memo(
-  ({ href, text, view = 'primary', ...props }) => {
+  ({ href, text, view = 'primary', withSound = false, ...props }) => {
+    function addSound() {
+      if (withSound) {
+        return randomClickSound
+      }
+    }
     return (
       <RouterLink
         className={classNames('button', `button_view_${view}`)}
         to={href}
-        onMouseUp={randomClickSound}
+        onMouseUp={addSound}
         {...props}>
         {text}
       </RouterLink>
