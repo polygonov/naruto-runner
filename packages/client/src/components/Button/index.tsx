@@ -23,7 +23,7 @@ export const Button: FC<ButtonProps> = memo(
     view = 'primary',
     type = 'button',
     className = '',
-    withSound = false,
+    withSound = true,
     ...props
   }) => {
     function addSound() {

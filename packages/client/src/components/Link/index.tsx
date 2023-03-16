@@ -13,7 +13,7 @@ export type LinkProps = {
 } & AnchorHTMLAttributes<HTMLAnchorElement>
 
 export const Link: FC<LinkProps> = memo(
-  ({ href, text, view = 'primary', withSound = false, ...props }) => {
+  ({ href, text, view = 'primary', withSound = true, ...props }) => {
     function addSound() {
       if (withSound) {
         return randomClickSound
