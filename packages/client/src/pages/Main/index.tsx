@@ -16,7 +16,6 @@ export function MainPage() {
           text="Начать игру"
           view="primary"
           onClick={randomClickSound}
-          withSound={true}
         />
         {!isAuth && (
           <Link
@@ -24,7 +23,6 @@ export function MainPage() {
             text="Войти"
             view="secondary"
             onClick={randomClickSound}
-            withSound={true}
           />
         )}
       </div>
