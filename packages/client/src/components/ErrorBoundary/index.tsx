@@ -1,4 +1,5 @@
-import React, { ErrorInfo } from 'react'
+import { ErrorInfo } from 'react'
+import * as React from 'react'
 
 import { Props, State } from './types'
 

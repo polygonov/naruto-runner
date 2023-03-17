@@ -60,27 +60,27 @@ export class MainLayout extends Component<
 
   render() {
     return (
-      <ErrorBoundary>
-        <div
-          className={
-            this.props.background === RoutesNameList.Main
-              ? 'layout layout_main'
-              : 'layout'
-          }>
-          {this.state.backgroundImage && (
-            <div className="layout__background-image">
-              <img
-                src={this.state.backgroundImage}
-                srcSet={`${this.state.backgroundImage2x} 2x`}
-              />
-            </div>
-          )}
+      <div
+        className={
+          this.props.background === RoutesNameList.Main
+            ? 'layout layout_main'
+            : 'layout'
+        }>
+        {this.state.backgroundImage && (
+          <div className="layout__background-image">
+            <img
+              src={this.state.backgroundImage}
+              srcSet={`${this.state.backgroundImage2x} 2x`}
+            />
+          </div>
+        )}
+        <ErrorBoundary>
           <div className="main-wrapper">
             <HeaderComponent />
             <div className="content-wrapper">{this.props.children}</div>
           </div>
-        </div>
-      </ErrorBoundary>
+        </ErrorBoundary>
+      </div>
     )
   }
 }
