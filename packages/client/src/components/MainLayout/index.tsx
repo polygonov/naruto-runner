@@ -9,6 +9,7 @@ import loginBack from '../../assets/images/background/Login.png'
 import loginBack2x from '../../assets/images/background/Login@2x.png'
 import leaderboardBack from '../../assets/images/background/Leaderboard.png'
 import leaderboardBack2x from '../../assets/images/background/Leaderboard@2x.png'
+import ErrorBoundary from '../ErrorBoundary'
 import './index.css'
 
 type MainLayoutProps = {
@@ -59,20 +60,27 @@ export class MainLayout extends Component<
 
   render() {
     return (
-      <div className={this.props.background === RoutesNameList.Main ? 'layout layout_main' : 'layout'}>
-        {this.state.backgroundImage && (
-          <div className="layout__background-image">
-            <img
-              src={this.state.backgroundImage}
-              srcSet={`${this.state.backgroundImage2x} 2x`}
-            />
+      <ErrorBoundary>
+        <div
+          className={
+            this.props.background === RoutesNameList.Main
+              ? 'layout layout_main'
+              : 'layout'
+          }>
+          {this.state.backgroundImage && (
+            <div className="layout__background-image">
+              <img
+                src={this.state.backgroundImage}
+                srcSet={`${this.state.backgroundImage2x} 2x`}
+              />
+            </div>
+          )}
+          <div className="main-wrapper">
+            <HeaderComponent />
+            <div className="content-wrapper">{this.props.children}</div>
           </div>
-        )}
-        <div className="main-wrapper">
-          <HeaderComponent />
-          <div className="content-wrapper">{this.props.children}</div>
         </div>
-      </div>
+      </ErrorBoundary>
     )
   }
 }
