@@ -1,4 +1,5 @@
 import { ErrorInfo } from 'react'
+import {GENERAL_ERROR} from "../../constant"
 import * as React from 'react'
 
 import { Props, State } from './types'
@@ -16,10 +17,10 @@ export default class ErrorBoundary extends React.PureComponent<Props, State> {
   public render() {
     const { children } = this.props
 
-    if (this.state.errorInfo) {
+    if (!import.meta.env.PROD && this.state.errorInfo) {
       return (
         <>
-          <h2>Что-то пошло не так.</h2>
+          <h2>{GENERAL_ERROR}</h2>
           <details style={{ whiteSpace: 'pre-wrap' }}>
             {this.state.error && this.state.error.toString()}
             <br />
