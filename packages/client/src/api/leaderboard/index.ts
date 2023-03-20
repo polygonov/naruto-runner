@@ -21,7 +21,7 @@ class LeaderboardApi extends BaseApi {
 
   requestLeaderboard = async ({
     cursor = 0,
-    limit = 50,
+    limit = 20,
   }: RequestLeaderboardPayload) =>
     this.createRequest<LeaderboardResponse>(`${this.baseUrl}/${TEAM_NAME}`, {
       method: HttpMethod.POST,

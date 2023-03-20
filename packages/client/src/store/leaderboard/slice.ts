@@ -26,10 +26,7 @@ export const leaderboardSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(requestLeaderboard.fulfilled, (state, { payload }) => {
-      state.leaderboardList = payload.map(({ data }, i) => ({
-        ...data,
-        order: i + 1,
-      }))
+      state.leaderboardList = payload
     })
     builder.addMatcher(
       isPending(addToLeaderboard, requestLeaderboard),

@@ -18,5 +18,5 @@ export const regExps = {
 
 export const GENERAL_ERROR = 'Что-то пошло не так'
 
-export const TEAM_NAME = 'cuties-22-naruto-runner'
+export const TEAM_NAME = '22-cuties-naruto-runner'
 export const RATING_FIELD_NAME = 'score'

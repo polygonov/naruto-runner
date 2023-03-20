@@ -2,9 +2,7 @@ import { RATING_FIELD_NAME } from '../../constant'
 
 export type LeaderboardRecordData = {
   id: number
-  username: string
   [RATING_FIELD_NAME]: number
-  avatar: string | null
 }
 
 export type AddToLeaderboardPayload = LeaderboardRecordData
@@ -19,5 +17,7 @@ export type LeaderboardResponse = {
 }[]
 
 export type LeaderboardListRecord = LeaderboardRecordData & {
+  username: string
+  avatar: string | null
   order: number
 }
