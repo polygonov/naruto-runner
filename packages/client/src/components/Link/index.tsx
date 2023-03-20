@@ -21,8 +21,6 @@ export const Link: FC<LinkProps> = memo(
       }
     }
 
-    console.log('render', view)
-
     return (
       <RouterLink
         className={classNames('button', `button_view_${view}`, className)}
