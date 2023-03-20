@@ -25,19 +25,28 @@ export const requestLeaderboard = createAsyncThunk(
       userApi.getUserById(data.id)
     )
 
-    const users = await Promise.all(getUserPromises)
+    const users = await Promise.allSettled(getUserPromises)
 
     const usersMap = users.reduce((acc, current) => {
-      acc[current.id] = current
+      if (current.status === 'fulfilled') {
+        acc[current.value.id] = current.value
+      }
       return acc
     }, {} as Record<string, User>)
 
-    const mappedTable: LeaderboardListRecord[] = table.map(({ data }, i) => ({
-      ...data,
-      username: usersMap[data.id].login,
-      avatar: updateResourcePath(usersMap[data.id].avatar),
-      order: i + 1,
-    }))
+    const mappedTable: LeaderboardListRecord[] = []
+
+    table.forEach(({ data }, i) => {
+      if (usersMap[data.id]) {
+        mappedTable.push({
+          ...data,
+          username: usersMap[data.id].login,
+          avatar: updateResourcePath(usersMap[data.id].avatar),
+          order: i + 1,
+        })
+      }
+    })
+
     return mappedTable
   }
 )
