@@ -11,18 +11,21 @@ class LeaderboardApi extends BaseApi {
   addToLeaderboard = async (payload: AddToLeaderboardPayload) =>
     this.createRequest(`${this.baseUrl}`, {
       method: HttpMethod.POST,
-      data: payload,
+      data: {
+        data: payload,
+        ratingFieldName: RATING_FIELD_NAME,
+        teamName: TEAM_NAME,
+      },
       shouldParseResponse: false,
     })
 
   requestLeaderboard = async ({
-    ratingFieldName = RATING_FIELD_NAME,
     cursor = 0,
     limit = 50,
   }: RequestLeaderboardPayload) =>
     this.createRequest<LeaderboardResponse>(`${this.baseUrl}/${TEAM_NAME}`, {
       method: HttpMethod.POST,
-      data: { ratingFieldName, cursor, limit },
+      data: { ratingFieldName: RATING_FIELD_NAME, cursor, limit },
     })
 }
 

@@ -2,7 +2,7 @@ import { Title } from '../Title'
 import { Link } from '../Link'
 import { LeaderView } from './LeaderView'
 import type { LeaderboardListRecord } from '../../api/leaderboard/types'
-import { RoutesNameList } from '../../constant'
+import { RATING_FIELD_NAME, RoutesNameList } from '../../constant'
 import './index.css'
 
 const title = 'лидерборд'
@@ -32,7 +32,7 @@ export function LeaderboardTable({
             order={user.order}
             avatar={user.avatar}
             username="Вы"
-            score={user.score}
+            score={user[RATING_FIELD_NAME]}
           />
         </div>
       )}

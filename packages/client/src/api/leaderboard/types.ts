@@ -1,18 +1,15 @@
+import { RATING_FIELD_NAME } from '../../constant'
+
 export type LeaderboardRecordData = {
   id: number
   username: string
-  score: number
+  [RATING_FIELD_NAME]: number
   avatar: string | null
 }
 
-export type AddToLeaderboardPayload = {
-  data: LeaderboardRecordData
-  ratingFieldName: string
-  teamName: string
-}
+export type AddToLeaderboardPayload = LeaderboardRecordData
 
 export type RequestLeaderboardPayload = {
-  ratingFieldName?: string
   cursor?: number
   limit?: number
 }
