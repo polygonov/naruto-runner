@@ -50,5 +50,6 @@
 }
 
 .board__button {
+  display: block;
   margin-top: 24px;
 }

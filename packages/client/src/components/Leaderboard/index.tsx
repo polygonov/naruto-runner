@@ -1,7 +1,8 @@
-import { Button } from '../Button'
-import { LeaderView } from './LeaderView'
 import { Title } from '../Title'
+import { Link } from '../Link'
+import { LeaderView } from './LeaderView'
 import type { LeaderboardListRecord } from '../../api/leaderboard/types'
+import { RoutesNameList } from '../../constant'
 import './index.css'
 
 const title = 'лидерборд'
@@ -44,7 +45,12 @@ export function LeaderboardTable({
         })}
       </div>
 
-      <Button className="board__button" text="Начать игру" />
+      <Link
+        className="board__button"
+        text="Начать игру"
+        view="primary"
+        href={RoutesNameList.Game}
+      />
     </div>
   )
 }
