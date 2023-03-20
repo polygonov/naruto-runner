@@ -5,15 +5,19 @@ import type { AuthState } from './auth/slice'
 import authReducer from './auth/slice'
 import type { UserState } from './user/slice'
 import userReducer from './user/slice'
+import type { LeaderboardState } from './leaderboard/slice'
+import leaderboardReducer from './leaderboard/slice'
 
 export type AppState = {
   auth: AuthState
   user: UserState
+  leaderboard: LeaderboardState
 }
 
 const appReducer = combineReducers<AppState>({
   auth: authReducer,
   user: userReducer,
+  leaderboard: leaderboardReducer,
 })
 
 export const store = configureStore({
