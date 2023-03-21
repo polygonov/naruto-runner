@@ -1,9 +1,7 @@
 import './index.css'
 import { useEffect, useRef } from 'react'
-import { Background } from '../../engine/Background'
-import { Hero } from '../../engine/Hero'
-import { EnemyManager } from '../../engine/EnemyManager'
-import { EngineSettings } from '../../engine/EngineSettings'
+import { EngineSettings } from '../../engine/EngineOptions'
+import { Engine } from '../../engine/Engine'
 
 export type CustomCanvas = {
   getContext: (type: string) => CanvasRenderingContext2D
@@ -19,12 +17,7 @@ export function CanvasComponent() {
   useEffect(() => {
     const current: CustomCanvas = ref.current as unknown as CustomCanvas
     const context = current.getContext('2d')
-    const background = new Background(context)
-    const hero = new Hero(context)
-    const enemyManager = new EnemyManager(context)
-    background.draw()
-    enemyManager.generate()
-    hero.draw()
+    Engine.getInstance(context)
   }, [])
 
   return <canvas className="context" ref={ref} width={width} height={height} />

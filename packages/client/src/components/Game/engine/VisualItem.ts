@@ -1,3 +1,5 @@
+import { EngineStatus } from './EngineOptions'
+
 export abstract class VisualItem {
   protected image = new Image()
   protected width = 0
@@ -5,6 +7,7 @@ export abstract class VisualItem {
   protected step = 0
   protected startTime = 0
   protected framerate = 0
+  status: EngineStatus = EngineStatus.Running
 
   constructor(protected context: CanvasRenderingContext2D) {
     this.init()

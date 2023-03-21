@@ -1,5 +1,5 @@
 import gameBackground from '../../../assets/images/game/game-background.png'
-import { EngineSettings } from './EngineSettings'
+import { EngineSettings, EngineStatus } from './EngineOptions'
 import { VisualItem } from './VisualItem'
 
 export class Background extends VisualItem {
@@ -16,7 +16,7 @@ export class Background extends VisualItem {
   }
 
   draw = () => {
-    const deltaX = 10
+    const deltaX = 15
     let movement = this.step * deltaX
     if (movement > this.width) {
       movement = movement % this.width
@@ -30,6 +30,8 @@ export class Background extends VisualItem {
       this.height
     )
     this.step++
-    requestAnimationFrame(this.draw)
+    if (this.status === EngineStatus.Running) {
+      requestAnimationFrame(this.draw)
+    }
   }
 }
