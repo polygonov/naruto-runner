@@ -9,7 +9,7 @@ import type {
 
 class LeaderboardApi extends BaseApi {
   addToLeaderboard = async (payload: LeaderboardRecordData) =>
-    this.createRequest(`${this.baseUrl}`, {
+    this.createRequest(this.baseUrl, {
       method: HttpMethod.POST,
       data: {
         data: payload,
