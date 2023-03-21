@@ -5,8 +5,6 @@ export type LeaderboardRecordData = {
   [RATING_FIELD_NAME]: number
 }
 
-export type AddToLeaderboardPayload = LeaderboardRecordData
-
 export type RequestLeaderboardPayload = {
   cursor?: number
   limit?: number

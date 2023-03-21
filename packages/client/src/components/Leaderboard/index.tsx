@@ -21,9 +21,9 @@ export function LeaderboardTable({
       <Title className="board__title" text={title} />
 
       <div className="board__info">
-        <div>№</div>
-        <div>Игрок</div>
-        <div>Результат</div>
+        <span>№</span>
+        <span>Игрок</span>
+        <span>Результат</span>
       </div>
 
       {user && (

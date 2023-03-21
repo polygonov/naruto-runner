@@ -1,17 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { leaderboardApi } from '../../api/leaderboard'
 import type {
-  AddToLeaderboardPayload,
+  LeaderboardListRecord,
+  LeaderboardRecordData,
   RequestLeaderboardPayload,
 } from '../../api/leaderboard/types'
-import { LeaderboardListRecord } from '../../api/leaderboard/types'
 import { userApi } from '../../api/user'
-import { User } from '../../api/user/types'
+import type { User } from '../../api/user/types'
 import { updateResourcePath } from '../../utils/updateResourcePath'
 
 export const addToLeaderboard = createAsyncThunk(
   'leaderboard/add',
-  async (payload: AddToLeaderboardPayload) => {
+  async (payload: LeaderboardRecordData) => {
     await leaderboardApi.addToLeaderboard(payload)
   }
 )

@@ -2,13 +2,13 @@ import { RATING_FIELD_NAME, TEAM_NAME } from '../../constant'
 import { BaseApi } from '../base'
 import { HttpMethod } from '../constants'
 import type {
-  AddToLeaderboardPayload,
+  LeaderboardRecordData,
   LeaderboardResponse,
   RequestLeaderboardPayload,
 } from './types'
 
 class LeaderboardApi extends BaseApi {
-  addToLeaderboard = async (payload: AddToLeaderboardPayload) =>
+  addToLeaderboard = async (payload: LeaderboardRecordData) =>
     this.createRequest(`${this.baseUrl}`, {
       method: HttpMethod.POST,
       data: {
