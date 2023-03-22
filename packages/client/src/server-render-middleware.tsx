@@ -1,21 +1,16 @@
-import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { Request, Response } from 'express'
 import { StaticRouter } from 'react-router-dom/server'
 import { Provider as ReduxProvider } from 'react-redux'
-import { StaticRouterContext } from 'react-router/index'
 import { store } from './store'
 import App from './App'
 
-// В этой middleware мы формируем первичное состояние приложения на стороне сервера
-// Попробуйте её подебажить, чтобы лучше разобраться, как она работает
 export default (req: Request, res: Response) => {
   const location = req.url
-  const context: StaticRouterContext = {}
 
   const jsx = (
     <ReduxProvider store={store}>
-      <StaticRouter location={location} context={context}>
+      <StaticRouter location={location}>
         <App />
       </StaticRouter>
     </ReduxProvider>
@@ -23,12 +18,12 @@ export default (req: Request, res: Response) => {
   const reactHtml = renderToString(jsx)
   const reduxState = store.getState()
 
-  if (context.url) {
-    res.redirect(context.url)
+  if (location) {
+    res.redirect(location)
     return
   }
 
-  res.status(context.statusCode || 200).send(getHtml(reactHtml, reduxState))
+  res.status(req.statusCode || 200).send(getHtml(reactHtml, reduxState))
 }
 
 function getHtml(reactHtml: string, reduxState = {}) {
@@ -41,14 +36,12 @@ function getHtml(reactHtml: string, reduxState = {}) {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
             <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
-            <title>Sneakers shop</title>
+            <title>NarutoRunner</title>
             <link href="/main.css" rel="stylesheet">
         </head>
         <body>
             <div id="mount">${reactHtml}</div>
             <script>
-                // Записываем состояние редакса, сформированное на стороне сервера в window
-                // На стороне клиента применим это состояние при старте
                 window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
             </script>
             <script src="/main.js"></script>
