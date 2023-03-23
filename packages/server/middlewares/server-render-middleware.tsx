@@ -7,7 +7,6 @@ import App from 'client/src/App'
 
 export default (req: Request, res: Response) => {
   const location = req.url
-
   const jsx = (
     <ReduxProvider store={store}>
       <StaticRouter location={location}>

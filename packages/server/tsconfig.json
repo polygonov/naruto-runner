@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "noEmit": true,
     "jsx": "react-jsx",
     "composite": true,
     "target": "es2019",
@@ -23,8 +24,7 @@
     "types": ["node", "jest"],
     "baseUrl": ".",
     "paths": {
-      "*": ["types/*"],
-      "client":["../client"]
+      "*": ["types/*"]
     },
     "outDir": "dist"
   },

@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
+    "link-client": "yarn link",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
