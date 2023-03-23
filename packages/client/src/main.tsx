@@ -8,6 +8,7 @@ import { withAuth } from './hocs/withAuth'
 import { store } from './store'
 import './index.css'
 
+// @ts-ignore
 const Application = withAuth(App)
 
 const InitApp = (
