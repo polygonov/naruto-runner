@@ -1,7 +1,6 @@
 {
   "name": "client",
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -11,22 +10,23 @@
     "test": "jest ./"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.9.3",
-    "@types/react-router": "^5.1.20",
     "connected-react-router": "^6.9.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-hot-loader": "^4.13.1",
-    "react-redux": "^8.0.5",
-    "react-router-dom": "^6.8.1"
+    "react": "^18.2.0"
   },
   "devDependencies": {
+    "react-dom": "^18.2.0",
+    "react-hot-loader": "^4.13.1",
+    "react-jsx": "^1.0.0",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.8.1",
+    "@reduxjs/toolkit": "^1.9.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^28.1.8",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
+    "@types/react-router": "^5.1.20",
     "@typescript-eslint/eslint-plugin": "^5.35.1",
     "@typescript-eslint/parser": "^5.35.1",
     "@vitejs/plugin-react": "^2.0.1",

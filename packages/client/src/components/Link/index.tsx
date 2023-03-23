@@ -18,6 +18,7 @@ export const Link: FC<LinkProps> = memo(
       if (withSound) {
         return randomClickSound
       }
+      return
     }
     return (
       <RouterLink

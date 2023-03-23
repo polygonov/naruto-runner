@@ -50,15 +50,15 @@ export class MainLayout extends Component<
     })
   }
 
-  componentDidMount() {
+  override componentDidMount() {
     this.getBackgroundImgPath(this.props.background)
   }
 
-  componentWillReceiveProps(nextProps: { background: string }) {
+  override componentWillReceiveProps(nextProps: { background: string }) {
     this.getBackgroundImgPath(nextProps.background)
   }
 
-  render() {
+  override render() {
     return (
       <div
         className={

@@ -1,4 +1,4 @@
-import { HttpMethod } from './constants'
+import type { HttpMethod } from './constants'
 
 export type ApiErrorResponse = {
   reason: string

@@ -1,4 +1,4 @@
-import { ErrorInfo } from 'react'
+import type { ErrorInfo } from 'react'
 
 export interface Props {
   children: any

@@ -1,4 +1,4 @@
-import { GetUserResponse, RegisterPayload, RegisterResponse } from './types'
+import type { GetUserResponse, RegisterPayload, RegisterResponse } from './types'
 import { trimData } from '../../utils/trimData'
 import { HttpMethod, userStubFields } from '../constants'
 import { BaseApi } from '../base'

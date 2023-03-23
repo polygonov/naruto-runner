@@ -1,9 +1,9 @@
 import { renderToString } from 'react-dom/server'
-import { Request, Response } from 'express'
+import type { Request, Response } from 'express'
 import { StaticRouter } from 'react-router-dom/server'
 import { Provider as ReduxProvider } from 'react-redux'
-import { store } from './store'
-import App from './App'
+import { store } from 'client/src/store'
+import App from 'client/src/App'
 
 export default (req: Request, res: Response) => {
   const location = req.url

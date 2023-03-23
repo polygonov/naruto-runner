@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "jsx": "react",
+    "jsx": "react-jsx",
     "composite": true,
     "target": "es2019",
     "module": "commonjs",
@@ -18,14 +18,18 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
-    "importsNotUsedAsValues": "error",
-    // "verbatimModuleSyntax": "error",
-    "lib": ["es2019", "esnext.asynciterable"],
+    "importsNotUsedAsValues": "remove",
+    "lib": ["DOM", "es2019", "esnext.asynciterable"],
     "types": ["node", "jest"],
     "baseUrl": ".",
     "paths": {
-      "*": ["types/*"]
+      "*": ["types/*"],
+      "client":["../client"]
     },
     "outDir": "dist"
-  }
+  },
+  "include": ["index.d.ts"],
+  "exclude": [
+    "dist", "node_modules"
+  ]
 }

@@ -1,4 +1,4 @@
-import { ProfileProps } from './LeaderView'
+import type { ProfileProps } from './LeaderView'
 
 export const leaderboardList: ProfileProps[] = [
   { order: 1, avatar: '', username: 'Игрок 111111', score: 520 },
