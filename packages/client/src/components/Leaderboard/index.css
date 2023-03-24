@@ -39,7 +39,6 @@
 
 .board__user {
   border-bottom: 1px solid var(--color-text-secondary);
-  margin-bottom: 24px;
   margin-top: 24px;
 }
 
@@ -47,8 +46,10 @@
   width: 372px;
   height: 282px;
   overflow-y: auto;
+  margin-top: 24px;
 }
 
 .board__button {
+  display: block;
   margin-top: 24px;
 }

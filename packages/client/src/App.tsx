@@ -29,12 +29,12 @@ function App() {
 
         <Route element={<Authorization requireAuth />}>
           <Route path={RoutesNameList.Profile} element={<Profile />} />
+          <Route path={RoutesNameList.Leaderboard} element={<Leaderboard />} />
         </Route>
 
         <Route path={RoutesNameList.Main} element={<MainPage />} />
         <Route path={RoutesNameList.Forum} element={<Forum />} />
         <Route path={RoutesNameList.Topic} element={<Topic />} />
-        <Route path={RoutesNameList.Leaderboard} element={<Leaderboard />} />
         <Route path={RoutesNameList.Game} element={<Game />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

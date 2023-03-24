@@ -10,6 +10,7 @@ import loginBack2x from '../../assets/images/background/Login@2x.png'
 import leaderboardBack from '../../assets/images/background/Leaderboard.png'
 import gameBack from '../../assets/images/background/Game.png'
 import leaderboardBack2x from '../../assets/images/background/Leaderboard@2x.png'
+import ErrorBoundary from '../ErrorBoundary'
 import './index.css'
 
 type MainLayoutProps = {
@@ -75,10 +76,12 @@ export class MainLayout extends Component<
             />
           </div>
         )}
-        <div className="main-wrapper">
-          <HeaderComponent />
-          <div className="content-wrapper">{this.props.children}</div>
-        </div>
+        <ErrorBoundary>
+          <div className="main-wrapper">
+            <HeaderComponent />
+            <div className="content-wrapper">{this.props.children}</div>
+          </div>
+        </ErrorBoundary>
       </div>
     )
   }
