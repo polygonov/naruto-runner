@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
+    "jsxImportSource": "react-jsx",
     "jsx": "react-jsx",
     "composite": true,
     "target": "es2019",
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "sourceMap": true,
     "declaration": true,
@@ -20,6 +21,7 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
     "importsNotUsedAsValues": "error",
     "lib": ["es2021", "dom"],
     "baseUrl": ".",
@@ -34,7 +36,7 @@
     ],
     "outDir": "dist"
   },
-  "include": ["index.d.ts"],
+  "include": ["./index.d.ts"],
   "exclude": [
     "**/dist/**/*.d.ts",
     "dist",
