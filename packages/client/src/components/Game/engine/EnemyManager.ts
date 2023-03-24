@@ -6,10 +6,9 @@ import { Hero } from './Hero'
 export class EnemyManager {
   private enemyList: Enemy[] = []
   private startTime = 0
-  private minFramerate = 700
-  private maxFramerate = 2500
+  private minFramerate = 600
+  private maxFramerate = 2000
   private deltaX = 15
-  private maxDelta = 55
   private factor = 0.002
   private collisionDetector: CollisionDetector | undefined
   status: EngineStatus = EngineStatus.Running
@@ -62,8 +61,6 @@ export class EnemyManager {
         enemy.status = EngineStatus.Unmounted
       }, this.enemyList)
     }
-    if (this.deltaX < this.maxDelta) {
-      this.deltaX += this.factor
-    }
+    this.deltaX += this.factor
   }
 }

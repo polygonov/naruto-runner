@@ -1,4 +1,3 @@
-import './index.css'
 import { useEffect, useRef } from 'react'
 import { EngineSettings } from '../../engine/EngineOptions'
 import { Engine } from '../../engine/Engine'
@@ -17,8 +16,12 @@ export function CanvasComponent() {
   useEffect(() => {
     const current: CustomCanvas = ref.current as unknown as CustomCanvas
     const context = current.getContext('2d')
-    Engine.getInstance(context)
+    const engine = Engine.getInstance(context)
+    engine.mount()
+    return () => {
+      engine.unmount()
+    }
   }, [])
 
-  return <canvas className="context" ref={ref} width={width} height={height} />
+  return <canvas ref={ref} width={width} height={height} />
 }

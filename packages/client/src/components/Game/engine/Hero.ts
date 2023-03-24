@@ -15,11 +15,12 @@ export class Hero extends VisualItem {
   private startStep = 0
   private jumpFrames = 20
   private action = Action.Run
+  private offsetTop = 220
+  private movePartial = 10
   rect: Rect = { x: 0, x1: 0, y: 0, y1: 0 }
 
   constructor(context: CanvasRenderingContext2D) {
     super(context)
-    window.addEventListener('keydown', this.onKeyDown)
     const offset = 70
     this.rect.x = 100
     this.rect.x1 = this.rect.x + this.width - offset
@@ -41,6 +42,14 @@ export class Hero extends VisualItem {
     }
   }
 
+  mount() {
+    window.addEventListener('keydown', this.onKeyDown)
+  }
+
+  unmount() {
+    window.removeEventListener('keydown', this.onKeyDown)
+  }
+
   private onKeyDown = (event: KeyboardEvent) => {
     if (this.action === Action.Run && event.code === 'Space') {
       this.action = Action.Up
@@ -48,9 +57,8 @@ export class Hero extends VisualItem {
   }
 
   private run() {
-    const offsetTop = 220
     const frames = 6
-    this.rect.y = offsetTop
+    this.rect.y = this.offsetTop
     this.rect.y1 = this.rect.y + this.height
     const time = performance.now()
     const progress = time - this.startTime
@@ -65,7 +73,7 @@ export class Hero extends VisualItem {
       this.width,
       this.height,
       this.rect.x,
-      offsetTop,
+      this.offsetTop,
       this.width,
       this.width
     )
@@ -89,9 +97,7 @@ export class Hero extends VisualItem {
 
   private up() {
     const topFreezeFrames = 10
-    const offsetTop = 220
     const collisionOffset = 50
-    const movePartial = 10
     let frame = 0
     if (!this.startStep) {
       this.startStep = this.step
@@ -101,10 +107,10 @@ export class Hero extends VisualItem {
     if (progress > this.stepsLimit) {
       movement = this.stepsLimit * this.jumpFrames
     }
-    if (progress < this.stepsLimit / movePartial) {
+    if (progress < this.stepsLimit / this.movePartial) {
       frame = 320
     }
-    this.rect.y = offsetTop - movement
+    this.rect.y = this.offsetTop - movement
     this.rect.y1 = this.rect.y + this.height - collisionOffset
     this.context.drawImage(
       this.image,
@@ -131,11 +137,10 @@ export class Hero extends VisualItem {
     const collisionOffset = 50
     const progress = this.step - this.startStep
     const movement = progress * this.jumpFrames
-    const movePartial = 10
     this.rect.y = movement
     this.rect.y1 = this.rect.y + this.height - collisionOffset
     let frame = 160
-    if (progress > this.stepsLimit / movePartial) {
+    if (progress > this.stepsLimit / this.movePartial) {
       frame = 320
     }
     this.context.drawImage(

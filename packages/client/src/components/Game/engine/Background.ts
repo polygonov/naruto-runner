@@ -3,13 +3,14 @@ import { EngineSettings, EngineStatus } from './EngineOptions'
 import { VisualItem } from './VisualItem'
 
 export class Background extends VisualItem {
+  private deltaX = 15
+  private factor = 0.001
+  private id = 0
+
   constructor(context: CanvasRenderingContext2D) {
     super(context)
+    this.id = Math.random()
   }
-
-  private deltaX = 15
-  private maxDelta = 55
-  private factor = 0.001
 
   protected init(): void {
     this.image.src = gameBackground
@@ -20,6 +21,7 @@ export class Background extends VisualItem {
   }
 
   draw = () => {
+    console.log('back id', this.id)
     const deltaX = this.deltaX
     let movement = this.step * deltaX
     if (movement > this.width) {
@@ -34,9 +36,7 @@ export class Background extends VisualItem {
       this.height
     )
     this.step++
-    if (this.deltaX < this.maxDelta) {
-      this.deltaX += this.factor
-    }
+    this.deltaX += this.factor
     if (this.status === EngineStatus.Running) {
       requestAnimationFrame(this.draw)
     }

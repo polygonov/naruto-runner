@@ -40,4 +40,12 @@ export class Engine {
       requestAnimationFrame(this.checkStatus)
     }
   }
+
+  mount() {
+    this.hero.mount()
+  }
+
+  unmount() {
+    this.hero.unmount()
+  }
 }
