@@ -7,6 +7,10 @@ export class Background extends VisualItem {
     super(context)
   }
 
+  private deltaX = 15
+  private maxDelta = 55
+  private factor = 0.001
+
   protected init(): void {
     this.image.src = gameBackground
     this.width = EngineSettings.canvasWidth
@@ -16,7 +20,7 @@ export class Background extends VisualItem {
   }
 
   draw = () => {
-    const deltaX = 15
+    const deltaX = this.deltaX
     let movement = this.step * deltaX
     if (movement > this.width) {
       movement = movement % this.width
@@ -30,6 +34,9 @@ export class Background extends VisualItem {
       this.height
     )
     this.step++
+    if (this.deltaX < this.maxDelta) {
+      this.deltaX += this.factor
+    }
     if (this.status === EngineStatus.Running) {
       requestAnimationFrame(this.draw)
     }

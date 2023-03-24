@@ -17,7 +17,8 @@ export class Enemy extends VisualItem {
   }
   constructor(
     context: CanvasRenderingContext2D,
-    private collisionDetector: CollisionDetector
+    private collisionDetector: CollisionDetector,
+    private deltaX: number
   ) {
     super(context)
     const varietyOfEnemy = 4
@@ -35,10 +36,9 @@ export class Enemy extends VisualItem {
   }
 
   draw = () => {
-    const deltaX = 15
     const offsetLeft = 10
     const offsetRight = 40
-    const movement = this.step * deltaX
+    const movement = this.step * this.deltaX
     this.rect.x = EngineSettings.canvasWidth - movement + offsetLeft
     this.rect.x1 = this.rect.x + this.width - offsetRight
     this.context.drawImage(

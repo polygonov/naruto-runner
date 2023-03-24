@@ -7,6 +7,10 @@ export class EnemyManager {
   private enemyList: Enemy[] = []
   private startTime = 0
   private minFramerate = 700
+  private maxFramerate = 2500
+  private deltaX = 15
+  private maxDelta = 55
+  private factor = 0.002
   private collisionDetector: CollisionDetector | undefined
   status: EngineStatus = EngineStatus.Running
 
@@ -21,14 +25,18 @@ export class EnemyManager {
     return Math.floor(Math.random() * (max - min) + min)
   }
 
-  private frameRate = this.getRandomInt(this.minFramerate, 2500)
+  private frameRate = this.getRandomInt(this.minFramerate, this.maxFramerate)
   generate = () => {
     const time = performance.now()
     const progress = time - this.startTime
     if (progress >= this.frameRate && this.collisionDetector !== undefined) {
       this.startTime = performance.now()
-      this.frameRate = this.getRandomInt(this.minFramerate, 2500)
-      const newEnemy = new Enemy(this.context, this.collisionDetector)
+      this.frameRate = this.getRandomInt(this.minFramerate, this.maxFramerate)
+      const newEnemy = new Enemy(
+        this.context,
+        this.collisionDetector,
+        this.deltaX
+      )
       this.enemyList.push(newEnemy)
       if (this.status === EngineStatus.Running) {
         requestAnimationFrame(newEnemy.draw)
@@ -53,6 +61,9 @@ export class EnemyManager {
       this.enemyList.forEach(enemy => {
         enemy.status = EngineStatus.Unmounted
       }, this.enemyList)
+    }
+    if (this.deltaX < this.maxDelta) {
+      this.deltaX += this.factor
     }
   }
 }
