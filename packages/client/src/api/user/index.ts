@@ -28,6 +28,11 @@ class UserApi extends BaseApi {
       data: trimData(payload),
       shouldParseResponse: false,
     })
+
+  getUserById = async (id: number) =>
+    this.createRequest<User>(`${this.baseUrl}/${id}`, {
+      method: HttpMethod.GET,
+    })
 }
 
 export const userApi = new UserApi('user')

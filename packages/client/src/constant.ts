@@ -17,3 +17,6 @@ export const regExps = {
 }
 
 export const GENERAL_ERROR = 'Что-то пошло не так'
+
+export const TEAM_NAME = '22-cuties-naruto-runner'
+export const RATING_FIELD_NAME = 'score'
