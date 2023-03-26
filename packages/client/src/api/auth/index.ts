@@ -19,7 +19,7 @@ class AuthApi extends BaseApi {
     this.createRequest(`${this.baseUrl}/signin`, {
       shouldParseResponse: false,
       method: HttpMethod.POST,
-      data: { ...trimData(payload) },
+      data: trimData(payload),
     })
 
   logout = async () =>

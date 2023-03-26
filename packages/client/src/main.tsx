@@ -20,7 +20,7 @@ const InitApp = (
   </React.StrictMode>
 )
 
-// startServiceWorker()
+startServiceWorker()
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   InitApp
