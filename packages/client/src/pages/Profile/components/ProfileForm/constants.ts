@@ -20,6 +20,7 @@ export const texts = {
     email: { label: 'Почта' },
     mainButton: 'Изменить данные',
     secondaryButton: 'Изменить пароль',
+    logoutButton: 'Выйти',
   },
 }
 
