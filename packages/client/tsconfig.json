@@ -22,7 +22,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@assets/*": ["./src/assets/*"]
-    }
+    },
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
   "include": ["src", "index.d.ts"],
   "exclude": ["node_modules"],

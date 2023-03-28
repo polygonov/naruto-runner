@@ -1,14 +1,10 @@
 {
   "compilerOptions": {
-    "experimentalDecorators": true,
-    "jsxImportSource": "react-jsx",
-    "jsx": "react-jsx",
     "composite": true,
     "target": "es2019",
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "emitDecoratorMetadata": true,
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
@@ -21,19 +17,13 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true,
     "importsNotUsedAsValues": "error",
-    "lib": ["es2021", "dom"],
+    "lib": ["DOM", "es2019", "esnext.asynciterable"],
+    "types": ["node", "jest"],
     "baseUrl": ".",
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
     "paths": {
       "*": ["types/*"]
     },
-    "typeRoots": [
-      "@types",
-      "./node_modules/@types"
-    ],
     "outDir": "dist"
   },
   "include": ["./index.d.ts"],

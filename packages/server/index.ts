@@ -1,33 +1,46 @@
 import dotenv from 'dotenv'
-import path from 'path'
-import express from 'express'
 import cors from 'cors'
-import serverRenderMiddleware from './middlewares/server-render-middleware'
-import type { ViteDevServer } from 'vite'
-import { createServer as createViteServer } from 'vite'
+import path from 'path'
+import fs from 'fs'
+
 dotenv.config()
 
-const isDev = process.env.NODE_ENV === 'development'
+import express from 'express'
+
 async function startServer() {
   const app = express()
   app.use(cors())
   const port = Number(process.env.SERVER_PORT) || 3001
 
-  let vite: ViteDevServer
-  const srcPath = path.dirname(require.resolve('client'))
-  //const distPath = path.dirname(require.resolve('client/dist/index.html'))
+  app.get('/api', (_, res) => {
+    res.json('👋 Howdy from the server :)')
+  })
 
-  if (isDev) {
-    vite = await createViteServer({
-      server: { middlewareMode: true },
-      root: srcPath,
-      appType: 'custom',
-    })
+  app.use('*', async (req, res, next) => {
+    const distPath = path.dirname(require.resolve('client/dist/index.html'))
+    const ssrClientPath = require.resolve('client/dist-ssr/client.cjs')
 
-    app.use(vite.middlewares)
-  }
+    const url = req.originalUrl
 
-  app.get('/', serverRenderMiddleware)
+    try {
+      const template = fs.readFileSync(
+        path.resolve(distPath, 'index.html'),
+        'utf-8'
+      )
+
+      const { render } = await import(ssrClientPath)
+
+      const appHtml = await render(url)
+
+      const html = template.replace(`<!--SSR-->`, appHtml)
+
+      res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
+    } catch (e) {
+      //vite.ssrFixStacktrace(e)
+      next(e)
+    }
+  })
+
   app.listen(port, () => {
     console.log(`  ➜ 🎸 Server is listening on port: ${port}`)
   })

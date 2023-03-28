@@ -23,6 +23,4 @@ const InitApp = (
 
 startServiceWorker()
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  InitApp
-)
+ReactDOM.hydrateRoot(document.getElementById('root') as HTMLElement, InitApp)

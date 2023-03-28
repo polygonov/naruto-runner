@@ -5,7 +5,7 @@
   "scripts": {
     "link-client": "yarn link client",
     "start": "yarn build && yarn preview",
-    "build": "tsc --p ./tsconfig.prod.json",
+    "build": "rimraf dist && tsc --p ./tsconfig.prod.json",
     "preview": "node ./dist/index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.ts",
     "lint": "eslint .",
@@ -17,10 +17,12 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.2",
     "eslint-config-prettier": "^8.5.0",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "react": "^18.2.0",
+    "typescript-plugin-css-modules": "^5.0.0",
+    "vite": "^4.2.1"
   },
   "devDependencies": {
-    "react-jsx": "^1.0.0",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/jest": "^28.1.8",
@@ -36,6 +38,7 @@
     "pg": "^8.8.0",
     "prettier": "^2.7.1",
     "react-dom": "^18.2.0",
+    "react-jsx": "^1.0.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.9.0",
     "ts-jest": "^28.0.8",
