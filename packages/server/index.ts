@@ -15,11 +15,12 @@ async function startServer() {
   app.get('/api', (_, res) => {
     res.json('👋 Howdy from the server :)')
   })
+  const distPath = path.dirname(require.resolve('client/dist/index.html'))
+  const ssrClientPath = require.resolve('client/dist-ssr/client.cjs')
+
+  app.use(express.static(distPath))
 
   app.use('*', async (req, res, next) => {
-    const distPath = path.dirname(require.resolve('client/dist/index.html'))
-    const ssrClientPath = require.resolve('client/dist-ssr/client.cjs')
-
     const url = req.originalUrl
 
     try {

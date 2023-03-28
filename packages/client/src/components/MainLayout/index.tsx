@@ -1,14 +1,14 @@
 import { Component, ReactNode } from 'react'
 import HeaderComponent from '../Header'
 import { RoutesNameList } from '../../constant'
-//import mainBack from './background/Main.png'
-//import mainBack2x from './background/Main@2x.png'
-//import profileBack from './background/Profile.png'
-//import profileBack2x from './background/Profile@2x.png'
-//import loginBack from './background/Login.png'
-//import loginBack2x from './background/Login@2x.png'
-//import leaderboardBack from './background/Leaderboard.png'
-//import leaderboardBack2x from './background/Leaderboard@2x.png'
+import mainBack from './background/Main.png'
+import mainBack2x from './background/Main@2x.png'
+import profileBack from './background/Profile.png'
+import profileBack2x from './background/Profile@2x.png'
+import loginBack from './background/Login.png'
+import loginBack2x from './background/Login@2x.png'
+import leaderboardBack from './background/Leaderboard.png'
+import leaderboardBack2x from './background/Leaderboard@2x.png'
 import ErrorBoundary from '../ErrorBoundary'
 import './index.css'
 
@@ -21,7 +21,7 @@ export class MainLayout extends Component<
   MainLayoutProps,
   { backgroundImage: string; backgroundImage2x: string; pageName: string }
 > {
-  /* imageNames: { [key: string]: string } = {
+  imageNames: { [key: string]: string } = {
     [RoutesNameList.Main]: mainBack,
     [RoutesNameList.Login]: loginBack,
     [RoutesNameList.Registration]: loginBack,
@@ -33,7 +33,7 @@ export class MainLayout extends Component<
     [RoutesNameList.Login]: loginBack2x,
     [RoutesNameList.Leaderboard]: leaderboardBack2x,
     [RoutesNameList.Profile]: profileBack2x,
-  } */
+  }
   constructor(props: MainLayoutProps) {
     super(props)
     this.state = {
@@ -43,10 +43,10 @@ export class MainLayout extends Component<
     }
   }
 
-  /*getBackgroundImgPath(image: string) {
+  getBackgroundImgPath(image: string) {
     this.setState({
-       backgroundImage: this.imageNames[image],
-      backgroundImage2x: this.imageNames2x[image], 
+      backgroundImage: this.imageNames[image],
+      backgroundImage2x: this.imageNames2x[image],
     })
   }
 
@@ -56,7 +56,7 @@ export class MainLayout extends Component<
 
   override componentWillReceiveProps(nextProps: { background: string }) {
     this.getBackgroundImgPath(nextProps.background)
-  }*/
+  }
 
   override render() {
     return (
