@@ -15,15 +15,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "types": ["node"],
     "typeRoots": [
       "@types",
       "./node_modules/@types"
-    ],
-    "paths": {
-      "@/*": ["./src/*"],
-      "@assets/*": ["./src/assets/*"]
-    },
-    "plugins": [{ "name": "typescript-plugin-css-modules" }]
+    ]
   },
   "include": ["src", "index.d.ts"],
   "exclude": ["node_modules"],

@@ -1,3 +1,4 @@
+
 {
   "compilerOptions": {
     "composite": true,
@@ -14,8 +15,6 @@
     "noImplicitReturns": true,
     "noImplicitOverride": true,
     "noFallthroughCasesInSwitch": true,
-    "noUnusedParameters": true,
-    "noUnusedLocals": true,
     "forceConsistentCasingInFileNames": true,
     "importsNotUsedAsValues": "error",
     "lib": ["DOM", "es2019", "esnext.asynciterable"],
