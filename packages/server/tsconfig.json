@@ -25,7 +25,7 @@
     },
     "outDir": "dist"
   },
-  "include": ["./index.d.ts"],
+  "include": ["./index.d.ts", "./index.ts"],
   "exclude": [
     "**/dist/**/*.d.ts",
     "dist",
