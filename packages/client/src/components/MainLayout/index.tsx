@@ -24,6 +24,7 @@ export class MainLayout extends Component<
   imageNames: { [key: string]: string } = {
     [RoutesNameList.Main]: mainBack,
     [RoutesNameList.Login]: loginBack,
+    [RoutesNameList.OAuth]: loginBack,
     [RoutesNameList.Registration]: loginBack,
     [RoutesNameList.Leaderboard]: leaderboardBack,
     [RoutesNameList.Profile]: profileBack,
@@ -31,9 +32,11 @@ export class MainLayout extends Component<
   imageNames2x: { [key: string]: string } = {
     [RoutesNameList.Main]: mainBack2x,
     [RoutesNameList.Login]: loginBack2x,
+    [RoutesNameList.OAuth]: loginBack2x,
     [RoutesNameList.Leaderboard]: leaderboardBack2x,
     [RoutesNameList.Profile]: profileBack2x,
   }
+
   constructor(props: MainLayoutProps) {
     super(props)
     this.state = {

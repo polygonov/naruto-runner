@@ -10,6 +10,7 @@ export const RoutesNameList = {
   Leaderboard: '/leaderboard',
   Topic: `/forum/:id`,
   Game: '/game',
+  OAuth: '/oauth',
 }
 
 export const regExps = {
@@ -22,7 +23,7 @@ export const TEAM_NAME = '22-cuties-naruto-runner'
 export const RATING_FIELD_NAME = 'score'
 
 export const YANDEX_OAUTH_URL = 'https://oauth.yandex.ru/authorize'
-export const OAUTH_REDIRECT_URI = window.location.origin
+export const OAUTH_REDIRECT_URI = `${window.location.origin}${RoutesNameList.OAuth}`
 
 export const YANDEX_OAUTH_REDIRECT_CONFIG = {
   url: YANDEX_OAUTH_URL,

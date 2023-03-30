@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
-import { useAppSelector } from '../store'
+import { useAppDispatch, useAppSelector } from '../store'
 import { selectOAuth } from '../store/oauth/selectors'
 import { stringifyUrlParams } from '../utils/stringifyUrlParams'
+import { resetOAuthState } from '../store/oauth/slice'
 
 type OAuthRedirectParams = {
   url: string
@@ -14,6 +15,8 @@ export const useOAuthRedirect = ({
   params,
   clientIdFieldName = 'client_id',
 }: OAuthRedirectParams) => {
+  const dispatch = useAppDispatch()
+
   const { clientId, isOAuthLoading, oAuthError } = useAppSelector(selectOAuth)
 
   useEffect(() => {
@@ -25,7 +28,11 @@ export const useOAuthRedirect = ({
         })
       )
     }
-  }, [params, clientId, url, clientIdFieldName])
+
+    return () => {
+      dispatch(resetOAuthState())
+    }
+  }, [params, clientId, url, clientIdFieldName, dispatch])
 
   useEffect(() => {
     if (oAuthError) {
