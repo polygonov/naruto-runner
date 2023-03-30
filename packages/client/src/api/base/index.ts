@@ -1,7 +1,8 @@
 import { PRACTICUM_ORIGIN } from '../../constant'
+import { HttpMethod } from '../constants'
 import type { ApiErrorResponse, ContentType, RequestOptions } from '../types'
 import { createFormData } from '../../utils/createFormData'
-import { HttpMethod } from '../constants'
+import { stringifyUrlParams } from '../../utils/stringifyUrlParams'
 
 export abstract class BaseApi {
   protected baseUrl: string
@@ -39,7 +40,7 @@ export abstract class BaseApi {
   }
 
   protected async createRequest<T>(
-    url: RequestInfo | URL,
+    url: string,
     options: RequestInit & RequestOptions = {}
   ) {
     const {
@@ -47,15 +48,24 @@ export abstract class BaseApi {
       contentType = 'json',
       data,
       credentials = 'include',
+      method = HttpMethod.GET,
+      params,
       ...fetchOptions
     } = options
 
     const requestOptions = {
       credentials,
+      method,
       ...fetchOptions,
     }
 
-    const isGetMethod = options.method === HttpMethod.GET
+    const isGetMethod = method === HttpMethod.GET
+
+    let requestUrl = url
+
+    if (isGetMethod && params) {
+      requestUrl = stringifyUrlParams(url, params)
+    }
 
     if (!isGetMethod && data) {
       requestOptions.body = this.formatBody(contentType, data)
@@ -68,7 +78,7 @@ export abstract class BaseApi {
       }
     }
 
-    const response = await fetch(url, requestOptions)
+    const response = await fetch(requestUrl, requestOptions)
 
     return this.handleServerResponse<T>(response, { shouldParseResponse })
   }

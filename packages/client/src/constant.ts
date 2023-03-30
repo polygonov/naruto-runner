@@ -1,5 +1,8 @@
+export const IS_DEV_ENV = process.env.NODE_ENV === 'development'
+
 export const PRACTICUM_ORIGIN = 'https://ya-praktikum.tech/api/v2'
 export const PRACTICUM_RESOURCES = `${PRACTICUM_ORIGIN}/resources`
+export const OAUTH_REDIRECT_URI = IS_DEV_ENV ? 'http://localhost:3000' : ''
 
 export const RoutesNameList = {
   Main: '/',
