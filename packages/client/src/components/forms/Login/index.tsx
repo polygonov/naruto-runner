@@ -1,12 +1,13 @@
+import { FC, FormEvent, useEffect, useState } from 'react'
+import { useFormik } from 'formik'
 import { Form } from '../../Form'
 import { Input } from '../../Input'
 import { Button } from '../../Button'
-import { useFormik } from 'formik'
-import { FC, FormEvent, useEffect, useState } from 'react'
+import { Link } from '../../Link'
+import { YandexOAuthButton } from '../../YandexOAuthButton'
 import { RoutesNameList } from '../../../constant'
 import { getValidationSchema } from '../../../utils/validation'
-import { Link } from '../../Link'
-import { AuthPayload } from '../../../api/auth/types'
+import type { AuthPayload } from '../../../api/auth/types'
 
 type LoginFields = AuthPayload
 
@@ -66,6 +67,7 @@ export const LoginForm: FC<LoginFormProps> = ({ handleAuth, serverError }) => {
             view="ghost"
             href={RoutesNameList.Registration}
           />
+          <YandexOAuthButton />
         </>
       }>
       <Input

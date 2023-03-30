@@ -7,7 +7,7 @@ class YandexOAuthApi extends BaseApi {
   signIn = async (payload: YandexOAuthPayload) =>
     this.createRequest(this.baseUrl, {
       method: HttpMethod.POST,
-      data: payload,
+      data: { ...payload, redirect_uri: OAUTH_REDIRECT_URI },
     })
 
   getServiceId = async () =>

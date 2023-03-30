@@ -4,5 +4,4 @@ export type GetServiceIdResponse = {
 
 export type YandexOAuthPayload = {
   code: string
-  redirect_uri: string
 }
