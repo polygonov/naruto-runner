@@ -1,22 +1,27 @@
 import { Avatar } from '../../Avatar'
 import './index.css'
 
-export interface ProfileProps {
+export type LeaderViewProps = {
   order: number
-  avatar: string
+  avatar: string | null
   username: string
   score: number
 }
 
-export function LeaderView(props: ProfileProps) {
+export function LeaderView({
+  order,
+  avatar,
+  score,
+  username,
+}: LeaderViewProps) {
   return (
     <div className="player">
-      <div className="player__number">{props.order}</div>
+      <span className="player__number">{order}</span>
       <div className="player__profile">
-        <Avatar src={props.avatar} className={'player__image'} size="small" />
-        <div className="player__name">{props.username}</div>
+        <Avatar src={avatar ?? ''} className="player__image" size="small" />
+        <p className="player__name">{username}</p>
       </div>
-      <div className="player__score">{props.score}</div>
+      <span className="player__score">{score}</span>
     </div>
   )
 }

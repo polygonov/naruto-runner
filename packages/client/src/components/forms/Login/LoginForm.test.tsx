@@ -3,10 +3,11 @@ import { LoginForm } from './index'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
 
+const handleAuth = jest.fn()
 const renderLoginForm = (props = {}) =>
   render(
     <BrowserRouter>
-      <LoginForm {...props} />
+      <LoginForm handleAuth={handleAuth} {...props} />
     </BrowserRouter>
   )
 
