@@ -1,20 +1,20 @@
-import { ErrorInfo } from 'react'
+import type { ErrorInfo } from 'react'
 import { GENERAL_ERROR } from '../../constant'
 import * as React from 'react'
 
-import { Props, State } from './types'
+import type { Props, State } from './types'
 
 export default class ErrorBoundary extends React.PureComponent<Props, State> {
-  public state: State = {
+  public override state: State = {
     error: null,
     errorInfo: null,
   }
 
-  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  public override componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     this.setState({ error, errorInfo })
   }
 
-  public render() {
+  public override render() {
     const { children } = this.props
 
     if (this.state.errorInfo) {

@@ -4,7 +4,5 @@ import { useAuth } from '../../hooks/useAuth'
 export function Login() {
   const { authError, handleAuth } = useAuth()
 
-  return (
-    <LoginForm serverError={authError} handleAuth={handleAuth} />
-  )
+  return <LoginForm serverError={authError} handleAuth={handleAuth} />
 }

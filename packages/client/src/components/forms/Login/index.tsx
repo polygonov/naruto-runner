@@ -17,10 +17,7 @@ type LoginFormProps = {
   serverError?: string | null
 }
 
-export const LoginForm: FC<LoginFormProps> = ({
-  handleAuth,
-  serverError
-}) => {
+export const LoginForm: FC<LoginFormProps> = ({ handleAuth, serverError }) => {
   const [shouldValidateOnChange, setShouldValidateOnChange] = useState(false)
 
   const initialValues: LoginFields = {

@@ -30,6 +30,7 @@ export const Button: FC<ButtonProps> = memo(
       if (withSound) {
         return randomClickSound
       }
+      return
     }
     return (
       <button
