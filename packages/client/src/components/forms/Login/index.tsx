@@ -4,7 +4,7 @@ import { Form } from '../../Form'
 import { Input } from '../../Input'
 import { Button } from '../../Button'
 import { Link } from '../../Link'
-import { YandexOAuthButton } from '../../YandexOAuthButton'
+import { OAuthDisplay } from '../../OAuthDisplay'
 import { RoutesNameList } from '../../../constant'
 import { getValidationSchema } from '../../../utils/validation'
 import type { AuthPayload } from '../../../api/auth/types'
@@ -67,7 +67,7 @@ export const LoginForm: FC<LoginFormProps> = ({ handleAuth, serverError }) => {
             view="ghost"
             href={RoutesNameList.Registration}
           />
-          <YandexOAuthButton />
+          <OAuthDisplay />
         </>
       }>
       <Input
