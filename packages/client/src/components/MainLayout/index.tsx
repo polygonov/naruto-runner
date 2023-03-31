@@ -75,12 +75,10 @@ export class MainLayout extends Component<
           </div>
         )}
         <ErrorBoundary>
-          <ErrorBoundary>
-            <div className="main-wrapper">
-              <HeaderComponent />
-              <div className="content-wrapper">{this.props.children}</div>
-            </div>
-          </ErrorBoundary>
+          <div className="main-wrapper">
+            <HeaderComponent />
+            <div className="content-wrapper">{this.props.children}</div>
+          </div>
         </ErrorBoundary>
       </div>
     )
