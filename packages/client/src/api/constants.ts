@@ -12,3 +12,7 @@ export enum HttpMethod {
   PATCH = 'PATCH',
   DELETE = 'DELETE',
 }
+
+export enum HttpErrorCodes {
+  Internal = 500,
+}

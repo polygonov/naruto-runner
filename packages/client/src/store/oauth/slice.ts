@@ -47,7 +47,7 @@ export const oAuthSlice = createSlice({
       isRejected(signInWithYandex, getYandexClientId),
       (state, { error }) => {
         state.isOAuthLoading = false
-        state.oAuthError = error.message ?? GENERAL_ERROR
+        state.oAuthError = error.message || GENERAL_ERROR
       }
     )
   },

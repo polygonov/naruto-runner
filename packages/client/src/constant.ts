@@ -4,13 +4,12 @@ export const PRACTICUM_RESOURCES = `${PRACTICUM_ORIGIN}/resources`
 export const RoutesNameList = {
   Main: '/',
   Forum: '/forum',
-  Login: '/login',
+  Login: '/oauth',
   Registration: '/registration',
   Profile: '/profile',
   Leaderboard: '/leaderboard',
   Topic: `/forum/:id`,
   Game: '/game',
-  OAuth: '/oauth',
 }
 
 export const regExps = {
@@ -23,12 +22,13 @@ export const TEAM_NAME = '22-cuties-naruto-runner'
 export const RATING_FIELD_NAME = 'score'
 
 export const YANDEX_OAUTH_URL = 'https://oauth.yandex.ru/authorize'
-export const OAUTH_REDIRECT_URI = `${window.location.origin}${RoutesNameList.OAuth}`
+export const OAUTH_REDIRECT_URI = `${window.location.origin}${RoutesNameList.Login}`
+export const OAUTH_RESPONSE_PARAM = 'code'
 
 export const YANDEX_OAUTH_REDIRECT_CONFIG = {
   url: YANDEX_OAUTH_URL,
   params: {
-    response_type: 'code',
+    response_type: OAUTH_RESPONSE_PARAM,
     redirect_uri: OAUTH_REDIRECT_URI,
   },
 }

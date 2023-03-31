@@ -10,6 +10,10 @@ type OAuthRedirectParams = {
   clientIdFieldName?: string
 }
 
+/**
+ * Хук читает oauth store и при получении clientId редиректит на страницу сервиса OAuth
+ * */
+
 export const useOAuthRedirect = ({
   url,
   params,
@@ -33,13 +37,6 @@ export const useOAuthRedirect = ({
       dispatch(resetOAuthState())
     }
   }, [params, clientId, url, clientIdFieldName, dispatch])
-
-  useEffect(() => {
-    if (oAuthError) {
-      // TODO показать тостъ
-      alert(oAuthError)
-    }
-  }, [oAuthError])
 
   return {
     isOAuthLoading,

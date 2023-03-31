@@ -1,5 +1,5 @@
 import { PRACTICUM_ORIGIN } from '../../constant'
-import { HttpMethod } from '../constants'
+import { HttpErrorCodes, HttpMethod } from '../constants'
 import type { ApiErrorResponse, ContentType, RequestOptions } from '../types'
 import { createFormData } from '../../utils/createFormData'
 import { stringifyUrlParams } from '../../utils/stringifyUrlParams'
@@ -17,9 +17,11 @@ export abstract class BaseApi {
     options?: RequestOptions
   ): Promise<T | never> {
     const isSuccessful = res.ok
+    const isInternalError = res.status === HttpErrorCodes.Internal
+    const shouldNotParseResponse =
+      (isSuccessful && !options?.shouldParseResponse) || isInternalError
 
-    const response =
-      isSuccessful && !options?.shouldParseResponse ? res : await res.json()
+    const response = shouldNotParseResponse ? res : await res.json()
 
     return isSuccessful
       ? response

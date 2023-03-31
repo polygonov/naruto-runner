@@ -12,7 +12,7 @@ export const Authorization: FC<AuthorizationProps> = ({ requireAuth }) => {
   const isAuth = useAppSelector(selectIsAuth)
 
   if (!requireAuth && isAuth) {
-    return <Navigate to={RoutesNameList.Main} />
+    return <Navigate to={RoutesNameList.Profile} />
   }
 
   if (requireAuth && !isAuth) {
