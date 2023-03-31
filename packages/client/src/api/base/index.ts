@@ -17,7 +17,9 @@ export abstract class BaseApi {
     options?: RequestOptions
   ): Promise<T | never> {
     const isSuccessful = res.ok
+
     const isInternalError = res.status === HttpErrorCodes.Internal
+
     const shouldNotParseResponse =
       (isSuccessful && !options?.shouldParseResponse) || isInternalError
 
@@ -63,12 +65,6 @@ export abstract class BaseApi {
 
     const isGetMethod = method === HttpMethod.GET
 
-    let requestUrl = url
-
-    if (isGetMethod && params) {
-      requestUrl = stringifyUrlParams(url, params)
-    }
-
     if (!isGetMethod && data) {
       requestOptions.body = this.formatBody(contentType, data)
 
@@ -78,6 +74,12 @@ export abstract class BaseApi {
           'Content-Type': 'application/json',
         }
       }
+    }
+
+    let requestUrl = url
+
+    if (params) {
+      requestUrl = stringifyUrlParams(url, params)
     }
 
     const response = await fetch(requestUrl, requestOptions)

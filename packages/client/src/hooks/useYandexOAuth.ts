@@ -34,7 +34,6 @@ export const useYandexOAuth = () => {
 
   return {
     isOAuthLoading,
-    oAuthError,
     goToYandexAuth,
   }
 }
