@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import React, { memo } from 'react'
+import { memo } from 'react'
 import classNames from 'classnames'
 import { YandexOAuthButton } from '../YandexOAuthButton'
 import './index.css'
@@ -8,7 +8,14 @@ export type OAuthDisplayButtonInjectedProps = {
   view?: 'full' | 'icon'
 }
 
-const buttons: FC<OAuthDisplayButtonInjectedProps>[] = [YandexOAuthButton]
+type OAuthButton = {
+  Component: FC<OAuthDisplayButtonInjectedProps>
+  key: string
+}
+
+const buttons: OAuthButton[] = [
+  { Component: YandexOAuthButton, key: 'YandexOAuth' },
+]
 
 const isMultiple = buttons.length > 1
 
@@ -23,9 +30,9 @@ export const OAuthDisplay: FC<OAuthDisplayProps> = memo(({ className }) => {
         {isMultiple ? 'или войти с помощью' : 'или'}
       </span>
       <div className="oauth-display__buttons">
-        {React.Children.toArray(
-          buttons.map(Button => <Button view={isMultiple ? 'icon' : 'full'} />)
-        )}
+        {buttons.map(({ Component, key }) => (
+          <Component key={key} view={isMultiple ? 'icon' : 'full'} />
+        ))}
       </div>
     </div>
   )
