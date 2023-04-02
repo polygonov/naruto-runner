@@ -4,6 +4,7 @@ import { EngineSettings, EngineStatus } from './EngineOptions'
 import { VisualItem } from './VisualItem'
 
 const enemyHeight = 90
+const varietyOfEnemy = 4
 
 export class Enemy extends VisualItem {
   private frame = 0
@@ -21,7 +22,6 @@ export class Enemy extends VisualItem {
     private deltaX: number
   ) {
     super(context)
-    const varietyOfEnemy = 4
     this.frame = this.width * Math.floor(Math.random() * varietyOfEnemy)
     this.rect.y = this.topOffset
     this.rect.y1 = this.topOffset + enemyHeight

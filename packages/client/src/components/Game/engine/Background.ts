@@ -5,11 +5,9 @@ import { VisualItem } from './VisualItem'
 export class Background extends VisualItem {
   private deltaX = 15
   private factor = 0.001
-  private id = 0
 
   constructor(context: CanvasRenderingContext2D) {
     super(context)
-    this.id = Math.random()
   }
 
   protected init(): void {
@@ -21,7 +19,6 @@ export class Background extends VisualItem {
   }
 
   draw = () => {
-    console.log('back id', this.id)
     const deltaX = this.deltaX
     let movement = this.step * deltaX
     if (movement > this.width) {

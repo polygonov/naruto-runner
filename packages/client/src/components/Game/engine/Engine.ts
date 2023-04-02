@@ -1,17 +1,20 @@
 import { Background } from './Background'
 import { EnemyManager } from './EnemyManager'
 import { EngineStatus } from './EngineOptions'
-import { Hero } from './Hero'
+import { Action, Hero } from './Hero'
+import { VisualItem } from './VisualItem'
 
 export class Engine {
   private static instance: Engine
   private enemyManager: EnemyManager
   private background: Background
   private hero: Hero
+  private visualItems: VisualItem[] = []
 
   constructor(context: CanvasRenderingContext2D) {
     this.background = new Background(context)
     this.hero = new Hero(context)
+    this.visualItems.push(this.background, this.hero)
     this.enemyManager = new EnemyManager(context, this.hero)
     this.background.draw()
     this.enemyManager.generate()
@@ -27,25 +30,27 @@ export class Engine {
   }
 
   private checkStatus = () => {
-    if (this && this.enemyManager !== undefined) {
+    if (this.enemyManager !== undefined) {
       if (this.enemyManager.status === EngineStatus.Unmounted) {
-        this.background.status = EngineStatus.Unmounted
-        this.hero.status = EngineStatus.Unmounted
+        this.visualItems.forEach(item => (item.status = EngineStatus.Unmounted))
       } else {
-        this.background.status = EngineStatus.Running
-        this.hero.status = EngineStatus.Running
+        this.visualItems.forEach(item => (item.status = EngineStatus.Running))
       }
     }
-    if (this) {
-      requestAnimationFrame(this.checkStatus)
-    }
+    requestAnimationFrame(this.checkStatus)
   }
 
   mount() {
-    this.hero.mount()
+    window.addEventListener('keydown', this.onKeyDown)
   }
 
   unmount() {
-    this.hero.unmount()
+    window.removeEventListener('keydown', this.onKeyDown)
+  }
+
+  onKeyDown = (event: KeyboardEvent) => {
+    if (this.hero.action === Action.Run && event.code === 'Space') {
+      this.hero.action = Action.Up
+    }
   }
 }

@@ -4,26 +4,28 @@ import { VisualItem } from './VisualItem'
 import { Rect } from './CollisionDetector'
 import { EngineStatus } from './EngineOptions'
 
-enum Action {
-  Up,
-  Down,
-  Run,
+export enum Action {
+  Up = 'up',
+  Down = 'down',
+  Run = 'run',
 }
+
+const OFFSET_OF_COLLISION = 70
 
 export class Hero extends VisualItem {
   private stepsLimit = 10
   private startStep = 0
   private jumpFrames = 20
-  private action = Action.Run
   private offsetTop = 220
   private movePartial = 10
+  action = Action.Run
   rect: Rect = { x: 0, x1: 0, y: 0, y1: 0 }
 
   constructor(context: CanvasRenderingContext2D) {
     super(context)
-    const offset = 70
+
     this.rect.x = 100
-    this.rect.x1 = this.rect.x + this.width - offset
+    this.rect.x1 = this.rect.x + this.width - OFFSET_OF_COLLISION
   }
 
   protected init(): void {
@@ -35,28 +37,10 @@ export class Hero extends VisualItem {
   }
 
   draw = () => {
-    if (this.action === Action.Run) {
-      this.run()
-    } else {
-      this.jump()
-    }
+    this.actionsHash[this.action]()
   }
 
-  mount() {
-    window.addEventListener('keydown', this.onKeyDown)
-  }
-
-  unmount() {
-    window.removeEventListener('keydown', this.onKeyDown)
-  }
-
-  private onKeyDown = (event: KeyboardEvent) => {
-    if (this.action === Action.Run && event.code === 'Space') {
-      this.action = Action.Up
-    }
-  }
-
-  private run() {
+  private run = () => {
     const frames = 6
     this.rect.y = this.offsetTop
     this.rect.y1 = this.rect.y + this.height
@@ -86,16 +70,8 @@ export class Hero extends VisualItem {
     }
   }
 
-  private jump() {
+  private up = () => {
     this.image.src = heroJump
-    if (this.action === Action.Up) {
-      this.up()
-    } else {
-      this.down()
-    }
-  }
-
-  private up() {
     const topFreezeFrames = 10
     const collisionOffset = 50
     let frame = 0
@@ -133,7 +109,8 @@ export class Hero extends VisualItem {
     }
   }
 
-  private down() {
+  private down = () => {
+    this.image.src = heroJump
     const collisionOffset = 50
     const progress = this.step - this.startStep
     const movement = progress * this.jumpFrames
@@ -163,5 +140,11 @@ export class Hero extends VisualItem {
     if (this.status === EngineStatus.Running) {
       requestAnimationFrame(this.draw)
     }
+  }
+
+  private actionsHash = {
+    run: this.run,
+    up: this.up,
+    down: this.down,
   }
 }

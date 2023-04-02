@@ -28,7 +28,7 @@ export class EnemyManager {
   generate = () => {
     const time = performance.now()
     const progress = time - this.startTime
-    if (progress >= this.frameRate && this.collisionDetector !== undefined) {
+    if (progress >= this.frameRate && this.collisionDetector) {
       this.startTime = performance.now()
       this.frameRate = this.getRandomInt(this.minFramerate, this.maxFramerate)
       const newEnemy = new Enemy(
@@ -40,14 +40,14 @@ export class EnemyManager {
       if (this.status === EngineStatus.Running) {
         requestAnimationFrame(newEnemy.draw)
       }
-      this.enemyList.forEach((enemy, index, array) => {
+      this.enemyList.filter((enemy, index, array) => {
         if (enemy.isDied) {
           array.splice(index, 1)
         }
         if (this.collisionDetector) {
           this.collisionDetector.intersects(enemy.rect)
         }
-      }, this.enemyList)
+      })
     }
     if (
       this.collisionDetector &&
