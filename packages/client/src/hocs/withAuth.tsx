@@ -1,4 +1,4 @@
-import { ReactElement, useLayoutEffect } from 'react'
+import { FC, ReactElement, useLayoutEffect } from 'react'
 import { useAuth } from '../hooks/useAuth'
 
 export const withAuth = (Component: () => ReactElement) => () => {

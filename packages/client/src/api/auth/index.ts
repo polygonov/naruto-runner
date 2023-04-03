@@ -1,4 +1,9 @@
-import { GetUserResponse, RegisterPayload, RegisterResponse } from './types'
+import {
+  AuthPayload,
+  GetUserResponse,
+  RegisterPayload,
+  RegisterResponse,
+} from './types'
 import { trimData } from '../../utils/trimData'
 import { HttpMethod, userStubFields } from '../constants'
 import { BaseApi } from '../base'
@@ -8,6 +13,19 @@ class AuthApi extends BaseApi {
     this.createRequest<RegisterResponse>(`${this.baseUrl}/signup`, {
       method: HttpMethod.POST,
       data: { ...trimData(payload), ...userStubFields },
+    })
+
+  signIn = async (payload: AuthPayload) =>
+    this.createRequest(`${this.baseUrl}/signin`, {
+      shouldParseResponse: false,
+      method: HttpMethod.POST,
+      data: trimData(payload),
+    })
+
+  logout = async () =>
+    this.createRequest(`${this.baseUrl}/logout`, {
+      shouldParseResponse: false,
+      method: HttpMethod.POST,
     })
 
   getUser = async () =>

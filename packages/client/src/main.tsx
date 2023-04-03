@@ -8,7 +8,7 @@ import { withAuth } from './hocs/withAuth'
 import { store } from './store'
 import './index.css'
 
-const Application = withAuth(App)
+const Application = withAuth(App as any)
 
 const InitApp = (
   <React.StrictMode>
@@ -22,6 +22,4 @@ const InitApp = (
 
 startServiceWorker()
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  InitApp
-)
+ReactDOM.hydrateRoot(document.getElementById('root') as HTMLElement, InitApp)

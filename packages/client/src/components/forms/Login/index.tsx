@@ -1,21 +1,26 @@
+import { FC, FormEvent, useEffect, useState } from 'react'
+import { useFormik } from 'formik'
 import { Form } from '../../Form'
 import { Input } from '../../Input'
 import { Button } from '../../Button'
-import { useFormik } from 'formik'
-import { FC, FormEvent, useState } from 'react'
+import { Link } from '../../Link'
+import { OAuthDisplay } from '../../OAuthDisplay'
 import { RoutesNameList } from '../../../constant'
 import { getValidationSchema } from '../../../utils/validation'
-import { Link } from '../../Link'
+import type { AuthPayload } from '../../../api/auth/types'
 
-type LoginFields = {
-  login: string
-  password: string
-}
+type LoginFields = AuthPayload
 
 const LoginSchema = getValidationSchema<LoginFields>('login', 'password')
 
-export const LoginForm: FC = props => {
+type LoginFormProps = {
+  handleAuth: (data: AuthPayload) => void
+  serverError?: string | null
+}
+
+export const LoginForm: FC<LoginFormProps> = ({ handleAuth, serverError }) => {
   const [shouldValidateOnChange, setShouldValidateOnChange] = useState(false)
+
   const initialValues: LoginFields = {
     login: '',
     password: '',
@@ -26,12 +31,7 @@ export const LoginForm: FC = props => {
     validationSchema: LoginSchema,
     validateOnBlur: false,
     validateOnChange: shouldValidateOnChange,
-    onSubmit: (values, actions) => {
-      setTimeout(() => {
-        console.log(JSON.stringify(values))
-        actions.setSubmitting(false)
-      }, 1000)
-    },
+    onSubmit: handleAuth,
   })
 
   const submitHandler = (e: FormEvent) => {
@@ -41,6 +41,13 @@ export const LoginForm: FC = props => {
     }
     return formik.handleSubmit()
   }
+
+  useEffect(() => {
+    if (serverError) {
+      formik.setSubmitting(false)
+      alert(serverError)
+    }
+  }, [serverError, formik.setSubmitting])
 
   return (
     <Form
@@ -60,12 +67,12 @@ export const LoginForm: FC = props => {
             view="ghost"
             href={RoutesNameList.Registration}
           />
+          <OAuthDisplay />
         </>
-      }
-      {...props}>
+      }>
       <Input
         name="login"
-        placeholder="ivaivan"
+        placeholder="LOGIN"
         label="Введите ваш логин"
         isValid={!formik.errors.login}
         error={formik.errors.login}

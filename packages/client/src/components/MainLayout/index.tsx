@@ -1,14 +1,14 @@
 import { Component, ReactNode } from 'react'
 import HeaderComponent from '../Header'
 import { RoutesNameList } from '../../constant'
-import mainBack from '../../assets/images/background/Main.png'
-import mainBack2x from '../../assets/images/background/Main@2x.png'
-import profileBack from '../../assets/images/background/Profile.png'
-import profileBack2x from '../../assets/images/background/Profile@2x.png'
-import loginBack from '../../assets/images/background/Login.png'
-import loginBack2x from '../../assets/images/background/Login@2x.png'
-import leaderboardBack from '../../assets/images/background/Leaderboard.png'
-import leaderboardBack2x from '../../assets/images/background/Leaderboard@2x.png'
+import mainBack from './background/Main.png'
+import mainBack2x from './background/Main@2x.png'
+import profileBack from './background/Profile.png'
+import profileBack2x from './background/Profile@2x.png'
+import loginBack from './background/Login.png'
+import loginBack2x from './background/Login@2x.png'
+import leaderboardBack from './background/Leaderboard.png'
+import leaderboardBack2x from './background/Leaderboard@2x.png'
 import ErrorBoundary from '../ErrorBoundary'
 import './index.css'
 
@@ -35,6 +35,7 @@ export class MainLayout extends Component<
     [RoutesNameList.Leaderboard]: leaderboardBack2x,
     [RoutesNameList.Profile]: profileBack2x,
   }
+
   constructor(props: MainLayoutProps) {
     super(props)
     this.state = {
@@ -51,15 +52,15 @@ export class MainLayout extends Component<
     })
   }
 
-  componentDidMount() {
+  override componentDidMount() {
     this.getBackgroundImgPath(this.props.background)
   }
 
-  componentWillReceiveProps(nextProps: { background: string }) {
+  override componentWillReceiveProps(nextProps: { background: string }) {
     this.getBackgroundImgPath(nextProps.background)
   }
 
-  render() {
+  override render() {
     return (
       <div
         className={
