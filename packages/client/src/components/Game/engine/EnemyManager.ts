@@ -40,13 +40,11 @@ export class EnemyManager {
       if (this.status === EngineStatus.Running) {
         requestAnimationFrame(newEnemy.draw)
       }
-      this.enemyList.filter((enemy, index, array) => {
-        if (enemy.isDied) {
-          array.splice(index, 1)
-        }
+      this.enemyList = this.enemyList.filter(enemy => {
         if (this.collisionDetector) {
           this.collisionDetector.intersects(enemy.rect)
         }
+        return !enemy.isDied
       })
     }
     if (
