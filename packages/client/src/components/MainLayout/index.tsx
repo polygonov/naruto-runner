@@ -8,8 +8,8 @@ import profileBack2x from '../../assets/images/background/Profile@2x.png'
 import loginBack from '../../assets/images/background/Login.png'
 import loginBack2x from '../../assets/images/background/Login@2x.png'
 import leaderboardBack from '../../assets/images/background/Leaderboard.png'
-import gameBack from '../../assets/images/background/Game.png'
 import leaderboardBack2x from '../../assets/images/background/Leaderboard@2x.png'
+import gameBack from '../../assets/images/background/Game.png'
 import ErrorBoundary from '../ErrorBoundary'
 import './index.css'
 
@@ -36,6 +36,7 @@ export class MainLayout extends Component<
     [RoutesNameList.Leaderboard]: leaderboardBack2x,
     [RoutesNameList.Profile]: profileBack2x,
   }
+
   constructor(props: MainLayoutProps) {
     super(props)
     this.state = {
@@ -52,15 +53,15 @@ export class MainLayout extends Component<
     })
   }
 
-  componentDidMount() {
+  override componentDidMount() {
     this.getBackgroundImgPath(this.props.background)
   }
 
-  componentWillReceiveProps(nextProps: { background: string }) {
+  override componentWillReceiveProps(nextProps: { background: string }) {
     this.getBackgroundImgPath(nextProps.background)
   }
 
-  render() {
+  override render() {
     return (
       <div
         className={

@@ -5,8 +5,6 @@ import { RoutesNameList } from '../../constant'
 import randomClickSound from '../../utils/randomClickSound'
 
 export function MainPage() {
-  const isAuth = false
-
   return (
     <div className="main-page-wrapper">
       <Logo />
@@ -17,14 +15,6 @@ export function MainPage() {
           view="primary"
           onClick={randomClickSound}
         />
-        {!isAuth && (
-          <Link
-            href={RoutesNameList.Login}
-            text="Войти"
-            view="secondary"
-            onClick={randomClickSound}
-          />
-        )}
       </div>
     </div>
   )
