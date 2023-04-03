@@ -9,7 +9,6 @@ import loginBack from '../../assets/images/background/Login.png'
 import loginBack2x from '../../assets/images/background/Login@2x.png'
 import leaderboardBack from '../../assets/images/background/Leaderboard.png'
 import leaderboardBack2x from '../../assets/images/background/Leaderboard@2x.png'
-import gameBack from '../../assets/images/background/Game.png'
 import ErrorBoundary from '../ErrorBoundary'
 import './index.css'
 
