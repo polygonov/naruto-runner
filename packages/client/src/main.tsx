@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-import { startServiceWorker } from './utils/serviceWorker'
+// import { startServiceWorker } from './utils/serviceWorker'
 import { Provider } from 'react-redux'
 import App from './App'
 import { withAuth } from './hocs/withAuth'
@@ -20,6 +20,6 @@ const InitApp = (
   </React.StrictMode>
 )
 
-startServiceWorker()
+// startServiceWorker()
 
 ReactDOM.hydrateRoot(document.getElementById('root') as HTMLElement, InitApp)

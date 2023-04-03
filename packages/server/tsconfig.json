@@ -1,4 +1,3 @@
-
 {
   "compilerOptions": {
     "composite": true,
@@ -10,6 +9,8 @@
     "declaration": true,
     "declarationMap": true,
     "removeComments": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "strict": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
@@ -25,7 +26,7 @@
     },
     "outDir": "dist"
   },
-  "include": ["./index.d.ts", "./index.ts"],
+  "include": ["./index.d.ts", "./index.ts","src"],
   "exclude": [
     "**/dist/**/*.d.ts",
     "dist",
