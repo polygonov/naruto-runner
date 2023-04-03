@@ -9,6 +9,7 @@ import loginBack from './background/Login.png'
 import loginBack2x from './background/Login@2x.png'
 import leaderboardBack from './background/Leaderboard.png'
 import leaderboardBack2x from './background/Leaderboard@2x.png'
+import gameBack from '../../assets/images/background/Game.png'
 import ErrorBoundary from '../ErrorBoundary'
 import './index.css'
 
@@ -27,6 +28,7 @@ export class MainLayout extends Component<
     [RoutesNameList.Registration]: loginBack,
     [RoutesNameList.Leaderboard]: leaderboardBack,
     [RoutesNameList.Profile]: profileBack,
+    [RoutesNameList.Game]: gameBack,
   }
   imageNames2x: { [key: string]: string } = {
     [RoutesNameList.Main]: mainBack2x,
