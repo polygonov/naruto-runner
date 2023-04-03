@@ -34,6 +34,7 @@ export class MainLayout extends Component<
     [RoutesNameList.Leaderboard]: leaderboardBack2x,
     [RoutesNameList.Profile]: profileBack2x,
   }
+
   constructor(props: MainLayoutProps) {
     super(props)
     this.state = {
