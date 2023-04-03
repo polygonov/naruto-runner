@@ -1,5 +1,7 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript'
+import Topic from '../models/topics'
 import dbConfig from './db.config'
+import * as process from 'process'
 
 const sequelizeOptions: SequelizeOptions = {
   host: dbConfig.HOST,
@@ -9,12 +11,18 @@ const sequelizeOptions: SequelizeOptions = {
   database: dbConfig.DB,
   dialect: dbConfig.dialect,
 }
-export const sequelize = new Sequelize(sequelizeOptions)
+
+const sequelize = new Sequelize(sequelizeOptions)
+sequelize.addModels([Topic])
 
 export async function dbConnect() {
   try {
-    await sequelize.authenticate() // Проверка аутентификации в БД
-    await sequelize.sync() // Синхронизация базы данных
+    await sequelize.authenticate()
+    if (process.env.NODE_ENV === 'development') {
+      await sequelize.sync({ force: true })
+    } else {
+      await sequelize.sync()
+    }
     console.log('Connection has been established successfully.')
   } catch (error) {
     console.error('Unable to connect to the database:', error)
