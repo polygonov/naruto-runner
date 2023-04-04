@@ -1,5 +1,6 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript'
-import Topic from '../models/topics'
+import { Topic } from '../models/topics'
+import { Comment } from '../models/comments'
 import dbConfig from './db.config'
 import * as process from 'process'
 
@@ -13,7 +14,7 @@ const sequelizeOptions: SequelizeOptions = {
 }
 
 const sequelize = new Sequelize(sequelizeOptions)
-sequelize.addModels([Topic])
+sequelize.addModels([Topic, Comment])
 
 export async function dbConnect() {
   try {

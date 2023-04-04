@@ -6,24 +6,31 @@ import {
   PrimaryKey,
   Table,
   AllowNull,
+  ForeignKey,
+  Index,
 } from 'sequelize-typescript'
+import { Topic } from './topics'
 import type { Optional } from 'sequelize'
 
-type TopicAttributes = {
+type CommentAttributes = {
   id: number
-  title: string
+  message: string
+  topicId: number
   authorId: number
   status: boolean
 }
 
-type TopicCreationAttributes = Optional<TopicAttributes, 'id' | 'status'>
+type CommentCreationAttributes = Optional<CommentAttributes, 'id' | 'status'>
 
 @Table({
-  tableName: 'topics_table',
+  tableName: 'comments_table',
   timestamps: true,
   updatedAt: false,
 })
-export class Topic extends Model<TopicAttributes, TopicCreationAttributes> {
+export class Comment extends Model<
+  CommentAttributes,
+  CommentCreationAttributes
+> {
   @AutoIncrement
   @PrimaryKey
   @Column(DataType.INTEGER)
@@ -31,7 +38,13 @@ export class Topic extends Model<TopicAttributes, TopicCreationAttributes> {
 
   @AllowNull(false)
   @Column(DataType.STRING)
-  title: string
+  message: string
+
+  @Index
+  @ForeignKey(() => Topic)
+  @AllowNull(false)
+  @Column(DataType.INTEGER)
+  topicId: number
 
   @AllowNull(false)
   @Column({

@@ -7,6 +7,8 @@ import express, { NextFunction, Request, Response } from 'express'
 import * as fs from 'fs'
 import * as path from 'path'
 import dotenv from 'dotenv'
+import { commentsRouter } from './routers/commentsRouter'
+import { topicsRouter } from './routers/topicsRouter'
 
 dotenv.config({ path: path.resolve(__dirname, '../../../../.env') })
 
@@ -27,9 +29,9 @@ class Server {
     this.app = express()
     this.config()
     this.middleware()
-    this.routerConfig()
-    this.apiConfig()
-    this.dbConnect()
+    this.dbConnect().then(() => {
+      this.routerConfig()
+    })
   }
 
   private config() {
@@ -55,14 +57,13 @@ class Server {
   private routerConfig() {
     const router = express.Router()
     router.use('^/$', this.serverRenderer.bind(this))
-    this.app.use(router)
-  }
 
-  private apiConfig() {
-    this.app.get('/api', (_, res) => {
-      res.json('👋 Howdy from the server :)')
-    })
-    this.app.get('/ssr', this.serverRenderer.bind(this))
+    const apiRouter = express.Router({ mergeParams: true })
+    commentsRouter(apiRouter)
+    topicsRouter(apiRouter)
+    router.use('/api/v1', apiRouter)
+
+    this.app.use(router)
   }
 
   private dbConnect() {
