@@ -15,7 +15,7 @@ import type { Optional } from 'sequelize'
 type CommentAttributes = {
   id: number
   message: string
-  topicId: number
+  topic_id: number
   authorId: number
   status: boolean
 }
@@ -43,8 +43,10 @@ export class Comment extends Model<
   @Index
   @ForeignKey(() => Topic)
   @AllowNull(false)
-  @Column(DataType.INTEGER)
-  topicId: number
+  @Column({
+    type: DataType.INTEGER,
+  })
+  topic_id: number
 
   @AllowNull(false)
   @Column({

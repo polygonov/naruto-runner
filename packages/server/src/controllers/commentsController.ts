@@ -2,43 +2,71 @@ import type { Request, Response } from 'express'
 import CommentsService from '../services/CommentsService'
 
 export class CommentsController {
-  public static getCommentsByTopic = async (req: Request, res: Response) => {
-    const topicId = req.params.topicId
+  public static getCommentsByTopic = (req: Request, res: Response) => {
+    const { topicId } = req.params
     const { message } = req.query
 
     if (!topicId) {
-      res.status(400).json({ message: 'Bad request' })
+      res
+        .status(400)
+        .json({ message: 'Missing required field `topicId`', req: req.params })
     }
 
-    const comments = await CommentsService.requestMany({
+    CommentsService.requestAll({
       topicId: Number(topicId),
-      message: message ? String(message) : undefined,
+      ...(message && { message: message as string }),
     })
-    res.json(comments)
+      .then(comments => {
+        if (!comments) {
+          res.status(404).json({ message: 'No comments found' })
+        }
+        res.json(comments)
+      })
+      .catch(err => {
+        res.status(500).json({ message: err.message })
+      })
   }
 
-  public static createComment = async (req: Request, res: Response) => {
-    const { message, authorId, topicId } = req.body
+  public static createComment = (req: Request, res: Response) => {
+    const { message, authorId, topic_id } = req.body
 
-    if (!message || !authorId || !topicId) {
-      res.status(400).json({ message: 'Bad request' })
+    if (!message || !authorId || !topic_id) {
+      res
+        .status(400)
+        .json({
+          message:
+            'Missing some of required fields `topic_id | authorId | message`',
+        })
     }
 
-    const topic = await CommentsService.create({ message, authorId, topicId })
-    res.json(topic)
+    CommentsService.create({ message, authorId, topic_id })
+      .then(comment => {
+        if (!comment) {
+          res.status(404).json({ message: 'No comment found' })
+        }
+        res.json(comment)
+      })
+      .catch(err => {
+        res.status(500).json({ message: err.message })
+      })
   }
 
-  public static deleteComment = async (req: Request, res: Response) => {
-    const { topicId, commentId } = req.params
+  public static deleteComment = (req: Request, res: Response) => {
+    const { commentId } = req.params
 
-    if (!topicId || !commentId) {
-      res.status(400).json({ message: 'Bad request' })
+    if (!commentId) {
+      res.status(400).json({ message: 'Missing required field `commentId`' })
     }
 
-    const topic = await CommentsService.delete(
-      Number(commentId),
-      Number(topicId)
-    )
-    res.json(topic)
+    CommentsService.delete(Number(commentId))
+      .then(comment => {
+        if (!comment) {
+          res.status(404).json({ message: 'No comment found' })
+        }
+        res.status(204).json({ message: 'Comment deleted' })
+      })
+      .catch(err => {
+        res.status(500).json({ message: err.message })
+      })
   }
 }

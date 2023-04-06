@@ -56,13 +56,13 @@ class Server {
 
   private routerConfig() {
     const router = express.Router()
-    router.use('^/$', this.serverRenderer.bind(this))
 
     const apiRouter = express.Router({ mergeParams: true })
     commentsRouter(apiRouter)
     topicsRouter(apiRouter)
     router.use('/api/v1', apiRouter)
 
+    router.use('^/$', this.serverRenderer.bind(this))
     this.app.use(router)
   }
 

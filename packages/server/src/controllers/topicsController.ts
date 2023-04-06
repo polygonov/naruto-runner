@@ -5,50 +5,69 @@ import type { Topic } from '../models/topics'
 export class TopicsController {
   public static getTopics = async (req: Request, res: Response) => {
     const { title } = req.query
-    let topics: Topic[]
-
-    if (title) {
-      topics = await TopicsService.requestMany({ title: String(title) })
-    } else {
-      topics = await TopicsService.requestMany({})
-    }
+    const topics = await TopicsService.requestAll({
+      ...(title && { title: title as string }),
+    })
 
     res.json(topics)
   }
-  public static getTopic = async (req: Request, res: Response) => {
-    const id = req.params.topicId
+  public static getTopic = (req: Request, res: Response) => {
+    const { topicId } = req.params
 
-    if (!id) {
-      res.status(400).json({ message: 'Bad request' })
+    if (!topicId) {
+      res.status(400).json({ message: 'Missing required field `topicId`' })
     }
 
-    const topic = await TopicsService.requestOne({ id: Number(id) })
-    if (!topic) {
-      res.status(404).json({ message: 'Topic not found' })
-    }
+    TopicsService.request(Number(topicId))
+      .then(topic => {
+        if (!topic) {
+          res.status(404).json({ message: 'Topic with given id not found' })
+        }
 
-    res.json(topic)
+        res.json(topic)
+      })
+      .catch(err => {
+        res.status(500).json({ message: err.message })
+      })
   }
 
-  public static createTopic = async (req: Request, res: Response) => {
+  public static createTopic = (req: Request, res: Response) => {
     const { title, authorId } = req.body
 
     if (!title || !authorId) {
-      res.status(400).json({ message: 'Bad request' })
+      res
+        .status(400)
+        .json({ message: 'Missing some of required fields `title | authorId`' })
     }
 
-    const topic = await TopicsService.create({ title, authorId })
-    res.json(topic)
+    TopicsService.create({ title, authorId })
+      .then(topic => {
+        if (!topic) {
+          res.status(404).json({ message: 'No topic found' })
+        }
+        res.json(topic)
+      })
+      .catch(err => {
+        res.status(500).json({ message: err.message })
+      })
   }
 
-  public static deleteTopic = async (req: Request, res: Response) => {
-    const id = req.params.topicId
+  public static deleteTopic = (req: Request, res: Response) => {
+    const { topicId } = req.params
 
-    if (!id) {
-      res.status(400).json({ message: 'Bad request' })
+    if (!topicId) {
+      res.status(400).json({ message: 'Missing required field `topicId`' })
     }
 
-    const topic = await TopicsService.delete(Number(id))
-    res.json(topic)
+    TopicsService.delete(Number(topicId))
+      .then(topic => {
+        if (!topic) {
+          res.status(404).json({ message: 'No topic found' })
+        }
+        res.status(204).json({ message: 'Topic deleted' })
+      })
+      .catch(err => {
+        res.status(500).json({ message: err.message })
+      })
   }
 }

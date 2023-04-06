@@ -5,34 +5,22 @@ interface FindRequest {
   title?: string
 }
 
-interface getOneRequest {
-  id: number
-}
-
 interface CreateRequest {
   title: string
   authorId: number
 }
 
 class TopicsService implements BaseRESTService {
-  public requestMany = ({ title }: FindRequest) => {
-    if (title) {
-      return Topic.findAll({
-        where: {
-          title: `%${title}%`,
-          status: true,
-        },
-      })
-    }
-
+  public requestAll = ({ title }: FindRequest) => {
     return Topic.findAll({
       where: {
         status: true,
+        ...(title && { title: `%${title}%` }),
       },
     })
   }
 
-  public requestOne = ({ id }: getOneRequest) => {
+  public request = (id: number) => {
     return Topic.findByPk(id, {
       include: [
         {
@@ -43,14 +31,6 @@ class TopicsService implements BaseRESTService {
           },
         },
       ],
-    })
-  }
-
-  public find = ({ title }: FindRequest) => {
-    return Topic.findAll({
-      where: {
-        title: `%${title}%`,
-      },
     })
   }
 

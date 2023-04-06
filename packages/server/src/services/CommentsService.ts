@@ -8,42 +8,36 @@ interface FindRequest {
 
 interface CreateRequest {
   message: string
-  topicId: number
+  topic_id: number
   authorId: number
 }
 
 class CommentsService implements BaseRESTService {
-  public requestMany = ({ topicId, message }: FindRequest) => {
-    if (message) {
-      return Comment.findAll({
-        where: {
-          topicId,
-          message: `%${message}%`,
-          status: true,
-        },
-      })
-    }
-
+  public requestAll = ({ topicId, message }: FindRequest) => {
     return Comment.findAll({
       where: {
-        topicId,
+        topic_id: topicId,
         status: true,
+        ...(message && { message: `%${message}%` }),
       },
     })
+  }
+
+  public request = ({ id }: { id: number }) => {
+    return Comment.findByPk(id)
   }
 
   public create = (data: CreateRequest) => {
     return Comment.create(data)
   }
 
-  public delete = (id: number, topicId: number) => {
+  public delete = (id: number) => {
     return Comment.update(
       {
         status: false,
       },
       {
         where: {
-          topicId,
           id,
         },
       }
