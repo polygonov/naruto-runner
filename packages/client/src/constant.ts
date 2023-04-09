@@ -22,7 +22,28 @@ export const TEAM_NAME = '22-cuties-naruto-runner'
 export const RATING_FIELD_NAME = 'score'
 
 export const YANDEX_OAUTH_URL = 'https://oauth.yandex.ru/authorize'
-export const OAUTH_REDIRECT_URI = `${window.location.origin}${RoutesNameList.Login}`
+/* eslint-disable @typescript-eslint/no-empty-function */
+const windowSsr = {
+  localStorage: {
+    key: () => null,
+    getItem: () => null,
+    setItem: () => undefined,
+    removeItem: () => undefined,
+    clear: () => null,
+  },
+  addEventListener() {},
+  removeEventListener() {},
+  innerWidth: 500,
+  innerHeight: 500,
+  location: {
+    origin: '/',
+  },
+}
+
+const win: Window | typeof windowSsr =
+  typeof window !== 'undefined' ? window : windowSsr
+export const OAUTH_REDIRECT_URI = `${win.location.origin}${RoutesNameList.Login}`
+
 export const OAUTH_RESPONSE_PARAM = 'code'
 
 export const YANDEX_OAUTH_REDIRECT_CONFIG = {
