@@ -67,7 +67,7 @@ async function startServer() {
       const appHtml = await render(url)
 
       const html = template.replace(`<!--SSR-->`, appHtml)
-      //console.log(html)
+
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
       if (isDev()) {
