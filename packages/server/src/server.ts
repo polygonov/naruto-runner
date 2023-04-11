@@ -62,7 +62,7 @@ class Server {
     topicsRouter(apiRouter)
     router.use('/api/v1', apiRouter)
 
-    router.use('^/$', this.serverRenderer.bind(this))
+    router.use('/', this.serverRenderer.bind(this))
     this.app.use(router)
   }
 
