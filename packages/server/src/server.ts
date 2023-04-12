@@ -9,6 +9,7 @@ import * as path from 'path'
 import dotenv from 'dotenv'
 import { commentsRouter } from './routers/commentsRouter'
 import { topicsRouter } from './routers/topicsRouter'
+import { usersRouter } from './routers/usersRouter'
 
 dotenv.config({ path: path.resolve(__dirname, '../../../../.env') })
 
@@ -60,6 +61,7 @@ class Server {
     const apiRouter = express.Router({ mergeParams: true })
     commentsRouter(apiRouter)
     topicsRouter(apiRouter)
+    usersRouter(apiRouter)
     router.use('/api/v1', apiRouter)
 
     router.use('/', this.serverRenderer.bind(this))
