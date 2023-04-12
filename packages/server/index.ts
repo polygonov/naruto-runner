@@ -5,5 +5,6 @@ const starter = new Server()
   .then(port => console.log(`Running on port ${port}`))
   .catch(error => {
     console.log(error)
+  })
 
 export default starter
