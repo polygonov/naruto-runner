@@ -1,17 +1,20 @@
 import App from './src/App'
-import ReactDOMServer from 'react-dom/server'
+import { renderToString } from 'react-dom/server'
 import { store } from './src/store'
-import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { StaticRouter } from 'react-router-dom/server'
 
-export function render() {
-  const app = (
-    <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
+export const render = (url: string) => {
+  const html = renderToString(
+    <React.StrictMode>
+      <Provider store={store}>
+        <StaticRouter location={url}>
+          <App />
+        </StaticRouter>
+      </Provider>
+    </React.StrictMode>
   )
-  return ReactDOMServer.renderToString(app)
+
+  return html
 }

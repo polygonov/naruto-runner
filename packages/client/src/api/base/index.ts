@@ -1,7 +1,8 @@
 import { PRACTICUM_ORIGIN } from '../../constant'
+import { HttpErrorCodes, HttpMethod } from '../constants'
 import type { ApiErrorResponse, ContentType, RequestOptions } from '../types'
 import { createFormData } from '../../utils/createFormData'
-import { HttpMethod } from '../constants'
+import { stringifyUrlParams } from '../../utils/stringifyUrlParams'
 
 export abstract class BaseApi {
   protected baseUrl: string
@@ -17,8 +18,12 @@ export abstract class BaseApi {
   ): Promise<T | never> {
     const isSuccessful = res.ok
 
-    const response =
-      isSuccessful && !options?.shouldParseResponse ? res : await res.json()
+    const isInternalError = res.status === HttpErrorCodes.Internal
+
+    const shouldNotParseResponse =
+      (isSuccessful && !options?.shouldParseResponse) || isInternalError
+
+    const response = shouldNotParseResponse ? res : await res.json()
 
     return isSuccessful
       ? response
@@ -39,7 +44,7 @@ export abstract class BaseApi {
   }
 
   protected async createRequest<T>(
-    url: RequestInfo | URL,
+    url: string,
     options: RequestInit & RequestOptions = {}
   ) {
     const {
@@ -47,15 +52,18 @@ export abstract class BaseApi {
       contentType = 'json',
       data,
       credentials = 'include',
+      method = HttpMethod.GET,
+      params,
       ...fetchOptions
     } = options
 
     const requestOptions = {
       credentials,
+      method,
       ...fetchOptions,
     }
 
-    const isGetMethod = options.method === HttpMethod.GET
+    const isGetMethod = method === HttpMethod.GET
 
     if (!isGetMethod && data) {
       requestOptions.body = this.formatBody(contentType, data)
@@ -68,7 +76,13 @@ export abstract class BaseApi {
       }
     }
 
-    const response = await fetch(url, requestOptions)
+    let requestUrl = url
+
+    if (params) {
+      requestUrl = stringifyUrlParams(url, params)
+    }
+
+    const response = await fetch(requestUrl, requestOptions)
 
     return this.handleServerResponse<T>(response, { shouldParseResponse })
   }
