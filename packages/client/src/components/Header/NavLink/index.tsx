@@ -1,23 +1,28 @@
+import type { AnchorHTMLAttributes, FC } from 'react'
+import { memo } from 'react'
+import { NavLink as RouterLink } from 'react-router-dom'
+import classNames from 'classnames'
 import './index.css'
 
-export default function NavLink(props: {
-  link: string
-  title: string
-  isActive: boolean
-  isInvisible: boolean
-}) {
-  const classList = (): string => {
-    const baseClass = 'navigation-item'
-    let fullClass = baseClass
-    if (props.isActive) fullClass += ' active'
-    if (props.isInvisible) fullClass += ' invisible'
-    return fullClass
+export type NavLinkProps = {
+  href: string
+  text: string
+  className?: string
+} & AnchorHTMLAttributes<HTMLAnchorElement>
+
+export const NavLink: FC<NavLinkProps> = memo(
+  ({ href, text, className = '', ...props }) => {
+    const classes = classNames('navigation-link', className)
+
+    return (
+      <RouterLink
+        className={({ isActive }) =>
+          isActive ? `${classes} navigation-link_active` : classes
+        }
+        to={href}
+        {...props}>
+        {text}
+      </RouterLink>
+    )
   }
-  return (
-    <li className={classList()}>
-      <a href={props.link} className="navigation-link">
-        {props.title}
-      </a>
-    </li>
-  )
-}
+)

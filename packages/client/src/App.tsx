@@ -1,38 +1,57 @@
-// import { useEffect } from 'react';
-// import React from 'react';
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import { MainLayout } from './components/MainLayout'
-import { Main } from './pages/Main'
+import { Game } from './pages/Game'
+import { Authorization } from './router/Authorization'
+import { MainPage } from './pages/Main'
+import { Login } from './pages/Login'
+import { Registration } from './pages/Registration'
+import { Profile } from './pages/Profile'
+import { Leaderboard } from './pages/Leaderboard'
+import { NotFound } from './pages/NotFound'
+import { Forum } from './pages/Forum'
+import { RoutesNameList } from './constant'
+import { Topic } from './pages/Topic'
+import { hot } from 'react-hot-loader/root'
 
 import './App.css'
+import { useEffect } from 'react'
 
-function App() {
+const App: React.FC = hot(() => {
+  useEffect(() => {
+    const fetchServerData = async () => {
+      const url = `http://localhost:${__SERVER_PORT__}/api`
+      const response = await fetch(url)
+      const data = await response.json()
+      console.log(data)
+    }
+
+    fetchServerData()
+  }, [])
+  const { pathname } = useLocation()
   return (
-    <MainLayout>
+    <MainLayout background={pathname}>
       <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/login" element={'<Login />'} />
-        <Route path="/registration" element={'<Registration />'} />
-        <Route path="/profile" element={'<Profile />'} />
-        <Route path="/leaderboard" element={'<Leaderboard />'} />
-        <Route path="*" element={'<NotFound />'} />
+        <Route element={<Authorization />}>
+          <Route path={RoutesNameList.Login} element={<Login />} />
+          <Route
+            path={RoutesNameList.Registration}
+            element={<Registration />}
+          />
+        </Route>
+
+        <Route element={<Authorization requireAuth />}>
+          <Route path={RoutesNameList.Profile} element={<Profile />} />
+          <Route path={RoutesNameList.Leaderboard} element={<Leaderboard />} />
+        </Route>
+
+        <Route path={RoutesNameList.Main} element={<MainPage />} />
+        <Route path={RoutesNameList.Forum} element={<Forum />} />
+        <Route path={RoutesNameList.Topic} element={<Topic />} />
+        <Route path={RoutesNameList.Game} element={<Game />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </MainLayout>
   )
-}
-
-// function App() {
-//   useEffect(() => {
-//     const fetchServerData = async () => {
-//       const url = `http://localhost:${__SERVER_PORT__}`
-//       const response = await fetch(url)
-//       const data = await response.json()
-//       console.log(data)
-//     }
-
-//     fetchServerData()
-//   }, [])
-//   return <div className="App">Вот тут будет жить ваше приложение :)</div>
-// }
+})
 
 export default App

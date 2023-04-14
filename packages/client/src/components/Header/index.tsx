@@ -1,31 +1,32 @@
-import NavLink from './NavLink'
+import { NavLink } from './NavLink'
+import { RoutesNameList } from '../../constant'
 import './index.css'
 
+interface ILinkList {
+  href: string
+  text: string
+}
 export default function HeaderComponent() {
-  const isAuthUser = false
-  const linkList = [
-    { link: '#', title: 'Главная', isActive: false, isInvisible: false },
-    { link: '#', title: 'Форум', isActive: false, isInvisible: false },
+  const linkList: ILinkList[] = [
+    { href: RoutesNameList.Main, text: 'Главная' },
+    { href: RoutesNameList.Forum, text: 'Форум' },
     {
-      link: '#',
-      title: 'Лидерборд',
-      isActive: false,
-      isInvisible: isAuthUser,
+      href: RoutesNameList.Leaderboard,
+      text: 'Лидерборд',
     },
-    { link: '#', title: 'Профиль', isActive: true, isInvisible: isAuthUser },
+    {
+      href: RoutesNameList.Profile,
+      text: 'Профиль',
+    },
   ]
   return (
     <header className="header-component">
       <nav className="navigation-wrapper">
         <ul className="navigation-list">
           {linkList.map(data => (
-            <NavLink
-              key={data.title}
-              link={data.link}
-              title={data.title}
-              isActive={data.isActive}
-              isInvisible={data.isInvisible}
-            />
+            <li key={data.href}>
+              <NavLink {...data} />
+            </li>
           ))}
         </ul>
       </nav>
