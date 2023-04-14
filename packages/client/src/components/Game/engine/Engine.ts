@@ -22,6 +22,17 @@ export class Engine {
     this.checkStatus()
   }
 
+  restart(context: CanvasRenderingContext2D) {
+    this.visualItems = []
+    this.background = new Background(context)
+    this.hero = new Hero(context)
+    this.visualItems.push(this.background, this.hero)
+    this.enemyManager = new EnemyManager(context, this.hero)
+    this.background.draw()
+    this.enemyManager.generate()
+    this.hero.draw()
+  }
+
   public static getInstance(
     context: CanvasRenderingContext2D,
     callback: () => void

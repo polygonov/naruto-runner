@@ -27,8 +27,10 @@ export function CanvasComponent({ onChange }: GameComponentProps) {
     const current: CustomCanvas = ref.current as unknown as CustomCanvas
     const context = current.getContext('2d')
     const engine = Engine.getInstance(context, submitHandler)
+    engine.restart(context)
     engine.mount()
     return () => {
+      // todo fix restart when unmount
       engine.unmount()
     }
   }, [])
