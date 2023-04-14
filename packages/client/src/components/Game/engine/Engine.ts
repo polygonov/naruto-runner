@@ -11,7 +11,7 @@ export class Engine {
   private hero: Hero
   private visualItems: VisualItem[] = []
 
-  constructor(context: CanvasRenderingContext2D) {
+  constructor(context: CanvasRenderingContext2D, private callback: () => void) {
     this.background = new Background(context)
     this.hero = new Hero(context)
     this.visualItems.push(this.background, this.hero)
@@ -22,9 +22,12 @@ export class Engine {
     this.checkStatus()
   }
 
-  public static getInstance(context: CanvasRenderingContext2D): Engine {
+  public static getInstance(
+    context: CanvasRenderingContext2D,
+    callback: () => void
+  ): Engine {
     if (!Engine.instance) {
-      Engine.instance = new Engine(context)
+      Engine.instance = new Engine(context, callback)
     }
     return Engine.instance
   }
@@ -33,6 +36,7 @@ export class Engine {
     if (this.enemyManager !== undefined) {
       if (this.enemyManager.status === EngineStatus.Unmounted) {
         this.visualItems.forEach(item => (item.status = EngineStatus.Unmounted))
+        this.callback()
       } else {
         this.visualItems.forEach(item => (item.status = EngineStatus.Running))
       }
