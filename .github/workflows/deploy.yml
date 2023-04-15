@@ -1,0 +1,65 @@
+name: Push to Yandex Cloud
+
+on:
+  workflow_run:
+    workflows: [ Lint ]
+    branches: [ main ]
+    types: [ completed ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login to Yandex Cloud Container Registry
+        id: login-cr
+        uses: yc-actions/yc-cr-login@v1
+        with:
+          yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
+
+      - name: Build, tag, and push image to Yandex Cloud CR
+        env:
+          CR_REGISTRY: ${{ secrets.CR_REGISTRY }}
+          CR_REPOSITORY: naruto-runner-server
+          IMAGE_TAG: ${{ github.sha }}
+          SERVER_PORT: ${{ secrets.SERVER_PORT }}
+        run: |
+          docker build -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG .
+          docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG
+  deploy:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy COI VM
+        id: deploy-coi
+        uses: yc-actions/yc-coi-deploy@v1
+        env:
+          IMAGE_URL: cr.yandex/${{ secrets.CR_REGISTRY }}/naruto-runner-server:${{ github.sha }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SERVER_PORT: ${{ secrets.SERVER_PORT }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+          PGADMIN_EMAIL: ${{ secrets.PGADMIN_EMAIL }}
+          PGADMIN_PASSWORD: ${{ secrets.PGADMIN_PASSWORD }}
+          PGADMIN_PORT: ${{ secrets.PGADMIN_PORT }}
+        with:
+          yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
+          folder-id: ${{ secrets.COMPUTE_CLOUD_FOLDER_ID }}
+          vm-name: ${{ secrets.VM_NAME }}
+          vm-service-account-id: ${{ secrets.VM_SA_ID }}
+          vm-subnet-id: ${{ secrets.VM_SUBNET_ID }}
+          vm-zone-id: ru-central1-b
+          vm-cores: 2
+          vm-memory: 2Gb
+          vm-core-fraction: 20
+          vm-disk-type: network-hdd
+          vm-disk-size: 30GB
+          user-data-path: './user-data.yml'
+          docker-compose-path: './docker-compose.deploy.yml'
