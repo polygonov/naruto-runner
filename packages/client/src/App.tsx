@@ -14,19 +14,8 @@ import { Topic } from './pages/Topic'
 import { hot } from 'react-hot-loader/root'
 
 import './App.css'
-import { useEffect } from 'react'
 
 const App: React.FC = hot(() => {
-  useEffect(() => {
-    const fetchServerData = async () => {
-      const url = `http://localhost:${__SERVER_PORT__}/api`
-      const response = await fetch(url)
-      const data = await response.json()
-      console.log(data)
-    }
-
-    fetchServerData()
-  }, [])
   const { pathname } = useLocation()
   return (
     <MainLayout background={pathname}>
