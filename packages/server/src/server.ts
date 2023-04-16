@@ -3,12 +3,15 @@ import bodyParser from 'body-parser'
 import { createServer as createViteServer } from 'vite'
 import type { ViteDevServer } from 'vite'
 import { dbConnect } from './db'
+import { createProxyMiddleware } from 'http-proxy-middleware'
 import express, { NextFunction, Request, Response } from 'express'
 import * as fs from 'fs'
 import * as path from 'path'
 import dotenv from 'dotenv'
 import { commentsRouter } from './routers/commentsRouter'
 import { topicsRouter } from './routers/topicsRouter'
+import { usersRouter } from './routers/usersRouter'
+import cookieParser from 'cookie-parser'
 
 dotenv.config({ path: path.resolve(__dirname, '../../../../.env') })
 
@@ -36,6 +39,7 @@ class Server {
 
   private config() {
     this.app.use(cors())
+    this.app.use(cookieParser())
     this.app.use(bodyParser.urlencoded({ extended: true }))
     this.app.use(bodyParser.json({ limit: '1mb' }))
     this.app.use(express.static(this.distPath))
@@ -60,7 +64,18 @@ class Server {
     const apiRouter = express.Router({ mergeParams: true })
     commentsRouter(apiRouter)
     topicsRouter(apiRouter)
+    usersRouter(apiRouter)
     router.use('/api/v1', apiRouter)
+    router.use(
+      '/api/v2',
+      createProxyMiddleware({
+        target: 'https://ya-praktikum.tech',
+        changeOrigin: true,
+        cookieDomainRewrite: {
+          '*': '',
+        },
+      })
+    )
 
     router.use('/', this.serverRenderer.bind(this))
     this.app.use(router)

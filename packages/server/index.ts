@@ -6,5 +6,4 @@ const starter = new Server()
   .catch(error => {
     console.log(error)
   })
-
 export default starter
