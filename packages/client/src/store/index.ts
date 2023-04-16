@@ -29,7 +29,15 @@ export const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
 })
 
+export const setupStore = (initialState?: RootState) => {
+  return configureStore({
+    reducer: appReducer,
+    preloadedState: initialState,
+  })
+}
+
 export type AppDispatch = typeof store.dispatch
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector
+export type RootState = ReturnType<typeof appReducer>

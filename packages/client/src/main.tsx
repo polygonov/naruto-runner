@@ -4,23 +4,19 @@ import { BrowserRouter } from 'react-router-dom'
 import { startServiceWorker } from './utils/serviceWorker'
 import { Provider } from 'react-redux'
 import App from './App'
-import { store } from './store'
+import { RootState, setupStore } from './store'
 import { withAuth } from './hocs/withAuth'
 import './index.css'
-import { configureStore } from '@reduxjs/toolkit'
 
 const Application = withAuth(App as any)
-let storeState
-if ((window as any).initialState) {
-  storeState = configureStore((window as any).initialState)
-  delete (window as any).initialState
-} else {
-  storeState = store
-}
+
+declare const __INITIAL_STATE__: RootState
+
+const store = setupStore(__INITIAL_STATE__)
 
 const InitApp = (
   <React.StrictMode>
-    <Provider store={storeState}>
+    <Provider store={store}>
       <BrowserRouter>
         <Application />
       </BrowserRouter>

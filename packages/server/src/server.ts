@@ -12,6 +12,7 @@ import { commentsRouter } from './routers/commentsRouter'
 import { topicsRouter } from './routers/topicsRouter'
 import { usersRouter } from './routers/usersRouter'
 import cookieParser from 'cookie-parser'
+import { setupStore } from 'client/src/store'
 
 dotenv.config({ path: path.resolve(__dirname, '../../../../.env') })
 
@@ -114,15 +115,18 @@ class Server {
         ).render
       }
 
-      const [appHtml, initialState] = await render(url)
+      const appHtml = await render(url)
 
-      const initStateSerialized = `<script>window.initialState = ${JSON.stringify(
-        initialState
-      ).replace(/</g, '\\u003c')}</script>`
+      const store = setupStore()
 
       const html = template
         .replace(`<!--SSR-->`, appHtml)
-        .replace('<!--store-data-->', initStateSerialized)
+        .replace(
+          `<!--initial-state-outlet-->`,
+          `<script>window.__INITIAL_STATE__ = ${JSON.stringify(
+            store.getState()
+          )}</script>`
+        )
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
