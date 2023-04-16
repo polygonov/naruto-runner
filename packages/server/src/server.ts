@@ -80,7 +80,7 @@ class Server {
 
     try {
       let template: string
-      let render: () => Promise<string>
+      let render: (url: string) => Promise<string>
 
       if (!isDev) {
         template = fs.readFileSync(
@@ -99,9 +99,15 @@ class Server {
         ).render
       }
 
-      const appHtml = await render()
+      const [appHtml, initialState] = await render(url)
 
-      const html = template.replace(`<!--SSR-->`, appHtml)
+      const initStateSerialized = `<script>window.initialState = ${JSON.stringify(
+        initialState
+      ).replace(/</g, '\\u003c')}</script>`
+
+      const html = template
+        .replace(`<!--SSR-->`, appHtml)
+        .replace('<!--store-data-->', initStateSerialized)
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
