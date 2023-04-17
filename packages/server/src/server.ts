@@ -3,15 +3,16 @@ import bodyParser from 'body-parser'
 import { createServer as createViteServer } from 'vite'
 import type { ViteDevServer } from 'vite'
 import { dbConnect } from './db'
-import { createProxyMiddleware } from 'http-proxy-middleware'
 import express, { NextFunction, Request, Response } from 'express'
 import * as fs from 'fs'
 import * as path from 'path'
 import dotenv from 'dotenv'
 import { commentsRouter } from './routers/commentsRouter'
 import { topicsRouter } from './routers/topicsRouter'
-import { usersRouter } from './routers/usersRouter'
 import cookieParser from 'cookie-parser'
+import proxyMiddleware from './middlewares/proxyMiddleware'
+import apiRouter from './routers/apiRouter'
+import authMiddleware from './middlewares/authMiddleware'
 
 dotenv.config({ path: path.resolve(__dirname, '../../../../.env') })
 
@@ -32,9 +33,8 @@ class Server {
     this.app = express()
     this.config()
     this.middleware()
-    this.dbConnect().then(() => {
-      this.routerConfig()
-    })
+    this.routerConfig()
+    this.dbConnect()
   }
 
   private config() {
@@ -53,7 +53,7 @@ class Server {
         appType: 'custom',
       }).then(vite => {
         this.vite = vite
-        this.app.use(this.vite.middlewares)
+        this.app.use(vite.middlewares)
       })
     }
   }
@@ -61,21 +61,9 @@ class Server {
   private routerConfig() {
     const router = express.Router()
 
-    const apiRouter = express.Router({ mergeParams: true })
-    commentsRouter(apiRouter)
-    topicsRouter(apiRouter)
-    usersRouter(apiRouter)
-    router.use('/api/v1', apiRouter)
-    router.use(
-      '/api/v2',
-      createProxyMiddleware({
-        target: 'https://ya-praktikum.tech',
-        changeOrigin: true,
-        cookieDomainRewrite: {
-          '*': '',
-        },
-      })
-    )
+    router.use('/api/v2', proxyMiddleware)
+
+    router.use('/api/v1', authMiddleware, apiRouter)
 
     router.use('/', this.serverRenderer.bind(this))
     this.app.use(router)

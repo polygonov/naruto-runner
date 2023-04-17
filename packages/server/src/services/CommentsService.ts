@@ -1,5 +1,6 @@
 import type { BaseRESTService } from './baseService'
 import { Comment } from '../models/comments'
+import { User } from '../models/users'
 
 interface FindRequest {
   message?: string
@@ -20,11 +21,24 @@ class CommentsService implements BaseRESTService {
         status: true,
         ...(message && { message: `%${message}%` }),
       },
+      include: [
+        {
+          model: User,
+          as: 'author',
+        },
+      ],
     })
   }
 
   public request = ({ id }: { id: number }) => {
-    return Comment.findByPk(id)
+    return Comment.findByPk(id, {
+      include: [
+        {
+          model: User,
+          as: 'author',
+        },
+      ],
+    })
   }
 
   public create = (data: CreateRequest) => {
