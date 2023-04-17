@@ -38,7 +38,12 @@ class Server {
   }
 
   private config() {
-    this.app.use(cors())
+    this.app.use(
+      cors({
+        origin: process.env.CLIENT_ORIGIN,
+        credentials: true,
+      })
+    )
     this.app.use(cookieParser())
     this.app.use(bodyParser.urlencoded({ extended: true }))
     this.app.use(bodyParser.json({ limit: '1mb' }))
