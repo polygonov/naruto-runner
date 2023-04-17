@@ -12,7 +12,7 @@ import { commentsRouter } from './routers/commentsRouter'
 import { topicsRouter } from './routers/topicsRouter'
 import { usersRouter } from './routers/usersRouter'
 import cookieParser from 'cookie-parser'
-import { setupStore } from 'client/src/store'
+import { YandexAPIRepository } from './repository/YandexAPIRepository'
 
 dotenv.config({ path: path.resolve(__dirname, '../../../../.env') })
 
@@ -96,7 +96,7 @@ class Server {
 
     try {
       let template: string
-      let render: (url: string) => Promise<string>
+      let render: (url: string, data: any) => Promise<string>
 
       if (!isDev) {
         template = fs.readFileSync(
@@ -115,17 +115,20 @@ class Server {
         ).render
       }
 
-      const appHtml = await render(url)
+      const [initialState, appHtml] = await render(
+        url,
+        new YandexAPIRepository(req.headers['cookie'])
+      )
 
-      const store = setupStore()
-
+      const initStateSerialized = JSON.stringify(initialState).replace(
+        /</g,
+        '\\u003c'
+      )
       const html = template
         .replace(`<!--SSR-->`, appHtml)
         .replace(
-          `<!--initial-state-outlet-->`,
-          `<script>window.__INITIAL_STATE__ = ${JSON.stringify(
-            store.getState()
-          )}</script>`
+          `<!--store-data-->`,
+          `<script>window.initialState = ${initStateSerialized}</script>`
         )
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)

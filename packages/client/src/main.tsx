@@ -4,19 +4,25 @@ import { BrowserRouter } from 'react-router-dom'
 import { startServiceWorker } from './utils/serviceWorker'
 import { Provider } from 'react-redux'
 import App from './App'
-import { RootState, setupStore } from './store'
 import { withAuth } from './hocs/withAuth'
 import './index.css'
+import { createStore } from '@reduxjs/toolkit'
+import { UserService } from './api/UserService'
+import { YandexAPIRepository } from './repository/YandexAPIRepository'
 
 const Application = withAuth(App as any)
 
-declare const __INITIAL_STATE__: RootState
+const initialState = window.initialState
 
-const store = setupStore(__INITIAL_STATE__)
+delete window.initialState
 
 const InitApp = (
   <React.StrictMode>
-    <Provider store={store}>
+    <Provider
+      store={createStore(
+        new UserService(new YandexAPIRepository()) as any,
+        initialState
+      )}>
       <BrowserRouter>
         <Application />
       </BrowserRouter>
