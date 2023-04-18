@@ -39,3 +39,7 @@
 .button_view_ghost {
   width: fit-content;
 }
+
+.light .button_view_ghost {
+  color: var(--color-text-inverted);
+}
