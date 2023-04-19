@@ -9,17 +9,17 @@ import {
 } from 'sequelize-typescript'
 import type { Optional } from 'sequelize'
 
-type UserAttributes = {
+export type UserAttributes = {
   id: number
   yandex_id: number
   login: string
-  display_name: string
   avatar: string
+  isDarkMode: boolean
 }
 
 type UserCreationAttributes = Optional<
   UserAttributes,
-  'id' | 'avatar' | 'display_name'
+  'id' | 'avatar' | 'isDarkMode'
 >
 
 @Table({
@@ -28,22 +28,24 @@ type UserCreationAttributes = Optional<
   updatedAt: false,
 })
 export class User extends Model<UserAttributes, UserCreationAttributes> {
-  @AutoIncrement
-  @PrimaryKey
   @Column(DataType.INTEGER)
   override id: number
 
   @AllowNull(false)
+  @PrimaryKey
   @Column(DataType.INTEGER)
   yandex_id: number
 
   @AllowNull(false)
-  @Column
+  @Column(DataType.STRING)
   login: string
 
-  @Column
-  display_name: string
-
-  @Column
+  @Column(DataType.STRING)
   avatar: string
+
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: true,
+  })
+  isDarkMode: boolean
 }

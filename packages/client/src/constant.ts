@@ -1,7 +1,9 @@
 import * as process from 'process'
 
 export const PRACTICUM_ORIGIN = `${
-  process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : ''
+  process.env.NODE_ENV === 'development'
+    ? `http://localhost:${process.env.SERVER_PORT}`
+    : ''
 }/api/v2`
 
 export const PRACTICUM_RESOURCES = `${PRACTICUM_ORIGIN}/resources`
