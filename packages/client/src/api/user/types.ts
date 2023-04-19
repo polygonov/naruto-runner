@@ -7,6 +7,7 @@ export type User = {
   email: string
   phone: string
   avatar: string | null
+  isDarkTheme: boolean
 }
 
 export type ChangeUserPayload = Pick<User, 'login' | 'email'>
