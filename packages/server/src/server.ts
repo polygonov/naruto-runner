@@ -3,15 +3,16 @@ import bodyParser from 'body-parser'
 import { createServer as createViteServer } from 'vite'
 import type { ViteDevServer } from 'vite'
 import { dbConnect } from './db'
-import { createProxyMiddleware } from 'http-proxy-middleware'
 import express, { NextFunction, Request, Response } from 'express'
 import * as fs from 'fs'
 import * as path from 'path'
 import dotenv from 'dotenv'
 import { commentsRouter } from './routers/commentsRouter'
 import { topicsRouter } from './routers/topicsRouter'
-import { usersRouter } from './routers/usersRouter'
 import cookieParser from 'cookie-parser'
+import proxyMiddleware from './middlewares/proxyMiddleware'
+import apiRouter from './routers/apiRouter'
+import authMiddleware from './middlewares/authMiddleware'
 import { YandexAPIRepository } from './repository/YandexAPIRepository'
 
 dotenv.config({ path: path.resolve(__dirname, '../../../../.env') })
@@ -33,14 +34,18 @@ class Server {
     this.app = express()
     this.config()
     this.middleware()
-    this.routerConfig()
-    /* this.dbConnect().then(() => {
-      
-    }) */
+    this.dbConnect().then(() => {
+      this.routerConfig()
+    })
   }
 
   private config() {
-    this.app.use(cors())
+    this.app.use(
+      cors({
+        origin: process.env.CLIENT_ORIGIN,
+        credentials: true,
+      })
+    )
     this.app.use(cookieParser())
     this.app.use(bodyParser.urlencoded({ extended: true }))
     this.app.use(bodyParser.json({ limit: '1mb' }))
@@ -55,7 +60,7 @@ class Server {
         appType: 'custom',
       }).then(vite => {
         this.vite = vite
-        this.app.use(this.vite.middlewares)
+        this.app.use(vite.middlewares)
       })
     }
   }
@@ -63,21 +68,9 @@ class Server {
   private routerConfig() {
     const router = express.Router()
 
-    const apiRouter = express.Router({ mergeParams: true })
-    commentsRouter(apiRouter)
-    topicsRouter(apiRouter)
-    usersRouter(apiRouter)
-    router.use('/api/v1', apiRouter)
-    router.use(
-      '/api/v2',
-      createProxyMiddleware({
-        target: 'https://ya-praktikum.tech',
-        changeOrigin: true,
-        cookieDomainRewrite: {
-          '*': '',
-        },
-      })
-    )
+    router.use('/api/v2', proxyMiddleware)
+
+    router.use('/api/v1', authMiddleware, apiRouter)
 
     router.use('/', this.serverRenderer.bind(this))
     this.app.use(router)
@@ -120,23 +113,17 @@ class Server {
         url,
         new YandexAPIRepository(req.headers['cookie'])
       )
-
-      const initStateSerialized = JSON.stringify(initialState).replace(
-        /</g,
-        '\\u003c'
-      )
-      console.log('initStateSerialized', initStateSerialized)
+      console.log('initStateSerialized', appHtml)
 
       const html = template
         .replace(`<!--SSR-->`, appHtml)
         .replace(
           `<!--store-data-->`,
-          `<script>window.initialState = ${initStateSerialized}</script>`
+          `<script>window.initialState = ${initialState}</script>`
         )
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
-      console.log(e)
       if (isDev) {
         vite!.ssrFixStacktrace(e as Error)
       }

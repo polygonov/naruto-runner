@@ -11,6 +11,7 @@ import {
 } from 'sequelize-typescript'
 import { Topic } from './topics'
 import type { Optional } from 'sequelize'
+import { User } from './users'
 
 type CommentAttributes = {
   id: number
@@ -48,12 +49,13 @@ export class Comment extends Model<
   })
   topic_id: number
 
+  @Index
+  @ForeignKey(() => User)
   @AllowNull(false)
   @Column({
     type: DataType.INTEGER,
-    field: 'author_id',
   })
-  authorId: number
+  author_id: number
 
   @AllowNull(false)
   @Column({

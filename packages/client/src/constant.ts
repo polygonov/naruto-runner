@@ -1,4 +1,9 @@
-export const PRACTICUM_ORIGIN = '/api/v2'
+import * as process from 'process'
+
+export const PRACTICUM_ORIGIN = `${
+  process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : ''
+}/api/v2`
+
 export const PRACTICUM_RESOURCES = `${PRACTICUM_ORIGIN}/resources`
 
 export const RoutesNameList = {
