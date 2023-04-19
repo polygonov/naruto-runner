@@ -6,23 +6,17 @@ import { Provider } from 'react-redux'
 import App from './App'
 import { withAuth } from './hocs/withAuth'
 import './index.css'
-import { createStore } from '@reduxjs/toolkit'
-import { UserService } from './api/UserService'
-import { YandexAPIRepository } from './repository/YandexAPIRepository'
+import { createStore } from './store'
 
 const Application = withAuth(App as any)
 
-const initialState = window.initialState
+const initialState = (window as Window).initialState
 
-delete window.initialState
+delete (window as Window).initialState
 
 const InitApp = (
   <React.StrictMode>
-    <Provider
-      store={createStore(
-        new UserService(new YandexAPIRepository()) as any,
-        initialState
-      )}>
+    <Provider store={createStore(initialState)}>
       <BrowserRouter>
         <Application />
       </BrowserRouter>

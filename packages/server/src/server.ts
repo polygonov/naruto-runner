@@ -33,9 +33,10 @@ class Server {
     this.app = express()
     this.config()
     this.middleware()
-    this.dbConnect().then(() => {
-      this.routerConfig()
-    })
+    this.routerConfig()
+    /* this.dbConnect().then(() => {
+      
+    }) */
   }
 
   private config() {
@@ -124,6 +125,8 @@ class Server {
         /</g,
         '\\u003c'
       )
+      console.log('initStateSerialized', initStateSerialized)
+
       const html = template
         .replace(`<!--SSR-->`, appHtml)
         .replace(
@@ -133,9 +136,11 @@ class Server {
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
+      console.log(e)
       if (isDev) {
         vite!.ssrFixStacktrace(e as Error)
       }
+
       next(e)
     }
   }

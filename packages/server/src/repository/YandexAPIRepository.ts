@@ -13,7 +13,6 @@ export class YandexAPIRepository {
     })
     return {
       ...data,
-      xss: "</script><script>alert('pwned')</script><!--",
     }
   }
 }
