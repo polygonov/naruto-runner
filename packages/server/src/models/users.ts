@@ -28,6 +28,7 @@ type UserCreationAttributes = Optional<
   updatedAt: false,
 })
 export class User extends Model<UserAttributes, UserCreationAttributes> {
+  @AutoIncrement
   @Column(DataType.INTEGER)
   override id: number
 
