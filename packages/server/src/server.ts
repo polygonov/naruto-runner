@@ -7,8 +7,6 @@ import express, { NextFunction, Request, Response } from 'express'
 import * as fs from 'fs'
 import * as path from 'path'
 import dotenv from 'dotenv'
-import { commentsRouter } from './routers/commentsRouter'
-import { topicsRouter } from './routers/topicsRouter'
 import cookieParser from 'cookie-parser'
 import proxyMiddleware from './middlewares/proxyMiddleware'
 import apiRouter from './routers/apiRouter'
@@ -34,9 +32,8 @@ class Server {
     this.app = express()
     this.config()
     this.middleware()
-    this.dbConnect().then(() => {
-      this.routerConfig()
-    })
+    this.routerConfig()
+    this.dbConnect()
   }
 
   private config() {
@@ -73,6 +70,7 @@ class Server {
     router.use('/api/v1', authMiddleware, apiRouter)
 
     router.use('/', this.serverRenderer.bind(this))
+
     this.app.use(router)
   }
 
@@ -91,8 +89,7 @@ class Server {
     try {
       let template: string
       let render: (url: string, data: any) => Promise<string>
-
-      if (!isDev) {
+      if (isDev) {
         template = fs.readFileSync(
           path.resolve(this.distPath, 'index.html'),
           'utf-8'
@@ -113,13 +110,14 @@ class Server {
         url,
         new YandexAPIRepository(req.headers['cookie'])
       )
-      console.log('initStateSerialized', appHtml)
 
       const html = template
         .replace(`<!--SSR-->`, appHtml)
         .replace(
           `<!--store-data-->`,
-          `<script>window.initialState = ${initialState}</script>`
+          `<script>window.initialState = ${JSON.stringify(
+            initialState
+          )}</script>`
         )
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)

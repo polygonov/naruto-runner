@@ -11,8 +11,8 @@ export const render = async (
   repository: { getCurrent: () => any }
 ) => {
   const res = await repository.getCurrent()
-  console.log('res', res.status)
-  if (res) {
+
+  if (res?.id) {
     store.dispatch(setUser(res))
   }
 
