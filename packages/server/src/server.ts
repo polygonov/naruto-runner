@@ -89,7 +89,7 @@ class Server {
     try {
       let template: string
       let render: (url: string, data: any) => Promise<string>
-      if (isDev) {
+      if (!isDev) {
         template = fs.readFileSync(
           path.resolve(this.distPath, 'index.html'),
           'utf-8'
@@ -97,7 +97,7 @@ class Server {
         render = (await import(this.ssrClientPath)).render
       } else {
         template = fs.readFileSync(
-          path.resolve(this.srcPath, 'index.html'),
+          path.resolve(this.distPath, 'index.html'),
           'utf-8'
         )
         template = await vite!.transformIndexHtml(url, template)
