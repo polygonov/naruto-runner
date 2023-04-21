@@ -1,10 +1,14 @@
-import * as process from 'process'
-
 export const PRACTICUM_ORIGIN = `${
   process.env.NODE_ENV === 'development'
-    ? `http://localhost:${process.env.SERVER_PORT}`
+    ? `http://localhost:${__SERVER_PORT__}`
     : ''
 }/api/v2`
+
+export const NARUTO_ORIGIN = `${
+  process.env.NODE_ENV === 'development'
+    ? `http://localhost:${__SERVER_PORT__}`
+    : ''
+}/api/v1`
 
 export const PRACTICUM_RESOURCES = `${PRACTICUM_ORIGIN}/resources`
 
