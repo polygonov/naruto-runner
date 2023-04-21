@@ -6,8 +6,11 @@ import {
   PrimaryKey,
   Table,
   AllowNull,
+  Index,
+  ForeignKey,
 } from 'sequelize-typescript'
 import type { Optional } from 'sequelize'
+import { User } from './users'
 
 type TopicAttributes = {
   id: number
@@ -33,12 +36,13 @@ export class Topic extends Model<TopicAttributes, TopicCreationAttributes> {
   @Column(DataType.STRING)
   title: string
 
+  @Index
+  @ForeignKey(() => User)
   @AllowNull(false)
   @Column({
     type: DataType.INTEGER,
-    field: 'author_id',
   })
-  authorId: number
+  author_id: number
 
   @AllowNull(false)
   @Column({

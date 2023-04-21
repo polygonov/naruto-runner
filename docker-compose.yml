@@ -14,6 +14,8 @@ services:
       - "${SERVER_PORT}:${SERVER_PORT}"
     environment:
       SERVER_PORT: ${SERVER_PORT}
+    env_file:
+      - .env
     networks:
       - awesome
 
@@ -29,6 +31,8 @@ services:
       - ./tmp/pgdata:/var/lib/postgresql/data
       - ./src/migrations/dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
     restart: always
+    env_file:
+      - .env
     networks:
       - awesome
 
@@ -46,6 +50,8 @@ services:
       - pgadmin-data:/var/lib/pgadmin
     depends_on:
       - postgres
+    env_file:
+      - .env
     networks:
       - awesome
 
