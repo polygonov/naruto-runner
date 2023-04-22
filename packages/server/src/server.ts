@@ -32,7 +32,6 @@ class Server {
     origin: function (origin, callback) {
       if (!origin) return callback(null, true)
       if (WHITE_LIST.indexOf(origin) !== -1) {
-        console.log(1111)
         callback(null, true)
       } else {
         callback(new Error('Not allowed by CORS'))
