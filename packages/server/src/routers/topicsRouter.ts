@@ -8,7 +8,7 @@ export const topicsRouter = (router: Router) => {
     .get('/', TopicsController.getTopics)
     .get('/:topicId/', TopicsController.getTopic)
     .post('/', TopicsController.createTopic)
-    .post('/:topicId/delete/', TopicsController.deleteTopic)
+    .post('/:topicId/delete', TopicsController.deleteTopic)
 
   router.use('/topics', topicsRouter)
 }

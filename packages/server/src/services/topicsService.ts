@@ -8,7 +8,7 @@ interface FindRequest {
 
 interface CreateRequest {
   title: string
-  authorId: number
+  author_id: number
 }
 
 class TopicsService implements BaseRESTService {
@@ -18,6 +18,7 @@ class TopicsService implements BaseRESTService {
         status: true,
         ...(title && { title: `%${title}%` }),
       },
+      attributes: ['id', 'title', 'createdAt'],
     })
   }
 
@@ -27,20 +28,54 @@ class TopicsService implements BaseRESTService {
         {
           model: Comment,
           as: 'comments',
+          attributes: ['id', 'message', 'createdAt'],
           where: {
             status: true,
           },
+          include: [
+            {
+              model: User,
+              as: 'author',
+              attributes: ['id', 'login', 'avatar'],
+            },
+          ],
         },
         {
           model: User,
           as: 'author',
+          attributes: ['id', 'login', 'avatar'],
         },
       ],
+      attributes: ['id', 'title', 'createdAt'],
     })
   }
 
   public create = (data: CreateRequest) => {
-    return Topic.create(data)
+    return Topic.create(data, {
+      attributes: ['id', 'title', 'createdAt'],
+      include: [
+        {
+          model: Comment,
+          as: 'comments',
+          attributes: ['id', 'message', 'createdAt'],
+          where: {
+            status: true,
+          },
+          include: [
+            {
+              model: User,
+              as: 'author',
+              attributes: ['id', 'login', 'avatar'],
+            },
+          ],
+        },
+        {
+          model: User,
+          as: 'author',
+          attributes: ['id', 'login', 'avatar'],
+        },
+      ],
+    })
   }
 
   public delete = (id: number) => {

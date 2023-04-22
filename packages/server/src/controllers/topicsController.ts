@@ -42,7 +42,7 @@ export class TopicsController {
       return
     }
 
-    TopicsService.create({ title, authorId })
+    TopicsService.create({ title, author_id: authorId })
       .then(topic => {
         if (!topic) {
           res.status(404).json({ message: 'No topic found' })

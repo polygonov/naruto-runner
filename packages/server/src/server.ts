@@ -1,4 +1,4 @@
-import cors from 'cors'
+import cors, { CorsOptions } from 'cors'
 import bodyParser from 'body-parser'
 import { createServer as createViteServer } from 'vite'
 import type { ViteDevServer } from 'vite'
@@ -11,6 +11,7 @@ import cookieParser from 'cookie-parser'
 import proxyMiddleware from './middlewares/proxyMiddleware'
 import apiRouter from './routers/apiRouter'
 import authMiddleware from './middlewares/authMiddleware'
+import { WHITE_LIST } from './constant'
 
 dotenv.config({ path: path.resolve(__dirname, '../../../../.env') })
 
@@ -26,6 +27,16 @@ class Server {
   private srcPath: string = path.dirname(require.resolve('client'))
   private ssrClientPath: string = require.resolve('client/dist-ssr/client.cjs')
   private vite: ViteDevServer | undefined
+  private corsOptions: CorsOptions = {
+    origin: function (origin, callback) {
+      if (!origin || WHITE_LIST.indexOf(origin) !== -1) {
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
+    },
+    credentials: true,
+  }
 
   constructor() {
     this.app = express()
@@ -36,12 +47,7 @@ class Server {
   }
 
   private config() {
-    this.app.use(
-      cors({
-        origin: process.env.CLIENT_ORIGIN,
-        credentials: true,
-      })
-    )
+    this.app.use(cors(this.corsOptions))
     this.app.use(cookieParser())
     this.app.use(bodyParser.urlencoded({ extended: true }))
     this.app.use(bodyParser.json({ limit: '1mb' }))

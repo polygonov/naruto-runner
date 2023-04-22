@@ -2,6 +2,21 @@ import { useCallback, useState } from 'react'
 import { Button } from '../../../../components/Button'
 import { Input } from '../../../../components/Input'
 import './index.css'
+import { useAppDispatch, useAppSelector } from '../../../../store'
+import { CreateTopicPayload } from '../../../../api/forum/types'
+import { useFormik } from 'formik'
+import { createTopic } from '../../../../store/forum/thunk'
+import { selectUserData } from '../../../../store/user/selectors'
+import { fieldsTypes, getValidationSchema } from '../../../../utils/validation'
+
+type AddTopicFormFields = Pick<CreateTopicPayload, 'title'>
+
+type FormInputNames = Extract<fieldsTypes, 'title'>
+
+const formInputNames: FormInputNames = 'title'
+
+const AddTopicFormSchema =
+  getValidationSchema<AddTopicFormFields>(formInputNames)
 
 export function AddTopic() {
   const inputProps = {
@@ -10,6 +25,20 @@ export function AddTopic() {
     className: 'big-box-size',
   }
   const [shouldShowAddTopicForm, setShouldShowAddTopicForm] = useState(false)
+  const { user } = useAppSelector(selectUserData)
+
+  const dispatch = useAppDispatch()
+  const formik = useFormik<AddTopicFormFields>({
+    initialValues: {
+      title: '',
+    },
+    enableReinitialize: true,
+    onSubmit: values => {
+      const { title } = values
+      dispatch(createTopic({ title, authorId: user!.id }))
+    },
+    validationSchema: AddTopicFormSchema,
+  })
 
   const toggleShowAddTopicForm = useCallback(() => {
     setShouldShowAddTopicForm(!shouldShowAddTopicForm)
@@ -25,9 +54,9 @@ export function AddTopic() {
         />
       )}
       {shouldShowAddTopicForm && (
-        <form method="post" className="add-topic__form">
-          <Input {...inputProps} />
-          <Button text="Создать тему" onClick={toggleShowAddTopicForm} />
+        <form className="add-topic__form" onSubmit={formik.handleSubmit}>
+          <Input {...formik.getFieldProps('title')} />
+          <Button text="Создать тему" type="submit" />
         </form>
       )}
     </div>

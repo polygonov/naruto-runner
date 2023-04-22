@@ -25,8 +25,10 @@ class CommentsService implements BaseRESTService {
         {
           model: User,
           as: 'author',
+          attributes: ['id', 'login', 'avatar'],
         },
       ],
+      attributes: ['id', 'message', 'createdAt'],
     })
   }
 
@@ -36,8 +38,10 @@ class CommentsService implements BaseRESTService {
         {
           model: User,
           as: 'author',
+          attributes: ['id', 'login', 'avatar'],
         },
       ],
+      attributes: ['id', 'message', 'createdAt'],
     })
   }
 
