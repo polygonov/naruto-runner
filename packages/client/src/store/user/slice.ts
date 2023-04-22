@@ -5,7 +5,12 @@ import {
   isRejected,
   PayloadAction,
 } from '@reduxjs/toolkit'
-import { changeUserAvatar, changeUserData, changeUserPassword } from './thunk'
+import {
+  changeUserAvatar,
+  changeUserData,
+  changeUserTheme,
+  changeUserPassword,
+} from './thunk'
 import { GENERAL_ERROR } from '../../constant'
 import type { User } from '../../api/user/types'
 import { updateResourcePath } from '../../utils/updateResourcePath'
@@ -51,6 +56,21 @@ export const userSlice = createSlice({
     resetUserState: () => initialState,
   },
   extraReducers: builder => {
+    builder.addCase(changeUserTheme.pending, state => {
+      state.isUserLoading = true
+      state.isUserSuccess = false
+      state.userError = null
+    })
+    builder.addCase(changeUserTheme.fulfilled, state => {
+      state.isUserLoading = false
+      state.isUserSuccess = true
+      state.userError = null
+    })
+    builder.addCase(changeUserTheme.rejected, (state, { error }) => {
+      state.isUserLoading = false
+      state.isUserSuccess = false
+      state.userError = error.message ?? GENERAL_ERROR
+    })
     builder.addCase(changeUserAvatar.pending, state => {
       state.isAvatarLoading = true
       state.isAvatarSuccess = false

@@ -2,30 +2,26 @@ import Sun from './svg/sun'
 import Moon from './svg/moon'
 import './index.css'
 import { useState, useCallback } from 'react'
-import { store, useAppDispatch, useAppSelector } from '../../store'
-import { toggleTheme } from '../../store/theme'
+import { useAppDispatch, useAppSelector } from '../../store'
 import { selectUserData } from '../../store/user/selectors'
-import { changeUserData } from '../../store/user/thunk'
+import { changeUserTheme } from '../../store/user/thunk'
 
 export default function ThemeSwitcher() {
   const [isDarkTheme, setIsDarkTheme] = useState(true)
   const dispatch = useAppDispatch()
-  const {
-    user,
-    isUserSuccess,
-    isUserLoading,
-    isAvatarSuccess,
-    isAvatarLoading,
-    avatarError,
-    userError,
-  } = useAppSelector(selectUserData)
+  const { user } = useAppSelector(selectUserData)
 
   const setToggleTheme = useCallback(() => {
     setIsDarkTheme(!isDarkTheme)
     const body = document.getElementsByTagName('body')[0]
     isDarkTheme ? body?.classList.add('light') : body?.classList.remove('light')
-    dispatch(changeUserData({ ...user }))
-  }, [isDarkTheme])
+    dispatch(
+      changeUserTheme({
+        yandex_id: user?.id || 0,
+        isDarkMode: !isDarkTheme,
+      })
+    )
+  }, [dispatch, isDarkTheme, user?.id])
 
   return (
     <button

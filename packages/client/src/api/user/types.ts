@@ -7,13 +7,18 @@ export type User = {
   email: string
   phone: string
   avatar: string | null
-  isDarkTheme: boolean
+  isDarkMode: boolean
 }
 
 export type ChangeUserPayload = Pick<User, 'login' | 'email'>
 
 export type ChangeAvatarPayload = {
   avatar: File
+}
+
+export type ChangeThemePayload = {
+  yandex_id: number
+  isDarkMode: boolean
 }
 
 export type ChangePasswordPayload = {
