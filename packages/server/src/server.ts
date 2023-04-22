@@ -30,8 +30,7 @@ class Server {
   private vite: ViteDevServer | undefined
   private corsOptions: CorsOptions = {
     origin: function (origin, callback) {
-      if (!origin) return callback(null, true)
-      if (WHITE_LIST.indexOf(origin) !== -1) {
+      if (!origin || WHITE_LIST.indexOf(origin) !== -1) {
         callback(null, true)
       } else {
         callback(new Error('Not allowed by CORS'))
