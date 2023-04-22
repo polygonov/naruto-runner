@@ -1,6 +1,7 @@
 import type { BaseRESTService } from './baseService'
 import { Topic } from '../models/topics'
 import { Comment } from '../models/comments'
+import { User } from '../models/users'
 interface FindRequest {
   title?: string
 }
@@ -29,6 +30,10 @@ class TopicsService implements BaseRESTService {
           where: {
             status: true,
           },
+        },
+        {
+          model: User,
+          as: 'author',
         },
       ],
     })
