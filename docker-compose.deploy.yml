@@ -1,0 +1,56 @@
+version: "3.9"
+
+services:
+  server:
+    image: {{ env.IMAGE_URL }}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVER_PORT: {{ env.SERVER_PORT }}
+    restart: always
+    ports:
+      - "{{ env.SERVER_PORT }}:{{ env.SERVER_PORT }}"
+    environment:
+      SERVER_PORT: {{ env.SERVER_PORT }}
+    networks:
+      - awesome
+
+  postgres:
+    image: postgres:14
+    ports:
+      - "{{ env.POSTGRES_PORT }}:{{ env.POSTGRES_PORT }}"
+    environment:
+      POSTGRES_PASSWORD: {{ env.POSTGRES_PASSWORD }}
+      POSTGRES_USER: {{ env.POSTGRES_USER }}
+      POSTGRES_DB: {{ env.POSTGRES_DB }}
+    volumes:
+      - ./tmp/pgdata:/var/lib/postgresql/data
+      - ./src/migrations/dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
+    restart: always
+    networks:
+      - awesome
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:6.21
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: {{ env.PGADMIN_EMAIL }}
+      PGADMIN_DEFAULT_PASSWORD: {{ env.PGADMIN_PASSWORD }}
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - "{{ env.PGADMIN_PORT }}:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - awesome
+
+volumes:
+  pgadmin-data:
+
+networks:
+  awesome:
+    driver: bridge
