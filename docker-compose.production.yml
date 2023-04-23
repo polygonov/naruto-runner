@@ -2,13 +2,13 @@ version: "3.9"
 
 services:
   server:
-    image: cr.yandex/{{ env.CR_REGISTRY }}/naruto-runner-server:latest
+    image: {{ env.IMAGE_URL }}
     build:
       context: .
       dockerfile: Dockerfile
       args:
         SERVER_PORT: {{ env.SERVER_PORT }}
-    restart: unless-stopped
+    restart: always
     ports:
       - "{{ env.SERVER_PORT }}:{{ env.SERVER_PORT }}"
     environment:
@@ -32,14 +32,14 @@ services:
     volumes:
       - ./tmp/pgdata:/var/lib/postgresql/data
       - ./src/migrations/dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
-    restart: unless-stopped
+    restart: always
     networks:
       - awesome
 
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4:6.21
-    restart: unless-stopped
+    restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: {{ env.PGADMIN_EMAIL }}
       PGADMIN_DEFAULT_PASSWORD: {{ env.PGADMIN_PASSWORD }}
