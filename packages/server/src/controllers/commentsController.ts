@@ -1,5 +1,6 @@
 import type { Request, Response } from 'express'
 import CommentsService from '../services/commentsService'
+import TopicsService from '../services/topicsService'
 
 export class CommentsController {
   public static getCommentsByTopic = (req: Request, res: Response) => {
@@ -30,9 +31,10 @@ export class CommentsController {
   }
 
   public static createComment = (req: Request, res: Response) => {
-    const { message, authorId, topic_id } = req.body
+    const { topicId } = req.params
+    const { message, authorId } = req.body
 
-    if (!message || !authorId || !topic_id) {
+    if (!message || !authorId || !topicId) {
       res.status(400).json({
         message:
           'Missing some of required fields `topic_id | authorId | message`',
@@ -40,13 +42,27 @@ export class CommentsController {
       return
     }
 
-    CommentsService.create({ message, authorId, topic_id })
+    CommentsService.create({
+      message,
+      author_id: authorId,
+      topic_id: Number(topicId),
+    })
       .then(comment => {
         if (!comment) {
           res.status(404).json({ message: 'No comment found' })
           return
         }
-        res.json(comment)
+        TopicsService.request(Number(topicId))
+          .then(topic => {
+            if (!topic) {
+              res.status(500).json({ message: 'Something went wrong' })
+              return
+            }
+            res.json(topic)
+          })
+          .catch(err => {
+            res.status(500).json({ message: err.message })
+          })
       })
       .catch(err => {
         res.status(500).json({ message: err.message })

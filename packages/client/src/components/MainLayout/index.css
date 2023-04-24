@@ -52,3 +52,7 @@
   width: fit-content;
   min-width: 380px;
 }
+
+.content-wrapper--fullscreen {
+  width: 100%;
+}

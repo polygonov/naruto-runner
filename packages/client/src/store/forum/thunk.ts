@@ -1,5 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { CreateTopicPayload, RequestTopicsPayload } from '../../api/forum/types'
+import {
+  CreateCommentPayload,
+  CreateTopicPayload,
+  RequestTopicsPayload,
+} from '../../api/forum/types'
 import { forumApi } from '../../api/forum'
 
 export const requestTopics = createAsyncThunk(
@@ -22,6 +26,14 @@ export const createTopic = createAsyncThunk(
   'forum/createTopic',
   async (payload: CreateTopicPayload) => {
     const topic = await forumApi.createTopic(payload)
+    return topic
+  }
+)
+
+export const createComment = createAsyncThunk(
+  'forum/createComment',
+  async (payload: CreateCommentPayload) => {
+    const topic = await forumApi.createComment(payload)
     return topic
   }
 )

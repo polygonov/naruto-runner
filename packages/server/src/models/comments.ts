@@ -18,7 +18,7 @@ type CommentAttributes = {
   id: number
   message: string
   topic_id: number
-  authorId: number
+  author_id: number
   status: boolean
 }
 

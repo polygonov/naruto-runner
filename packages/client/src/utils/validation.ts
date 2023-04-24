@@ -109,6 +109,10 @@ export const validationSchema = createValidationSchema({
     .trim()
     .max(100, messages.max('названия', 100))
     .required(messages.required),
+  message: string()
+    .trim()
+    .max(1000, messages.max('сообщения', 1000))
+    .required(messages.required),
 })
 
 export type fieldsTypes = keyof typeof validationSchema

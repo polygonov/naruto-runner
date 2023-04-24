@@ -10,7 +10,7 @@ interface FindRequest {
 interface CreateRequest {
   message: string
   topic_id: number
-  authorId: number
+  author_id: number
 }
 
 class CommentsService implements BaseRESTService {

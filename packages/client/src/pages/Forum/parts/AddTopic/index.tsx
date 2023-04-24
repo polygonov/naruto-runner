@@ -1,15 +1,12 @@
-import { useCallback, useState } from 'react'
+import { FC, FormEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { Button } from '../../../../components/Button'
-import { Input } from '../../../../components/Input'
+import { Input, InputProps } from '../../../../components/Input'
 import './index.css'
-import { useAppDispatch, useAppSelector } from '../../../../store'
 import { CreateTopicPayload } from '../../../../api/forum/types'
 import { useFormik } from 'formik'
-import { createTopic } from '../../../../store/forum/thunk'
-import { selectUserData } from '../../../../store/user/selectors'
 import { fieldsTypes, getValidationSchema } from '../../../../utils/validation'
 
-type AddTopicFormFields = Pick<CreateTopicPayload, 'title'>
+export type AddTopicFormFields = Pick<CreateTopicPayload, 'title'>
 
 type FormInputNames = Extract<fieldsTypes, 'title'>
 
@@ -18,31 +15,59 @@ const formInputNames: FormInputNames = 'title'
 const AddTopicFormSchema =
   getValidationSchema<AddTopicFormFields>(formInputNames)
 
-export function AddTopic() {
-  const inputProps = {
-    name: 'add-topic',
-    placeholder: 'Введите название темы...',
-    className: 'big-box-size',
-  }
+type AddTopicFormProps = {
+  handleAddTopic: (data: AddTopicFormFields) => void
+  serverError?: string | null
+}
+
+export const AddTopic: FC<AddTopicFormProps> = ({
+  handleAddTopic,
+  serverError,
+}) => {
   const [shouldShowAddTopicForm, setShouldShowAddTopicForm] = useState(false)
-  const { user } = useAppSelector(selectUserData)
-
-  const dispatch = useAppDispatch()
-  const formik = useFormik<AddTopicFormFields>({
-    initialValues: {
-      title: '',
-    },
-    enableReinitialize: true,
-    onSubmit: values => {
-      const { title } = values
-      dispatch(createTopic({ title, authorId: user!.id }))
-    },
-    validationSchema: AddTopicFormSchema,
-  })
-
   const toggleShowAddTopicForm = useCallback(() => {
     setShouldShowAddTopicForm(!shouldShowAddTopicForm)
   }, [shouldShowAddTopicForm])
+
+  const inputProps: InputProps = {
+    name: 'title',
+    placeholder: 'Введите название темы...',
+    className: 'big-box-size',
+    type: 'text',
+  }
+
+  const [shouldValidateOnChange, setShouldValidateOnChange] = useState(false)
+  const initialValues: AddTopicFormFields = {
+    title: '',
+  }
+
+  const formik = useFormik({
+    initialValues,
+    onSubmit: async (values, helpers) => {
+      await handleAddTopic(values)
+      helpers.resetForm()
+      setShouldShowAddTopicForm(false)
+    },
+    enableReinitialize: true,
+    validateOnBlur: false,
+    validateOnChange: shouldValidateOnChange,
+    validationSchema: AddTopicFormSchema,
+  })
+
+  const submitHandler = (e: FormEvent) => {
+    e.preventDefault()
+    if (!shouldValidateOnChange) {
+      setShouldValidateOnChange(true)
+    }
+    return formik.handleSubmit()
+  }
+
+  useEffect(() => {
+    if (serverError) {
+      formik.setSubmitting(false)
+      alert(serverError)
+    }
+  }, [serverError, formik.setSubmitting, formik])
 
   return (
     <div className="add-topic">
@@ -55,8 +80,14 @@ export function AddTopic() {
       )}
       {shouldShowAddTopicForm && (
         <form className="add-topic__form" onSubmit={formik.handleSubmit}>
-          <Input {...formik.getFieldProps('title')} />
-          <Button text="Создать тему" type="submit" />
+          <Input
+            {...inputProps}
+            isValid={!formik.errors.title}
+            error={formik.errors.title}
+            onChange={formik.handleChange}
+            value={formik.values.title}
+          />
+          <Button text="Создать тему" type="submit" onClick={submitHandler} />
         </form>
       )}
     </div>

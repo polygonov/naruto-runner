@@ -2,6 +2,7 @@ import type { BaseRESTService } from './baseService'
 import { Topic } from '../models/topics'
 import { Comment } from '../models/comments'
 import { User } from '../models/users'
+import { Op } from 'sequelize'
 interface FindRequest {
   title?: string
 }
@@ -16,7 +17,11 @@ class TopicsService implements BaseRESTService {
     return Topic.findAll({
       where: {
         status: true,
-        ...(title && { title: `%${title}%` }),
+        ...(title && {
+          title: {
+            [Op.like]: `%${title}%`,
+          },
+        }),
       },
       attributes: ['id', 'title', 'createdAt'],
     })
@@ -24,6 +29,7 @@ class TopicsService implements BaseRESTService {
 
   public request = (id: number) => {
     return Topic.findByPk(id, {
+      attributes: ['id', 'title', 'createdAt'],
       include: [
         {
           model: Comment,
@@ -32,6 +38,7 @@ class TopicsService implements BaseRESTService {
           where: {
             status: true,
           },
+          required: false,
           include: [
             {
               model: User,
@@ -46,7 +53,6 @@ class TopicsService implements BaseRESTService {
           attributes: ['id', 'login', 'avatar'],
         },
       ],
-      attributes: ['id', 'title', 'createdAt'],
     })
   }
 

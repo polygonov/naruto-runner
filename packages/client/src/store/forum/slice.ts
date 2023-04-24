@@ -1,9 +1,21 @@
-import { createSlice, isFulfilled, PayloadAction } from '@reduxjs/toolkit'
+import {
+  createSlice,
+  isFulfilled,
+  isRejected,
+  PayloadAction,
+} from '@reduxjs/toolkit'
 import { GENERAL_ERROR } from '../../constant'
 import { Topic, TopicsList } from '../../api/forum/types'
-import { requestTopic, requestTopics } from './thunk'
+import {
+  createComment,
+  createTopic,
+  requestTopic,
+  requestTopics,
+} from './thunk'
 
 export type ForumState = {
+  createTopicError: string | null
+  createCommentError: string | null
   isTopicsLoading: boolean
   topicsError: string | null
   topicsList: TopicsList
@@ -13,6 +25,8 @@ export type ForumState = {
 }
 
 const initialState: ForumState = {
+  createTopicError: null,
+  createCommentError: null,
   isTopicsLoading: false,
   topicsError: null,
   topicsList: [],
@@ -70,6 +84,22 @@ export const forumSlice = createSlice({
         state.currentTopic = payload
       }
     )
+    builder.addMatcher(isFulfilled(createTopic), state => {
+      state.createTopicError = null
+    })
+    builder.addMatcher(
+      isFulfilled(createComment),
+      (state, { payload }: PayloadAction<Topic>) => {
+        state.createCommentError = null
+        state.currentTopic = payload
+      }
+    )
+    builder.addMatcher(isRejected(createComment), (state, { error }) => {
+      state.createCommentError = error.message ?? GENERAL_ERROR
+    })
+    builder.addMatcher(isRejected(createTopic), (state, { error }) => {
+      state.createTopicError = error.message ?? GENERAL_ERROR
+    })
   },
 })
 

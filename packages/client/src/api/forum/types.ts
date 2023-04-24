@@ -29,3 +29,9 @@ export type CreateTopicPayload = {
   title: string
   authorId: number
 }
+
+export type CreateCommentPayload = {
+  message: string
+  authorId: number
+  topicId: number
+}

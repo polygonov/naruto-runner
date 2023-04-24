@@ -10,7 +10,6 @@ import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 import proxyMiddleware from './middlewares/proxyMiddleware'
 import apiRouter from './routers/apiRouter'
-import authMiddleware from './middlewares/authMiddleware'
 import { WHITE_LIST } from './constant'
 
 dotenv.config({ path: path.resolve(__dirname, '../../../../.env') })
@@ -72,7 +71,7 @@ class Server {
 
     router.use('/api/v2', proxyMiddleware)
 
-    router.use('/api/v1', authMiddleware, apiRouter)
+    router.use('/api/v1', apiRouter)
 
     router.use('/', this.serverRenderer.bind(this))
     this.app.use(router)
