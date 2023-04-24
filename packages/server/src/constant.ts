@@ -6,3 +6,5 @@ export const WHITE_LIST = [
   `http://localhost:${process.env.CLIENT_PORT}`,
   `http://localhost:${process.env.SERVER_PORT}`,
 ]
+
+export const isProdEnv = () => process.env.NODE_ENV === 'production'

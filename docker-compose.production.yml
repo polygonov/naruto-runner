@@ -13,10 +13,15 @@ services:
       - "{{ env.SERVER_PORT }}:{{ env.SERVER_PORT }}"
     environment:
       SERVER_PORT: {{ env.SERVER_PORT }}
+      DATABASE_HOST: 'postgres'
+      NODE_ENV: 'production'
+    depends_on:
+      - postgres
     networks:
       - awesome
 
   postgres:
+    container_name: postgres
     image: postgres:14
     ports:
       - "{{ env.POSTGRES_PORT }}:{{ env.POSTGRES_PORT }}"
