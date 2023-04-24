@@ -13,6 +13,8 @@ import gameBack from '../../assets/images/background/Game.png'
 import ErrorBoundary from '../ErrorBoundary'
 import ThemeSwitcher from '../ThemeSwitcher'
 import './index.css'
+import { Provider } from 'react-redux'
+import { store } from '../../store'
 
 type MainLayoutProps = {
   children: ReactNode
@@ -78,7 +80,9 @@ export class MainLayout extends Component<
             />
           </div>
         )}
-        <ThemeSwitcher />
+        <Provider store={store}>
+          <ThemeSwitcher />
+        </Provider>
         <ErrorBoundary>
           <div className="main-wrapper">
             <HeaderComponent />
