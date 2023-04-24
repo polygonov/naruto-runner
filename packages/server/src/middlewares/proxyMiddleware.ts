@@ -4,8 +4,10 @@ import {
   createProxyMiddleware,
   responseInterceptor,
 } from 'http-proxy-middleware'
+import { User, UserAttributes } from '../models/users'
+import { PRACTICUM_ORIGIN } from '../constant'
+import type { YaUser } from '../types'
 
-import { User } from '../models/users'
 const modifyBodyReStreamCb = function (proxyReq: ClientRequest, req: Request) {
   if (req.body && Object.keys(req.body).length > 0) {
     const bodyData = JSON.stringify(req.body)
@@ -17,7 +19,7 @@ const modifyBodyReStreamCb = function (proxyReq: ClientRequest, req: Request) {
 
 const proxyMiddleware: RequestHandler = (req, res, next) => {
   return createProxyMiddleware({
-    target: 'https://ya-praktikum.tech',
+    target: PRACTICUM_ORIGIN,
     changeOrigin: true,
     cookieDomainRewrite: {
       '*': '',
@@ -28,24 +30,38 @@ const proxyMiddleware: RequestHandler = (req, res, next) => {
     onProxyRes: responseInterceptor(
       async (responseBuffer, _proxyRes, _req, _res) => {
         if (req.url.includes('/auth/user') && req.method === 'GET') {
-          const response = responseBuffer.toString() // convert buffer to string
-          let user
-          try {
-            user = JSON.parse(response)
-          } catch (e) {
-            user = null
-          }
-          if (user && user.id) {
+          if (_proxyRes.headers['content-type']?.includes('application/json')) {
+            let data: YaUser | null = null
+            let fullData: (YaUser & Pick<UserAttributes, 'isDarkMode'>) | null =
+              null
+
             try {
-              const { avatar, display_name, login, id } = user
+              data = JSON.parse(responseBuffer.toString('utf8'))
+            } catch (e) {
+              data = null
+            }
+
+            if (data && data.id) {
+              const { avatar, login, id } = data
               await User.upsert({
                 yandex_id: id,
                 login: login,
-                ...(display_name && { display_name }),
                 ...(avatar && { avatar }),
               })
-            } catch (e) {
-              console.error(e)
+                .then(([user]) => {
+                  fullData = Object.assign({}, data, {
+                    isDarkMode: user.isDarkMode,
+                  })
+                })
+                .catch(e => {
+                  console.log(e)
+                })
+
+              if (fullData) {
+                return Buffer.from(JSON.stringify(fullData))
+              } else {
+                return responseBuffer
+              }
             }
           }
         }

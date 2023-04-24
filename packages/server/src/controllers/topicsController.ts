@@ -1,6 +1,5 @@
 import type { Request, Response } from 'express'
 import TopicsService from '../services/topicsService'
-import type { Topic } from '../models/topics'
 
 export class TopicsController {
   public static getTopics = async (req: Request, res: Response) => {
@@ -16,12 +15,14 @@ export class TopicsController {
 
     if (!topicId) {
       res.status(400).json({ message: 'Missing required field `topicId`' })
+      return
     }
 
     TopicsService.request(Number(topicId))
       .then(topic => {
         if (!topic) {
           res.status(404).json({ message: 'Topic with given id not found' })
+          return
         }
 
         res.json(topic)
@@ -38,12 +39,14 @@ export class TopicsController {
       res
         .status(400)
         .json({ message: 'Missing some of required fields `title | authorId`' })
+      return
     }
 
     TopicsService.create({ title, authorId })
       .then(topic => {
         if (!topic) {
           res.status(404).json({ message: 'No topic found' })
+          return
         }
         res.json(topic)
       })
@@ -57,12 +60,14 @@ export class TopicsController {
 
     if (!topicId) {
       res.status(400).json({ message: 'Missing required field `topicId`' })
+      return
     }
 
     TopicsService.delete(Number(topicId))
-      .then(topic => {
-        if (!topic) {
+      .then(([updatedTopics]) => {
+        if (!updatedTopics) {
           res.status(404).json({ message: 'No topic found' })
+          return
         }
         res.status(204).json({ message: 'Topic deleted' })
       })
