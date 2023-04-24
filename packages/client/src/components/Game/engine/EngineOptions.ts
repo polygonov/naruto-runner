@@ -7,3 +7,9 @@ export const enum EngineStatus {
   Running,
   Unmounted,
 }
+
+export enum ActualScreen {
+  startScreen,
+  gameScreen,
+  overScreen,
+}

@@ -7,9 +7,9 @@ export class EnemyManager {
   private enemyList: Enemy[] = []
   private startTime = 0
   private minFramerate = 600
-  private maxFramerate = 2000
-  private deltaX = 15
-  private factor = 0.002
+  private maxFramerate = 1200
+  private deltaX = 20
+  private factor = 0.004
   private collisionDetector: CollisionDetector | undefined
   status: EngineStatus = EngineStatus.Running
 

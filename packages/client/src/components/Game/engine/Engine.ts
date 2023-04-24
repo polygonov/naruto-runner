@@ -10,8 +10,16 @@ export class Engine {
   private background: Background
   private hero: Hero
   private visualItems: VisualItem[] = []
+  private startTime = 0
+  private limit = 250
+  private playerScore = 0
 
-  constructor(context: CanvasRenderingContext2D, private callback: () => void) {
+  constructor(
+    context: CanvasRenderingContext2D,
+    private statusCallback: () => void,
+    private resultCallback: (value: number) => void
+  ) {
+    this.startTime = performance.now()
     this.background = new Background(context)
     this.hero = new Hero(context)
     this.visualItems.push(this.background, this.hero)
@@ -33,12 +41,19 @@ export class Engine {
     this.hero.draw()
   }
 
+  updateCallback(resultCallback: (value: number) => void) {
+    this.playerScore = 0
+    this.startTime = performance.now()
+    this.resultCallback = resultCallback
+  }
+
   public static getInstance(
     context: CanvasRenderingContext2D,
-    callback: () => void
+    statusCallback: () => void,
+    resultCallback: (value: number) => void
   ): Engine {
     if (!Engine.instance) {
-      Engine.instance = new Engine(context, callback)
+      Engine.instance = new Engine(context, statusCallback, resultCallback)
     }
     return Engine.instance
   }
@@ -47,9 +62,16 @@ export class Engine {
     if (this.enemyManager !== undefined) {
       if (this.enemyManager.status === EngineStatus.Unmounted) {
         this.visualItems.forEach(item => (item.status = EngineStatus.Unmounted))
-        this.callback()
+        this.statusCallback()
       } else {
         this.visualItems.forEach(item => (item.status = EngineStatus.Running))
+        const time = performance.now()
+        const progress = time - this.startTime
+        if (progress >= this.limit) {
+          this.playerScore++
+          this.resultCallback(this.playerScore)
+          this.startTime = performance.now()
+        }
       }
     }
     requestAnimationFrame(this.checkStatus)

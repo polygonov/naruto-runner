@@ -1,20 +1,12 @@
 import { Fragment } from 'react'
 import './index.css'
 import { Button } from '../../../Button'
-import { Actual } from '../..'
-
-export type GameComponentProps = {
-  onChange: (value: Actual) => void
-}
+import { ActualScreen } from '../../engine/EngineOptions'
+import { GameComponentProps } from '../types/GameComponentProps'
 
 export function StartGameComponent({ onChange }: GameComponentProps) {
-  const state = {
-    focus: Actual.startScreen,
-  }
-
   const submitHandler = () => {
-    state.focus = Actual.gameScreen
-    onChange(state.focus)
+    onChange(ActualScreen.gameScreen)
   }
 
   return (

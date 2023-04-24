@@ -3,8 +3,8 @@ import { EngineSettings, EngineStatus } from './EngineOptions'
 import { VisualItem } from './VisualItem'
 
 export class Background extends VisualItem {
-  private deltaX = 15
-  private factor = 0.001
+  private deltaX = 20
+  private factor = 0.002
 
   constructor(context: CanvasRenderingContext2D) {
     super(context)

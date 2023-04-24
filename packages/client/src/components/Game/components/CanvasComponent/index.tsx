@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react'
-import { EngineSettings } from '../../engine/EngineOptions'
+import { Fragment, useEffect, useRef, useState } from 'react'
+import { ActualScreen, EngineSettings } from '../../engine/EngineOptions'
 import { Engine } from '../../engine/Engine'
-import { Actual } from '../..'
-import { GameComponentProps } from '../StartGameComponent'
+import './index.css'
+import { GameComponentProps } from '../types/GameComponentProps'
 
 export type CustomCanvas = {
   getContext: (type: string) => CanvasRenderingContext2D
@@ -10,23 +10,35 @@ export type CustomCanvas = {
   height: number
 }
 
-export function CanvasComponent({ onChange }: GameComponentProps) {
+export function CanvasComponent({
+  onChange,
+  onScoreChange,
+}: GameComponentProps) {
   const width = EngineSettings.canvasWidth
   const height = EngineSettings.canvasHeight
   const ref = useRef(null)
-  const state = {
-    focus: Actual.gameScreen,
+
+  const [result, setResult] = useState(ActualScreen.startScreen)
+  const handleResultChange = (value: number) => {
+    setResult(value)
+    if (onScoreChange) {
+      onScoreChange(value)
+    }
   }
 
   const submitHandler = () => {
-    state.focus = Actual.overScreen
-    onChange(state.focus)
+    onChange(ActualScreen.overScreen)
   }
 
   useEffect(() => {
     const current: CustomCanvas = ref.current as unknown as CustomCanvas
     const context = current.getContext('2d')
-    const engine = Engine.getInstance(context, submitHandler)
+    const engine = Engine.getInstance(
+      context,
+      submitHandler,
+      handleResultChange
+    )
+    engine.updateCallback(handleResultChange)
     engine.restart(context)
     engine.mount()
     return () => {
@@ -35,5 +47,15 @@ export function CanvasComponent({ onChange }: GameComponentProps) {
     }
   }, [])
 
-  return <canvas ref={ref} width={width} height={height} />
+  return (
+    <Fragment>
+      <canvas ref={ref} width={width} height={height} />
+      <label className="result">
+        {result.toLocaleString('en-US', {
+          minimumIntegerDigits: 5,
+          useGrouping: false,
+        })}
+      </label>
+    </Fragment>
+  )
 }

@@ -36,8 +36,8 @@ export class Enemy extends VisualItem {
   }
 
   draw = () => {
-    const offsetLeft = 10
-    const offsetRight = 40
+    const offsetLeft = 5
+    const offsetRight = 20
     const movement = this.step * this.deltaX
     this.rect.x = EngineSettings.canvasWidth - movement + offsetLeft
     this.rect.x1 = this.rect.x + this.width - offsetRight
