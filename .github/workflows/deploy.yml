@@ -27,8 +27,8 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
           SERVER_PORT: ${{ secrets.SERVER_PORT }}
         run: |
-          docker build -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG .
-          docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG
+            docker build -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG .
+            docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG
   deploy:
     needs:
       - build
@@ -62,4 +62,4 @@ jobs:
           vm-disk-type: network-hdd
           vm-disk-size: 30GB
           user-data-path: './user-data.yml'
-          docker-compose-path: './docker-compose.deploy.yml'
+          docker-compose-path: './docker-compose.production.yml'
