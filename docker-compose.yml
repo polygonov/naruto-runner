@@ -9,11 +9,15 @@ services:
       dockerfile: Dockerfile
       args:
         SERVER_PORT: ${SERVER_PORT}
-    restart: always
+    restart: unless-stopped
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     environment:
       SERVER_PORT: ${SERVER_PORT}
+      DATABASE_HOST: 'postgres'
+      NODE_ENV: 'production'
+    depends_on:
+      - postgres
     env_file:
       - .env
     depends_on:
@@ -22,6 +26,7 @@ services:
       - awesome
 
   postgres:
+    container_name: postgres
     image: postgres:14
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
@@ -32,7 +37,7 @@ services:
     volumes:
       - ./tmp/pgdata:/var/lib/postgresql/data
       - ./src/migrations/dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
-    restart: always
+    restart: unless-stopped
     env_file:
       - .env
     networks:
@@ -41,7 +46,7 @@ services:
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4:6.21
-    restart: always
+    restart: unless-stopped
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}

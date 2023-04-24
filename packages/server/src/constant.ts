@@ -5,3 +5,4 @@ export const WHITE_LIST = [
   'http://milashki-narutorunner-22.ya-praktikum.tech',
   'https://milashki-narutorunner-22.ya-praktikum.tech',
 ]
+export const isProdEnv = () => process.env.NODE_ENV === 'production'
