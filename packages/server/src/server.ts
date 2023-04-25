@@ -11,6 +11,7 @@ import cookieParser from 'cookie-parser'
 import proxyMiddleware from './middlewares/proxyMiddleware'
 import apiRouter from './routers/apiRouter'
 import authMiddleware from './middlewares/authMiddleware'
+import { YandexAPIRepository } from './repository/YandexAPIRepository'
 
 dotenv.config({ path: path.resolve(__dirname, '../../../../.env') })
 
@@ -69,6 +70,7 @@ class Server {
     router.use('/api/v1', authMiddleware, apiRouter)
 
     router.use('/', this.serverRenderer.bind(this))
+
     this.app.use(router)
   }
 
@@ -86,8 +88,7 @@ class Server {
 
     try {
       let template: string
-      let render: () => Promise<string>
-
+      let render: (url: string, data: any) => Promise<string>
       if (!isDev) {
         template = fs.readFileSync(
           path.resolve(this.distPath, 'index.html'),
@@ -96,7 +97,7 @@ class Server {
         render = (await import(this.ssrClientPath)).render
       } else {
         template = fs.readFileSync(
-          path.resolve(this.srcPath, 'index.html'),
+          path.resolve(this.distPath, 'index.html'),
           'utf-8'
         )
         template = await vite!.transformIndexHtml(url, template)
@@ -105,15 +106,26 @@ class Server {
         ).render
       }
 
-      const appHtml = await render()
+      const [initialState, appHtml] = await render(
+        url,
+        new YandexAPIRepository(req.headers['cookie'])
+      )
 
-      const html = template.replace(`<!--SSR-->`, appHtml)
+      const html = template
+        .replace(`<!--SSR-->`, appHtml)
+        .replace(
+          `<!--store-data-->`,
+          `<script>window.initialState = ${JSON.stringify(
+            initialState
+          )}</script>`
+        )
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
     } catch (e) {
       if (isDev) {
         vite!.ssrFixStacktrace(e as Error)
       }
+
       next(e)
     }
   }

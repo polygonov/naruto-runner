@@ -1,11 +1,23 @@
 import App from './src/App'
 import { renderToString } from 'react-dom/server'
-import { store } from './src/store'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { StaticRouter } from 'react-router-dom/server'
+import { setUser } from './src/store/user/slice'
+import { store } from './src/store'
 
-export const render = (url: string) => {
+export const render = async (
+  url: string,
+  repository: { getCurrent: () => any }
+) => {
+  const res = await repository.getCurrent()
+
+  if (res?.id) {
+    store.dispatch(setUser(res))
+  }
+
+  const initialState = store.getState()
+
   const html = renderToString(
     <React.StrictMode>
       <Provider store={store}>
@@ -16,5 +28,5 @@ export const render = (url: string) => {
     </React.StrictMode>
   )
 
-  return html
+  return [initialState, html]
 }

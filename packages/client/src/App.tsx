@@ -14,7 +14,6 @@ import { Topic } from './pages/Topic'
 import { hot } from 'react-hot-loader/root'
 
 import './App.css'
-import { useEffect } from 'react'
 
 const App: React.FC = hot(() => {
   const { pathname } = useLocation()
