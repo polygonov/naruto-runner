@@ -1,4 +1,4 @@
-import { Component, ReactNode } from 'react'
+import { FC, ReactNode, useEffect, useState } from 'react'
 import HeaderComponent from '../Header'
 import { RoutesNameList } from '../../constant'
 import mainBack from './background/Main.png'
@@ -16,76 +16,60 @@ import './index.css'
 
 type MainLayoutProps = {
   children: ReactNode
-  background: string
+  pageName: string
 }
 
-export class MainLayout extends Component<
-  MainLayoutProps,
-  { backgroundImage: string; backgroundImage2x: string; pageName: string }
-> {
-  imageNames: { [key: string]: string } = {
-    [RoutesNameList.Main]: mainBack,
-    [RoutesNameList.Login]: loginBack,
-    [RoutesNameList.Registration]: loginBack,
-    [RoutesNameList.Leaderboard]: leaderboardBack,
-    [RoutesNameList.Profile]: profileBack,
-    [RoutesNameList.Game]: gameBack,
-  }
-  imageNames2x: { [key: string]: string } = {
-    [RoutesNameList.Main]: mainBack2x,
-    [RoutesNameList.Login]: loginBack2x,
-    [RoutesNameList.Leaderboard]: leaderboardBack2x,
-    [RoutesNameList.Profile]: profileBack2x,
-  }
+const imageNames: { [key: string]: string } = {
+  [RoutesNameList.Main]: mainBack,
+  [RoutesNameList.Login]: loginBack,
+  [RoutesNameList.Registration]: loginBack,
+  [RoutesNameList.Leaderboard]: leaderboardBack,
+  [RoutesNameList.Profile]: profileBack,
+  [RoutesNameList.Game]: gameBack,
+}
 
-  constructor(props: MainLayoutProps) {
-    super(props)
-    this.state = {
-      backgroundImage: '',
-      backgroundImage2x: '',
-      pageName: this.props.background,
-    }
-  }
+const imageNames2x: { [key: string]: string } = {
+  [RoutesNameList.Main]: mainBack2x,
+  [RoutesNameList.Login]: loginBack2x,
+  [RoutesNameList.Leaderboard]: leaderboardBack2x,
+  [RoutesNameList.Profile]: profileBack2x,
+}
 
-  getBackgroundImgPath(image: string) {
-    this.setState({
-      backgroundImage: this.imageNames[image],
-      backgroundImage2x: this.imageNames2x[image],
-    })
-  }
+export const MainLayout: FC<MainLayoutProps> = ({ pageName, ...props }) => {
+  const [backgroundImage, setBackgroundImage] = useState<string>(
+    imageNames[pageName]
+  )
+  const [backgroundImage2x, setBackgroundImage2x] = useState<string>(
+    imageNames2x[pageName]
+  )
 
-  override componentDidMount() {
-    this.getBackgroundImgPath(this.props.background)
-  }
+  useEffect(() => {
+    setBackgroundImage(imageNames[pageName])
+    setBackgroundImage2x(imageNames2x[pageName])
+  }, [pageName])
 
-  override componentWillReceiveProps(nextProps: { background: string }) {
-    this.getBackgroundImgPath(nextProps.background)
-  }
-
-  override render() {
-    return (
-      <div
-        className={
-          this.props.background === RoutesNameList.Main
-            ? 'layout layout_main'
-            : 'layout'
-        }>
-        {this.state.backgroundImage && (
-          <div className="layout__background-image">
-            <img
-              src={this.state.backgroundImage}
-              srcSet={`${this.state.backgroundImage2x} 2x`}
-            />
+  return (
+    <div
+      className={
+        pageName === RoutesNameList.Main ? 'layout layout_main' : 'layout'
+      }>
+      {backgroundImage && (
+        <div className="layout__background-image">
+          <img src={backgroundImage} srcSet={`${backgroundImage2x} 2x`} />
+        </div>
+      )}
+      <ThemeSwitcher />
+      <ErrorBoundary>
+        <div className="main-wrapper">
+          <HeaderComponent />
+          <div
+            className={`content-wrapper ${
+              backgroundImage ? '' : 'content-wrapper--fullscreen'
+            }`}>
+            {props.children}
           </div>
-        )}
-        <ThemeSwitcher />
-        <ErrorBoundary>
-          <div className="main-wrapper">
-            <HeaderComponent />
-            <div className="content-wrapper">{this.props.children}</div>
-          </div>
-        </ErrorBoundary>
-      </div>
-    )
-  }
+        </div>
+      </ErrorBoundary>
+    </div>
+  )
 }

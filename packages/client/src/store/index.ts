@@ -13,12 +13,15 @@ import type { LeaderboardState } from './leaderboard/slice'
 import leaderboardReducer from './leaderboard/slice'
 import type { OAuthState } from './oauth/slice'
 import oAuthReducer from './oauth/slice'
+import type { ForumState } from './forum/slice'
+import forumReducer from './forum/slice'
 
 export type AppState = {
   auth: AuthState
   oauth: OAuthState
   user: UserState
   leaderboard: LeaderboardState
+  forum: ForumState
 }
 
 const appReducer = combineReducers<AppState>({
@@ -26,6 +29,7 @@ const appReducer = combineReducers<AppState>({
   oauth: oAuthReducer,
   user: userReducer,
   leaderboard: leaderboardReducer,
+  forum: forumReducer,
 })
 
 export const store = configureStore({

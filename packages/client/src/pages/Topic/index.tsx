@@ -1,6 +1,16 @@
 import { Message } from './Message/Index'
-import { TypingPlace } from './TypingPlace'
+import { commentFormFields, TypingPlace } from './TypingPlace'
 import './index.css'
+import { useParams } from 'react-router'
+import { useCallback, useEffect, useMemo } from 'react'
+import { createComment, requestTopic } from '../../store/forum/thunk'
+import { useAppDispatch, useAppSelector } from '../../store'
+import {
+  selectCurrentTopic,
+  selectForumState,
+} from '../../store/forum/selectors'
+import { updateResourcePath } from '../../utils/updateResourcePath'
+import { selectUserData } from '../../store/user/selectors'
 
 interface IMessage {
   userName: string
@@ -10,70 +20,75 @@ interface IMessage {
 }
 
 export function Topic() {
-  const messageList: IMessage[] = [
-    {
-      userName: 'Ivan',
-      text: 'Не получается пройти уровень. Пробовал жать на пробел, но герой не прыгает так как я хочу',
-      messageId: 1,
-      date: '22/02/2022 18.30',
+  const dispatch = useAppDispatch()
+  const { id: topicId } = useParams<{ id: string }>()
+  const { user } = useAppSelector(selectUserData)
+  const { createCommentError } = useAppSelector(selectForumState)
+
+  useEffect(() => {
+    if (topicId) {
+      dispatch(requestTopic(Number(topicId)))
+    }
+  }, [dispatch, topicId])
+
+  const topicData = useAppSelector(selectCurrentTopic)
+
+  const { comments, author } = useMemo(() => {
+    return {
+      comments: topicData?.comments || [],
+      author: topicData?.author || null,
+    }
+  }, [topicData])
+
+  const handleAddComment = useCallback(
+    (data: commentFormFields) => {
+      if (user && topicData) {
+        dispatch(
+          createComment({ ...data, authorId: user.id, topicId: topicData.id })
+        )
+      }
     },
-    {
-      userName: 'Laila',
-      text: 'Жми на пробел сильнее и наклоняйся в сторону прыжка!',
-      messageId: 2,
-      date: '22/02/2022 18.30',
-    },
-    {
-      userName: 'Jonh',
-      text: 'Check yours ping and connection',
-      messageId: 3,
-      date: '22/02/2022 18.30',
-    },
-    {
-      userName: 'Laila',
-      text: 'Жми на пробел сильнее и наклоняйся в сторону прыжка!',
-      messageId: 4,
-      date: '22/02/2022 18.30',
-    },
-    {
-      userName: 'Jonh',
-      text: 'Check yours ping and connection',
-      messageId: 5,
-      date: '22/02/2022 18.30',
-    },
-    {
-      userName: 'Laila',
-      text: 'Жми на пробел сильнее и наклоняйся в сторону прыжка!',
-      messageId: 6,
-      date: '22/02/2022 18.30',
-    },
-    {
-      userName: 'Jonh',
-      text: 'Check yours ping and connection',
-      messageId: 7,
-      date: '22/02/2022 18.30',
-    },
-  ]
-  const questionMessage = messageList.shift() as IMessage
+    [dispatch, topicData, user]
+  )
+
   return (
     <div className="chat-wrapper">
-      {questionMessage && (
-        <div className="topic-message">
-          <Message
-            userName={questionMessage.userName}
-            text={questionMessage.text}
-            date={questionMessage.date}
-          />
-        </div>
-      )}
+      <div className="topic-message">
+        <Message
+          userAvatar={author?.avatar ? updateResourcePath(author.avatar)! : ''}
+          userName={author?.login || '-'}
+          text={topicData?.title || '-'}
+          date={
+            topicData?.createdAt
+              ? new Date(topicData?.createdAt).toLocaleString()
+              : '-'
+          }
+        />
+      </div>
       <ul className="topic-chat">
-        {messageList.map(data => (
-          <li key={data.messageId}>
-            <Message {...data} />
+        {comments.map(comment => (
+          <li key={comment.id}>
+            <Message
+              userAvatar={
+                comment.author.avatar
+                  ? updateResourcePath(comment.author.avatar)!
+                  : ''
+              }
+              userName={comment.author.login || '-'}
+              text={comment.message || '-'}
+              date={
+                comment.createdAt
+                  ? new Date(comment.createdAt).toLocaleString()
+                  : '-'
+              }
+            />
           </li>
         ))}
       </ul>
-      <TypingPlace />
+      <TypingPlace
+        handleAddComment={handleAddComment}
+        serverError={createCommentError}
+      />
     </div>
   )
 }

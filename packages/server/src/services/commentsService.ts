@@ -10,7 +10,7 @@ interface FindRequest {
 interface CreateRequest {
   message: string
   topic_id: number
-  authorId: number
+  author_id: number
 }
 
 class CommentsService implements BaseRESTService {
@@ -25,8 +25,10 @@ class CommentsService implements BaseRESTService {
         {
           model: User,
           as: 'author',
+          attributes: ['id', 'login', 'avatar'],
         },
       ],
+      attributes: ['id', 'message', 'createdAt'],
     })
   }
 
@@ -36,8 +38,10 @@ class CommentsService implements BaseRESTService {
         {
           model: User,
           as: 'author',
+          attributes: ['id', 'login', 'avatar'],
         },
       ],
+      attributes: ['id', 'message', 'createdAt'],
     })
   }
 

@@ -2,13 +2,22 @@ import type { Request, Response } from 'express'
 import TopicsService from '../services/topicsService'
 
 export class TopicsController {
-  public static getTopics = async (req: Request, res: Response) => {
+  public static getTopics = (req: Request, res: Response) => {
     const { title } = req.query
-    const topics = await TopicsService.requestAll({
+
+    TopicsService.requestAll({
       ...(title && { title: title as string }),
     })
-
-    res.json(topics)
+      .then(topics => {
+        if (!topics) {
+          res.status(404).json({ message: 'Something went wrong' })
+          return
+        }
+        res.json(topics)
+      })
+      .catch(err => {
+        res.status(500).json({ message: err.message })
+      })
   }
   public static getTopic = (req: Request, res: Response) => {
     const { topicId } = req.params
@@ -42,7 +51,7 @@ export class TopicsController {
       return
     }
 
-    TopicsService.create({ title, authorId })
+    TopicsService.create({ title, author_id: authorId })
       .then(topic => {
         if (!topic) {
           res.status(404).json({ message: 'No topic found' })

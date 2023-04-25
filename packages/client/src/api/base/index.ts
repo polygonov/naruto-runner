@@ -1,4 +1,4 @@
-import { PRACTICUM_ORIGIN, SERVER_ORIGIN } from '../../constant'
+import { PRACTICUM_ORIGIN, NARUTO_ORIGIN } from '../../constant'
 import { HttpErrorCodes, HttpMethod } from '../constants'
 import type { ApiErrorResponse, ContentType, RequestOptions } from '../types'
 import { createFormData } from '../../utils/createFormData'
@@ -8,9 +8,12 @@ export abstract class BaseApi {
   protected baseUrl: string
   protected serverUrl: string
 
-  constructor(serviceUrl: string) {
-    this.baseUrl = `${PRACTICUM_ORIGIN}/${serviceUrl}`
-    this.serverUrl = `${SERVER_ORIGIN}/${serviceUrl}`
+  constructor(serviceUrl: string, isPracticumOrigin = true) {
+    this.baseUrl = `${
+      isPracticumOrigin ? PRACTICUM_ORIGIN : NARUTO_ORIGIN
+    }/${serviceUrl}`
+
+    this.serverUrl = `${NARUTO_ORIGIN}/${serviceUrl}`
   }
 
   protected async handleServerResponse<T>(

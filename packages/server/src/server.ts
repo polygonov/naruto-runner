@@ -31,7 +31,7 @@ class Server {
   private vite: ViteDevServer | undefined
   private corsOptions: CorsOptions = {
     origin: function (origin, callback) {
-      if (!origin || WHITE_LIST.indexOf(origin) !== -1) {
+      if (!origin || WHITE_LIST.indexOf(origin) !== -1 || origin.includes('vercel')) {
         callback(null, true)
       } else {
         callback(new Error('Not allowed by CORS'))
@@ -74,7 +74,7 @@ class Server {
 
     router.use('/api/v2', proxyMiddleware)
 
-    router.use('/api/v1', authMiddleware, apiRouter)
+    router.use('/api/v1', apiRouter)
 
     router.use('/', this.serverRenderer.bind(this))
 

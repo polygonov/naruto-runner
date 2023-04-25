@@ -3,11 +3,14 @@ import {
   AutoIncrement,
   Column,
   DataType,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
 } from 'sequelize-typescript'
 import type { Optional } from 'sequelize'
+import { Topic } from './topics'
+import { Comment } from './comments'
 
 export type UserAttributes = {
   id: number
@@ -49,4 +52,22 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
     defaultValue: true,
   })
   isDarkMode: boolean
+
+  @HasMany(() => Topic, {
+    foreignKey: {
+      name: 'author_id',
+      allowNull: false,
+    },
+    as: 'topics',
+  })
+  topics: Topic[]
+
+  @HasMany(() => Comment, {
+    foreignKey: {
+      name: 'author_id',
+      allowNull: false,
+    },
+    as: 'comments',
+  })
+  comments: Comment[]
 }

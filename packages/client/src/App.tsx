@@ -18,7 +18,7 @@ import './App.css'
 const App: React.FC = hot(() => {
   const { pathname } = useLocation()
   return (
-    <MainLayout background={pathname}>
+    <MainLayout pageName={pathname}>
       <Routes>
         <Route element={<Authorization />}>
           <Route path={RoutesNameList.Login} element={<Login />} />

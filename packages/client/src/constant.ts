@@ -4,7 +4,7 @@ export const PRACTICUM_ORIGIN = `${
     : ''
 }/api/v2`
 
-export const SERVER_ORIGIN = `${
+export const NARUTO_ORIGIN = `${
   process.env.NODE_ENV === 'development'
     ? `http://localhost:${__SERVER_PORT__}`
     : ''

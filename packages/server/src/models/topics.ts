@@ -8,14 +8,17 @@ import {
   AllowNull,
   Index,
   ForeignKey,
+  HasMany,
+  BelongsTo,
 } from 'sequelize-typescript'
 import type { Optional } from 'sequelize'
 import { User } from './users'
+import { Comment } from './comments'
 
 type TopicAttributes = {
   id: number
   title: string
-  authorId: number
+  author_id: number
   status: boolean
 }
 
@@ -36,6 +39,15 @@ export class Topic extends Model<TopicAttributes, TopicCreationAttributes> {
   @Column(DataType.STRING)
   title: string
 
+  @HasMany(() => Comment, {
+    foreignKey: {
+      name: 'topic_id',
+      allowNull: false,
+    },
+    as: 'comments',
+  })
+  comments: Comment[]
+
   @Index
   @ForeignKey(() => User)
   @AllowNull(false)
@@ -43,6 +55,15 @@ export class Topic extends Model<TopicAttributes, TopicCreationAttributes> {
     type: DataType.INTEGER,
   })
   author_id: number
+
+  @BelongsTo(() => User, {
+    foreignKey: {
+      name: 'author_id',
+      allowNull: false,
+    },
+    as: 'author',
+  })
+  author: User
 
   @AllowNull(false)
   @Column({
