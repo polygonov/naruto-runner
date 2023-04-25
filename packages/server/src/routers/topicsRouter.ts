@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { TopicsController } from '../controllers/topicsController'
+import authMiddleware from '../middlewares/authMiddleware'
 
 export const topicsRouter = (router: Router) => {
   const topicsRouter = Router()
@@ -7,8 +8,8 @@ export const topicsRouter = (router: Router) => {
   topicsRouter
     .get('/', TopicsController.getTopics)
     .get('/:topicId/', TopicsController.getTopic)
-    .post('/', TopicsController.createTopic)
-    .post('/:topicId/delete/', TopicsController.deleteTopic)
+    .post('/', authMiddleware, TopicsController.createTopic)
+    .post('/:topicId/delete', authMiddleware, TopicsController.deleteTopic)
 
   router.use('/topics', topicsRouter)
 }

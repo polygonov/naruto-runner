@@ -6,15 +6,29 @@
   background-repeat: no-repeat;
   background-position: center;
 }
+
+.light .layout {
+  background-image: url(../../assets/images/background/BackgroundSimple_negate.png);
+}
+
 .layout_main {
   background-image: url(../../assets/images/background/Background.png);
+}
+.light .layout_main {
+  background-image: url(../../assets/images/background/Background_negate.png);
 }
 @media (min-resolution: 2dppx) {
   .layout {
     background-image: url(../../assets/images/background/BackgroundSimple@2x.png);
   }
+  .light .layout {
+    background-image: url(../../assets/images/background/BackgroundSimple_negate@2x.png);
+  }
   .layout_main {
     background-image: url(../../assets/images/background/Background@2x.png);
+  }
+  .light .layout_main {
+    background-image: url(../../assets/images/background/Background_negate@2x.png);
   }
 }
 
@@ -51,4 +65,8 @@
   overflow: hidden;
   width: fit-content;
   min-width: 380px;
+}
+
+.content-wrapper--fullscreen {
+  width: 100%;
 }

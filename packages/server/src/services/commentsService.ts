@@ -1,5 +1,6 @@
 import type { BaseRESTService } from './baseService'
 import { Comment } from '../models/comments'
+import { User } from '../models/users'
 
 interface FindRequest {
   message?: string
@@ -9,7 +10,7 @@ interface FindRequest {
 interface CreateRequest {
   message: string
   topic_id: number
-  authorId: number
+  author_id: number
 }
 
 class CommentsService implements BaseRESTService {
@@ -20,11 +21,28 @@ class CommentsService implements BaseRESTService {
         status: true,
         ...(message && { message: `%${message}%` }),
       },
+      include: [
+        {
+          model: User,
+          as: 'author',
+          attributes: ['id', 'login', 'avatar'],
+        },
+      ],
+      attributes: ['id', 'message', 'createdAt'],
     })
   }
 
   public request = ({ id }: { id: number }) => {
-    return Comment.findByPk(id)
+    return Comment.findByPk(id, {
+      include: [
+        {
+          model: User,
+          as: 'author',
+          attributes: ['id', 'login', 'avatar'],
+        },
+      ],
+      attributes: ['id', 'message', 'createdAt'],
+    })
   }
 
   public create = (data: CreateRequest) => {

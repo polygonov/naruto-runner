@@ -9,7 +9,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-text-hint);
+  background: var(--color-scrollbar-thumb);
   border-radius: 6px;
 }
 

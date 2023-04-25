@@ -5,13 +5,20 @@ import {
   isRejected,
   PayloadAction,
 } from '@reduxjs/toolkit'
-import { changeUserAvatar, changeUserData, changeUserPassword } from './thunk'
+import {
+  changeUserAvatar,
+  changeUserData,
+  changeUserTheme,
+  changeUserPassword,
+} from './thunk'
 import { GENERAL_ERROR } from '../../constant'
 import type { User } from '../../api/user/types'
 import { updateResourcePath } from '../../utils/updateResourcePath'
+import toggleClassToBody from '../../utils/toggleClassToBody'
 
 export type UserState = {
   user: User | null
+  isDarkMode: boolean
   isUserLoading: boolean
   isAvatarLoading: boolean
   isUserSuccess: boolean
@@ -22,6 +29,7 @@ export type UserState = {
 
 const initialState: UserState = {
   user: null,
+  isDarkMode: true,
   isUserLoading: false,
   isAvatarLoading: false,
   isUserSuccess: false,
@@ -34,6 +42,10 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    setTheme: (state, { payload }: PayloadAction<boolean>) => {
+      toggleClassToBody(payload)
+      state.isDarkMode = payload
+    },
     setUser: (state, { payload }: PayloadAction<User>) => {
       state.user = {
         ...payload,
@@ -51,6 +63,21 @@ export const userSlice = createSlice({
     resetUserState: () => initialState,
   },
   extraReducers: builder => {
+    builder.addCase(changeUserTheme.pending, state => {
+      state.isUserLoading = true
+      state.isUserSuccess = false
+      state.userError = null
+    })
+    builder.addCase(changeUserTheme.fulfilled, state => {
+      state.isUserLoading = false
+      state.isUserSuccess = true
+      state.userError = null
+    })
+    builder.addCase(changeUserTheme.rejected, (state, { error }) => {
+      state.isUserLoading = false
+      state.isUserSuccess = false
+      state.userError = error.message ?? GENERAL_ERROR
+    })
     builder.addCase(changeUserAvatar.pending, state => {
       state.isAvatarLoading = true
       state.isAvatarSuccess = false
@@ -99,7 +126,7 @@ export const userSlice = createSlice({
   },
 })
 
-export const { setUser, resetErrorsAndStatuses, resetUserState } =
+export const { setUser, setTheme, resetErrorsAndStatuses, resetUserState } =
   userSlice.actions
 
 export default userSlice.reducer

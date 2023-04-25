@@ -1,3 +1,15 @@
+# [Naruto Runner](https://milashki-narutorunner-22.ya-praktikum.tech/)
+
+## Стек технологий
+
+- React с SSR
+- Redux Toolkit
+- TypeScript
+- Canvas
+- Postgres, PgAdmin
+- Nginx, SSL, HTTP2
+- Docker, Docker-Compose
+
 ### Как запускать?
 
 1. Убедитесь что у вас установлен `node` и `docker`
@@ -52,10 +64,6 @@
 В проекте используется [lefthook](https://github.com/evilmartians/lefthook)
 Если очень-очень нужно пропустить проверки, используйте `--no-verify` (но не злоупотребляйте :)
 
-## Ой, ничего не работает :(
-
-Откройте issue, я приду :)
-
 ## Автодеплой статики на vercel
 Зарегистрируйте аккаунт на [vercel](https://vercel.com/)
 Следуйте [инструкции](https://vitejs.dev/guide/static-deploy.html#vercel-for-git)
@@ -66,11 +74,10 @@
 ## Production окружение в докере
 Перед первым запуском выполните `node init.js`
 
-
 `docker compose up` - запустит три сервиса
-1. nginx, раздающий клиентскую статику (client)
-2. node, ваш сервер (server)
-3. postgres, вашу базу данных (postgres)
+1. node, ваш сервер (server)
+2. postgres, вашу базу данных (postgres)
+3. pgadmin, админку к бд (pgadmin)
 
 Если вам понадобится только один сервис, просто уточните какой в команде
 `docker compose up {sevice_name}`, например `docker compose up server`

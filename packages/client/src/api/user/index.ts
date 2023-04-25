@@ -3,6 +3,7 @@ import type {
   ChangeAvatarPayload,
   ChangePasswordPayload,
   ChangeUserPayload,
+  ChangeThemePayload,
   User,
 } from './types'
 import { trimData } from '../../utils/trimData'
@@ -19,6 +20,12 @@ class UserApi extends BaseApi {
     this.createRequest<User>(`${this.baseUrl}/profile/avatar`, {
       method: HttpMethod.PUT,
       contentType: 'form-data',
+      data: payload,
+    })
+
+  changeUserTheme = async (payload: ChangeThemePayload) =>
+    this.createRequest<void>(`${this.serverUrl}/update-theme`, {
+      method: HttpMethod.POST,
       data: payload,
     })
 
