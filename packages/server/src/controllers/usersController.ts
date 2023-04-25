@@ -7,11 +7,9 @@ export class UsersController {
     console.log(req.body)
 
     if (!yandex_id || isDarkMode === undefined) {
-      res
-        .status(400)
-        .json({
-          message: 'Missing required fields `yandex_id` or `isDarkMode`',
-        })
+      res.status(400).json({
+        message: 'Missing required fields `yandex_id` or `isDarkMode`',
+      })
       return
     }
 

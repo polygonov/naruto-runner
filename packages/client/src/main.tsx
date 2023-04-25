@@ -5,14 +5,18 @@ import { startServiceWorker } from './utils/serviceWorker'
 import { Provider } from 'react-redux'
 import App from './App'
 import { withAuth } from './hocs/withAuth'
-import { store } from './store'
 import './index.css'
+import { createStore } from './store'
 
 const Application = withAuth(App as any)
 
+const initialState = (window as Window).initialState
+
+delete (window as Window).initialState
+
 const InitApp = (
   <React.StrictMode>
-    <Provider store={store}>
+    <Provider store={createStore(initialState)}>
       <BrowserRouter>
         <Application />
       </BrowserRouter>

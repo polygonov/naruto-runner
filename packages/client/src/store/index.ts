@@ -1,4 +1,8 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import {
+  combineReducers,
+  configureStore,
+  ConfigureStoreOptions,
+} from '@reduxjs/toolkit'
 import type { TypedUseSelectorHook } from 'react-redux'
 import { useDispatch, useSelector } from 'react-redux'
 import type { AuthState } from './auth/slice'
@@ -32,6 +36,17 @@ export const store = configureStore({
   reducer: appReducer,
   devTools: process.env.NODE_ENV !== 'production',
 })
+
+export const createStore = (initialState?: any) => {
+  const options: ConfigureStoreOptions = {
+    reducer: appReducer,
+    devTools: process.env.NODE_ENV !== 'production',
+  }
+  if (initialState) {
+    options.preloadedState = initialState
+  }
+  return configureStore(options)
+}
 
 export type AppDispatch = typeof store.dispatch
 
