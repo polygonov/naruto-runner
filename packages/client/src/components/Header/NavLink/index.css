@@ -8,6 +8,9 @@
   color: var(--color-text-hint);
   transition: color 0.3s ease-in;
 }
+.light .navigation-link {
+  color: var(--color-background);
+}
 
 .navigation-link::after {
   content: '';

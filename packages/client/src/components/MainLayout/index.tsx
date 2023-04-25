@@ -11,6 +11,7 @@ import leaderboardBack from './background/Leaderboard.png'
 import leaderboardBack2x from './background/Leaderboard@2x.png'
 import gameBack from '../../assets/images/background/Game.png'
 import ErrorBoundary from '../ErrorBoundary'
+import ThemeSwitcher from '../ThemeSwitcher'
 import './index.css'
 
 type MainLayoutProps = {
@@ -77,6 +78,7 @@ export class MainLayout extends Component<
             />
           </div>
         )}
+        <ThemeSwitcher />
         <ErrorBoundary>
           <div className="main-wrapper">
             <HeaderComponent />
