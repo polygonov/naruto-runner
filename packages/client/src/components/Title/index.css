@@ -17,8 +17,3 @@
   color: var(--color-text-primary);
   border-bottom: 1px solid var(--color-ui-primary);
 }
-
-.light .title_view_base {
-  color: var(--color-text-inverted);
-  border-bottom: 1px solid var(--color-text-inverted);
-}

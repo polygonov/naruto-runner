@@ -18,6 +18,7 @@
   --color-ui-primary: #f09f1e;
   --color-ui-primary-50: rgba(240, 159, 30, 0.5);
   --color-danger: #b83333;
+  --color-scrollbar-thumb: #7a7b7c;
   --font-safe: Tahoma, Geneva, Verdana, sans-serif;
   --font-primary: Montserrat, var(--font-safe);
   --font-secondary: BebasNeue, var(--font-safe);
@@ -34,8 +35,12 @@ body {
   height: 100%;
   min-height: 100vh;
 }
+
 body.light {
-  color: var(--color-text-primary);
+  --color-background: #f5f3f2;
+  --color-text-primary: #222;
+  --color-text-secondary: #1e1f1e;
+  --color-text-hint: #1e1f1e;
 }
 
 li {
