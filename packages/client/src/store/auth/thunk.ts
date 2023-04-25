@@ -8,7 +8,6 @@ export const checkAuth = createAsyncThunk(
   async (_, { dispatch }) => {
     const user = await authApi.getUser()
     dispatch(setUser(user))
-    dispatch(setTheme(user.isDarkMode))
   }
 )
 
@@ -18,7 +17,6 @@ export const signUp = createAsyncThunk(
     await authApi.signUp(payload)
     const user = await authApi.getUser()
     dispatch(setUser(user))
-    dispatch(setTheme(user.isDarkMode))
   }
 )
 
@@ -28,7 +26,6 @@ export const signIn = createAsyncThunk(
     await authApi.signIn(payload)
     const user = await authApi.getUser()
     dispatch(setUser(user))
-    dispatch(setTheme(user.isDarkMode))
   }
 )
 
