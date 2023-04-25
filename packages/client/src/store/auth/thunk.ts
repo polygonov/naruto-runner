@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { authApi } from '../../api/auth'
 import type { AuthPayload, RegisterPayload } from '../../api/auth/types'
-import { setUser, resetUserState } from '../user/slice'
+import { setUser, setTheme, resetUserState } from '../user/slice'
 
 export const checkAuth = createAsyncThunk(
   'auth/check-auth',

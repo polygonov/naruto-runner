@@ -11,6 +11,7 @@ import leaderboardBack from './background/Leaderboard.png'
 import leaderboardBack2x from './background/Leaderboard@2x.png'
 import gameBack from '../../assets/images/background/Game.png'
 import ErrorBoundary from '../ErrorBoundary'
+import ThemeSwitcher from '../ThemeSwitcher'
 import './index.css'
 
 type MainLayoutProps = {
@@ -57,6 +58,7 @@ export const MainLayout: FC<MainLayoutProps> = ({ pageName, ...props }) => {
           <img src={backgroundImage} srcSet={`${backgroundImage2x} 2x`} />
         </div>
       )}
+      <ThemeSwitcher />
       <ErrorBoundary>
         <div className="main-wrapper">
           <HeaderComponent />
