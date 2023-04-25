@@ -31,7 +31,7 @@ class Server {
   private vite: ViteDevServer | undefined
   private corsOptions: CorsOptions = {
     origin: function (origin, callback) {
-      if (!origin || WHITE_LIST.indexOf(origin) !== -1) {
+      if (!origin || WHITE_LIST.indexOf(origin) !== -1 || origin.includes('vercel')) {
         callback(null, true)
       } else {
         callback(new Error('Not allowed by CORS'))
