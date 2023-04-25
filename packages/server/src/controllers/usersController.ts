@@ -4,7 +4,6 @@ import UsersService from '../services/usersService'
 export class UsersController {
   public static updateUserTheme = (req: Request, res: Response) => {
     const { yandex_id, isDarkMode } = req.body
-    console.log(req.body)
 
     if (!yandex_id || isDarkMode === undefined) {
       res.status(400).json({
@@ -15,7 +14,6 @@ export class UsersController {
 
     UsersService.updateUserTheme({ yandex_id, isDarkMode })
       .then(([updatedUsers]) => {
-        console.log(updatedUsers)
         if (!updatedUsers) {
           res
             .status(404)

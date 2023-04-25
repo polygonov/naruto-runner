@@ -29,7 +29,6 @@ export class TopicsController {
 
     TopicsService.request(Number(topicId))
       .then(topic => {
-        console.log(topic)
         if (!topic) {
           res.status(404).json({ message: 'Topic with given id not found' })
           return
